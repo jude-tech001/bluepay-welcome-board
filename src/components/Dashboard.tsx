@@ -6,6 +6,10 @@ import { Bell, Eye, EyeOff, History, TrendingUp, CreditCard, Play, Phone, Wifi, 
 import WelcomeModal from './WelcomeModal';
 import TypingText from './TypingText';
 import WithdrawalPage from './WithdrawalPage';
+import GroupPage from './GroupPage';
+import ProfilePage from './ProfilePage';
+import EarnMorePage from './EarnMorePage';
+import SupportPage from './SupportPage';
 
 interface DashboardProps {
   userEmail: string;
@@ -15,20 +19,20 @@ interface DashboardProps {
 const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
   const [showBalance, setShowBalance] = useState(true);
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
-  const [showWithdrawal, setShowWithdrawal] = useState(false);
+  const [currentPage, setCurrentPage] = useState<string>('dashboard');
   
   const balance = "₦200,000.00";
   const weeklyRewards = "₦200,000.00";
   
   const services = [
-    { name: 'Buy BPC', icon: CreditCard, color: 'bg-orange-100 text-orange-600' },
-    { name: 'Watch', icon: Play, color: 'bg-red-100 text-red-600' },
-    { name: 'Airtime', icon: Phone, color: 'bg-green-100 text-green-600' },
-    { name: 'Data', icon: Wifi, color: 'bg-blue-100 text-blue-600' },
-    { name: 'Support', icon: HelpCircle, color: 'bg-purple-100 text-purple-600' },
-    { name: 'Group', icon: Users, color: 'bg-teal-100 text-teal-600' },
-    { name: 'Earn More', icon: TrendingUp, color: 'bg-green-100 text-green-600' },
-    { name: 'Profile', icon: User, color: 'bg-gray-100 text-gray-600' },
+    { name: 'Buy BPC', icon: CreditCard, color: 'bg-orange-100 text-orange-600', page: 'buyBpc' },
+    { name: 'Watch', icon: Play, color: 'bg-red-100 text-red-600', page: 'watch' },
+    { name: 'Airtime', icon: Phone, color: 'bg-green-100 text-green-600', page: 'airtime' },
+    { name: 'Data', icon: Wifi, color: 'bg-blue-100 text-blue-600', page: 'data' },
+    { name: 'Support', icon: HelpCircle, color: 'bg-purple-100 text-purple-600', page: 'support' },
+    { name: 'Group', icon: Users, color: 'bg-teal-100 text-teal-600', page: 'group' },
+    { name: 'Earn More', icon: TrendingUp, color: 'bg-green-100 text-green-600', page: 'earnMore' },
+    { name: 'Profile', icon: User, color: 'bg-gray-100 text-gray-600', page: 'profile' },
   ];
 
   const instructionSteps = [
@@ -38,8 +42,29 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
     'Use code for airtime & withdrawals'
   ];
 
-  if (showWithdrawal) {
-    return <WithdrawalPage onBack={() => setShowWithdrawal(false)} />;
+  const handleServiceClick = (servicePage: string) => {
+    setCurrentPage(servicePage);
+  };
+
+  // Render different pages based on current page
+  if (currentPage === 'withdrawal') {
+    return <WithdrawalPage onBack={() => setCurrentPage('dashboard')} />;
+  }
+  
+  if (currentPage === 'group') {
+    return <GroupPage onBack={() => setCurrentPage('dashboard')} />;
+  }
+  
+  if (currentPage === 'profile') {
+    return <ProfilePage onBack={() => setCurrentPage('dashboard')} userEmail={userEmail} userName={userName} />;
+  }
+  
+  if (currentPage === 'earnMore') {
+    return <EarnMorePage onBack={() => setCurrentPage('dashboard')} userEmail={userEmail} />;
+  }
+  
+  if (currentPage === 'support') {
+    return <SupportPage onBack={() => setCurrentPage('dashboard')} />;
   }
 
   return (
@@ -98,7 +123,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
                 <span className="text-sm font-medium">History</span>
               </button>
               <button 
-                onClick={() => setShowWithdrawal(true)}
+                onClick={() => setCurrentPage('withdrawal')}
                 className="flex items-center gap-2 text-white/90 hover:text-white transition-colors"
               >
                 <TrendingUp size={16} />
@@ -115,12 +140,13 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
             return (
               <button
                 key={index}
+                onClick={() => handleServiceClick(service.page)}
                 className="flex flex-col items-center gap-2 p-3 hover:bg-gray-100 rounded-xl transition-colors"
               >
                 <div className={`h-10 w-10 rounded-full flex items-center justify-center ${service.color}`}>
                   <IconComponent size={18} />
                 </div>
-                <span className="text-xs font-medium text-gray-700 text-center leading-tight">
+                <span className="text-xs font-medium text-gray-700 text-center leading-tight whitespace-nowrap">
                   {service.name}
                 </span>
               </button>
@@ -132,7 +158,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
         <div className="space-y-3">
           <h3 className="text-base font-semibold text-gray-900">Important Information</h3>
           
-          <Card className="bg-gradient-to-r from-gray-600 to-gray-700 text-white">
+          <Card className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
             <CardContent className="p-4">
               <h4 className="text-base font-semibold mb-3">How to Buy BPC Code</h4>
               <div className="min-h-[80px]">

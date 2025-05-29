@@ -2,8 +2,6 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Eye, EyeOff } from 'lucide-react';
 
 interface LoginFormProps {
@@ -17,19 +15,61 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   const [fullName, setFullName] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  // Simple storage for registered users (in a real app, this would be a backend)
+  const getRegisteredUsers = () => {
+    const stored = localStorage.getItem('registeredUsers');
+    return stored ? JSON.parse(stored) : [];
+  };
+
+  const saveRegisteredUser = (userEmail: string, userFullName: string, userPassword: string) => {
+    const users = getRegisteredUsers();
+    users.push({ email: userEmail, fullName: userFullName, password: userPassword });
+    localStorage.setItem('registeredUsers', JSON.stringify(users));
+  };
+
+  const isUserRegistered = (userEmail: string) => {
+    const users = getRegisteredUsers();
+    return users.find((user: any) => user.email === userEmail);
+  };
+
+  const validateLogin = (userEmail: string, userPassword: string) => {
+    const users = getRegisteredUsers();
+    return users.find((user: any) => user.email === userEmail && user.password === userPassword);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     
     if (isSignUp) {
+      // Check if user already exists
+      if (isUserRegistered(email)) {
+        setError('This email is already registered. Please login instead.');
+        return;
+      }
+
       setIsLoading(true);
       // Simulate account creation loading
       await new Promise(resolve => setTimeout(resolve, 3000));
       setIsLoading(false);
+      
+      // Save the new user
+      saveRegisteredUser(email, fullName, password);
+      console.log('New user registered:', { email, fullName });
+      onLogin(email, fullName);
+    } else {
+      // Login validation
+      const user = validateLogin(email, password);
+      if (!user) {
+        setError('Invalid email or password. Please sign up if you don\'t have an account.');
+        return;
+      }
+      
+      console.log('User logged in:', { email, fullName: user.fullName });
+      onLogin(email, user.fullName);
     }
-    
-    console.log(isSignUp ? 'Signing up with:' : 'Logging in with:', { email, fullName, password });
-    onLogin(email, fullName || 'User');
   };
 
   if (isLoading) {
@@ -38,12 +78,23 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
         <div className="w-full max-w-md mx-auto text-center">
           <div className="mb-8">
             <div className="text-4xl font-black text-blue-600 tracking-wider mb-4 relative">
-              <span className="relative z-10">BLUEPAY</span>
-              <div className="absolute bottom-0 left-0 w-full h-2 bg-blue-600 opacity-20 rounded-sm transform -skew-x-12"></div>
-              <div className="absolute -bottom-1 left-1 w-2 h-4 bg-blue-600 rounded-full opacity-60"></div>
-              <div className="absolute -bottom-1 left-8 w-1 h-3 bg-blue-600 rounded-full opacity-40"></div>
-              <div className="absolute -bottom-1 right-8 w-1 h-2 bg-blue-600 rounded-full opacity-50"></div>
-              <div className="absolute -bottom-1 right-1 w-2 h-3 bg-blue-600 rounded-full opacity-70"></div>
+              <span className="relative z-10 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent">
+                BLUE
+              </span>
+              <span className="relative z-10 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent">
+                PAY
+              </span>
+              <div className="absolute -bottom-2 left-0 w-full h-3 bg-gradient-to-r from-blue-400 to-blue-600 opacity-30 rounded-lg transform -skew-x-12"></div>
+              <div className="absolute -bottom-3 left-2 w-3 h-6 bg-blue-500 rounded-full opacity-60 transform rotate-12"></div>
+              <div className="absolute -bottom-2 left-12 w-2 h-4 bg-blue-400 rounded-full opacity-50"></div>
+              <div className="absolute -bottom-1 right-12 w-2 h-3 bg-blue-500 rounded-full opacity-60"></div>
+              <div className="absolute -bottom-3 right-2 w-3 h-5 bg-blue-600 rounded-full opacity-70 transform -rotate-12"></div>
+              
+              {/* Dripping effect */}
+              <div className="absolute -bottom-6 left-8 w-1 h-4 bg-blue-400 rounded-full opacity-40"></div>
+              <div className="absolute -bottom-8 left-9 w-2 h-2 bg-blue-400 rounded-full opacity-30"></div>
+              <div className="absolute -bottom-5 right-16 w-1 h-3 bg-blue-500 rounded-full opacity-50"></div>
+              <div className="absolute -bottom-7 right-15 w-1.5 h-1.5 bg-blue-500 rounded-full opacity-40"></div>
             </div>
             <h2 className="text-xl text-gray-700 mb-8">Create your account</h2>
           </div>
@@ -70,12 +121,23 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
         <div className="text-center mb-8">
           <div className="mb-6">
             <div className="text-4xl font-black text-blue-600 tracking-wider relative inline-block">
-              <span className="relative z-10">BLUEPAY</span>
-              <div className="absolute bottom-0 left-0 w-full h-2 bg-blue-600 opacity-20 rounded-sm transform -skew-x-12"></div>
-              <div className="absolute -bottom-1 left-1 w-2 h-4 bg-blue-600 rounded-full opacity-60"></div>
-              <div className="absolute -bottom-1 left-8 w-1 h-3 bg-blue-600 rounded-full opacity-40"></div>
-              <div className="absolute -bottom-1 right-8 w-1 h-2 bg-blue-600 rounded-full opacity-50"></div>
-              <div className="absolute -bottom-1 right-1 w-2 h-3 bg-blue-600 rounded-full opacity-70"></div>
+              <span className="relative z-10 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent">
+                BLUE
+              </span>
+              <span className="relative z-10 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent">
+                PAY
+              </span>
+              <div className="absolute -bottom-2 left-0 w-full h-3 bg-gradient-to-r from-blue-400 to-blue-600 opacity-30 rounded-lg transform -skew-x-12"></div>
+              <div className="absolute -bottom-3 left-2 w-3 h-6 bg-blue-500 rounded-full opacity-60 transform rotate-12"></div>
+              <div className="absolute -bottom-2 left-12 w-2 h-4 bg-blue-400 rounded-full opacity-50"></div>
+              <div className="absolute -bottom-1 right-12 w-2 h-3 bg-blue-500 rounded-full opacity-60"></div>
+              <div className="absolute -bottom-3 right-2 w-3 h-5 bg-blue-600 rounded-full opacity-70 transform -rotate-12"></div>
+              
+              {/* Dripping effect */}
+              <div className="absolute -bottom-6 left-8 w-1 h-4 bg-blue-400 rounded-full opacity-40"></div>
+              <div className="absolute -bottom-8 left-9 w-2 h-2 bg-blue-400 rounded-full opacity-30"></div>
+              <div className="absolute -bottom-5 right-16 w-1 h-3 bg-blue-500 rounded-full opacity-50"></div>
+              <div className="absolute -bottom-7 right-15 w-1.5 h-1.5 bg-blue-500 rounded-full opacity-40"></div>
             </div>
           </div>
           <p className="text-gray-600 text-base">
@@ -84,6 +146,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
         </div>
         
         <div className="bg-white rounded-2xl p-6 shadow-sm">
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-red-600 text-sm">{error}</p>
+            </div>
+          )}
+          
           <form onSubmit={handleSubmit} className="space-y-4">
             {isSignUp && (
               <div className="space-y-2">
@@ -141,7 +209,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
             <div className="text-sm text-gray-600">
               {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
               <button
-                onClick={() => setIsSignUp(!isSignUp)}
+                onClick={() => {
+                  setIsSignUp(!isSignUp);
+                  setError('');
+                }}
                 className="text-blue-600 hover:text-blue-700 font-medium"
               >
                 {isSignUp ? 'Login' : 'Register'}
