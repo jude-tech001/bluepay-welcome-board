@@ -19,8 +19,26 @@ const TypingText: React.FC<TypingTextProps> = ({
   const [currentText, setCurrentText] = useState('');
   const [isCompleted, setIsCompleted] = useState(false);
 
+  // Reset animation when component mounts or texts change
   useEffect(() => {
-    if (isCompleted) return;
+    setCurrentTextIndex(0);
+    setDisplayedTexts([]);
+    setCurrentText('');
+    setIsCompleted(false);
+  }, [texts]);
+
+  useEffect(() => {
+    if (isCompleted) {
+      // Restart after completion
+      const restartTimeout = setTimeout(() => {
+        setCurrentTextIndex(0);
+        setDisplayedTexts([]);
+        setCurrentText('');
+        setIsCompleted(false);
+      }, 3000);
+      
+      return () => clearTimeout(restartTimeout);
+    }
 
     const fullText = texts[currentTextIndex];
     
@@ -50,7 +68,7 @@ const TypingText: React.FC<TypingTextProps> = ({
   }, [currentText, currentTextIndex, texts, typingSpeed, pauseTime, isCompleted]);
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1">
       {displayedTexts.map((text, index) => (
         <div key={index} className="text-sm text-gray-200">
           {index + 1}. {text}

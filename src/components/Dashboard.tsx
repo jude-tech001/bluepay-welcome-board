@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Bell, Eye, EyeOff, History, TrendingUp, CreditCard, Play, Phone, Wifi, HelpCircle, Users, User } from 'lucide-react';
 import WelcomeModal from './WelcomeModal';
 import TypingText from './TypingText';
+import WithdrawalPage from './WithdrawalPage';
 
 interface DashboardProps {
   userEmail: string;
@@ -14,6 +15,7 @@ interface DashboardProps {
 const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
   const [showBalance, setShowBalance] = useState(true);
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
+  const [showWithdrawal, setShowWithdrawal] = useState(false);
   
   const balance = "₦200,000.00";
   const weeklyRewards = "₦200,000.00";
@@ -36,6 +38,10 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
     'Use code for airtime & withdrawals'
   ];
 
+  if (showWithdrawal) {
+    return <WithdrawalPage onBack={() => setShowWithdrawal(false)} />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <WelcomeModal 
@@ -45,21 +51,21 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
       />
       
       {/* Header */}
-      <div className="bg-white px-4 py-4 flex items-center justify-between border-b">
+      <div className="bg-blue-600 px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Avatar className="h-10 w-10 bg-blue-600">
-            <AvatarFallback className="text-white font-semibold text-sm">
+          <Avatar className="h-10 w-10 bg-white">
+            <AvatarFallback className="text-blue-600 font-semibold text-sm">
               {userName.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           <div>
-            <h1 className="text-base font-semibold text-gray-900">
+            <h1 className="text-base font-semibold text-white">
               Hi, {userName}
             </h1>
           </div>
         </div>
         <div className="relative">
-          <Bell className="h-5 w-5 text-gray-600" />
+          <Bell className="h-5 w-5 text-white" />
           <div className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full"></div>
         </div>
       </div>
@@ -86,12 +92,15 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
               </button>
             </div>
             
-            <div className="flex gap-6 mt-4">
+            <div className="flex justify-between items-center mt-4">
               <button className="flex items-center gap-2 text-white/90 hover:text-white transition-colors">
                 <History size={16} />
                 <span className="text-sm font-medium">History</span>
               </button>
-              <button className="flex items-center gap-2 text-white/90 hover:text-white transition-colors">
+              <button 
+                onClick={() => setShowWithdrawal(true)}
+                className="flex items-center gap-2 text-white/90 hover:text-white transition-colors"
+              >
                 <TrendingUp size={16} />
                 <span className="text-sm font-medium">Withdraw</span>
               </button>
@@ -111,7 +120,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
                 <div className={`h-10 w-10 rounded-full flex items-center justify-center ${service.color}`}>
                   <IconComponent size={18} />
                 </div>
-                <span className="text-xs font-medium text-gray-700 text-center leading-tight whitespace-nowrap">
+                <span className="text-xs font-medium text-gray-700 text-center leading-tight">
                   {service.name}
                 </span>
               </button>
@@ -126,7 +135,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
           <Card className="bg-gradient-to-r from-gray-600 to-gray-700 text-white">
             <CardContent className="p-4">
               <h4 className="text-base font-semibold mb-3">How to Buy BPC Code</h4>
-              <div className="min-h-[100px]">
+              <div className="min-h-[80px]">
                 <TypingText 
                   texts={instructionSteps}
                   typingSpeed={80}

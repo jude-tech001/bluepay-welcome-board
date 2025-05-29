@@ -37,9 +37,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="w-full max-w-md mx-auto text-center">
           <div className="mb-8">
-            <h1 className="text-4xl font-black text-blue-600 tracking-wider mb-4">
-              BLUE PAY
-            </h1>
+            <div className="text-4xl font-black text-blue-600 tracking-wider mb-4 relative">
+              <span className="relative z-10">BLUEPAY</span>
+              <div className="absolute bottom-0 left-0 w-full h-2 bg-blue-600 opacity-20 rounded-sm transform -skew-x-12"></div>
+              <div className="absolute -bottom-1 left-1 w-2 h-4 bg-blue-600 rounded-full opacity-60"></div>
+              <div className="absolute -bottom-1 left-8 w-1 h-3 bg-blue-600 rounded-full opacity-40"></div>
+              <div className="absolute -bottom-1 right-8 w-1 h-2 bg-blue-600 rounded-full opacity-50"></div>
+              <div className="absolute -bottom-1 right-1 w-2 h-3 bg-blue-600 rounded-full opacity-70"></div>
+            </div>
             <h2 className="text-xl text-gray-700 mb-8">Create your account</h2>
           </div>
           
@@ -64,9 +69,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
 
         <div className="text-center mb-8">
           <div className="mb-6">
-            <h1 className="text-4xl font-black text-blue-600 tracking-wider">
-              BLUE PAY
-            </h1>
+            <div className="text-4xl font-black text-blue-600 tracking-wider relative inline-block">
+              <span className="relative z-10">BLUEPAY</span>
+              <div className="absolute bottom-0 left-0 w-full h-2 bg-blue-600 opacity-20 rounded-sm transform -skew-x-12"></div>
+              <div className="absolute -bottom-1 left-1 w-2 h-4 bg-blue-600 rounded-full opacity-60"></div>
+              <div className="absolute -bottom-1 left-8 w-1 h-3 bg-blue-600 rounded-full opacity-40"></div>
+              <div className="absolute -bottom-1 right-8 w-1 h-2 bg-blue-600 rounded-full opacity-50"></div>
+              <div className="absolute -bottom-1 right-1 w-2 h-3 bg-blue-600 rounded-full opacity-70"></div>
+            </div>
           </div>
           <p className="text-gray-600 text-base">
             {isSignUp ? 'Create your account' : 'login or create an account to continue'}
