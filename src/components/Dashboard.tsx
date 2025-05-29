@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Bell, Eye, EyeOff, History, TrendingUp, CreditCard, Play, Phone, Wifi, HelpCircle, Users, User } from 'lucide-react';
 import WelcomeModal from './WelcomeModal';
+import TypingText from './TypingText';
 
 interface DashboardProps {
   userEmail: string;
@@ -28,6 +29,13 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
     { name: 'Profile', icon: User, color: 'bg-gray-100 text-gray-600' },
   ];
 
+  const instructionSteps = [
+    'Click "Buy BPC" from dashboard',
+    'Fill details and amount',
+    'Complete payment for BPC code',
+    'Use code for airtime & withdrawals'
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50">
       <WelcomeModal 
@@ -39,35 +47,34 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
       {/* Header */}
       <div className="bg-white px-4 py-4 flex items-center justify-between border-b">
         <div className="flex items-center gap-3">
-          <Avatar className="h-12 w-12 bg-bluepay-600">
-            <AvatarFallback className="text-white font-semibold">
+          <Avatar className="h-10 w-10 bg-blue-600">
+            <AvatarFallback className="text-white font-semibold text-sm">
               {userName.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           <div>
-            <h1 className="text-lg font-semibold text-gray-900">
+            <h1 className="text-base font-semibold text-gray-900">
               Hi, {userName}
             </h1>
-            <p className="text-sm text-gray-600">{userEmail}</p>
           </div>
         </div>
         <div className="relative">
-          <Bell className="h-6 w-6 text-gray-600" />
-          <div className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full"></div>
+          <Bell className="h-5 w-5 text-gray-600" />
+          <div className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full"></div>
         </div>
       </div>
 
-      <div className="p-4 space-y-6">
+      <div className="p-4 space-y-4">
         {/* Balance Card */}
-        <Card className="bg-gradient-to-r from-bluepay-600 to-bluepay-700 text-white overflow-hidden relative">
-          <CardContent className="p-6">
-            <div className="flex justify-between items-start mb-4">
+        <Card className="bg-gradient-to-r from-blue-600 to-blue-700 text-white overflow-hidden relative">
+          <CardContent className="p-4">
+            <div className="flex justify-between items-start mb-3">
               <div>
-                <p className="text-bluepay-100 text-sm mb-2">Your Balance</p>
-                <h2 className="text-3xl font-bold">
+                <p className="text-blue-100 text-xs mb-1">Your Balance</p>
+                <h2 className="text-2xl font-bold">
                   {showBalance ? balance : '••••••••'}
                 </h2>
-                <p className="text-bluepay-200 text-sm mt-2">
+                <p className="text-blue-200 text-xs mt-1">
                   Weekly Rewards: {showBalance ? weeklyRewards : '••••••••'}
                 </p>
               </div>
@@ -75,17 +82,17 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
                 onClick={() => setShowBalance(!showBalance)}
                 className="text-white/80 hover:text-white transition-colors"
               >
-                {showBalance ? <EyeOff size={20} /> : <Eye size={20} />}
+                {showBalance ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
             
-            <div className="flex gap-6 mt-6">
+            <div className="flex gap-4 mt-4">
               <button className="flex items-center gap-2 text-white/90 hover:text-white transition-colors">
-                <History size={18} />
+                <History size={16} />
                 <span className="text-sm font-medium">History</span>
               </button>
               <button className="flex items-center gap-2 text-white/90 hover:text-white transition-colors">
-                <TrendingUp size={18} />
+                <TrendingUp size={16} />
                 <span className="text-sm font-medium">Withdraw</span>
               </button>
             </div>
@@ -93,16 +100,16 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
         </Card>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-4 gap-3">
           {services.map((service, index) => {
             const IconComponent = service.icon;
             return (
               <button
                 key={index}
-                className="flex flex-col items-center gap-2 p-4 hover:bg-gray-100 rounded-xl transition-colors"
+                className="flex flex-col items-center gap-2 p-3 hover:bg-gray-100 rounded-xl transition-colors"
               >
-                <div className={`h-12 w-12 rounded-full flex items-center justify-center ${service.color}`}>
-                  <IconComponent size={20} />
+                <div className={`h-10 w-10 rounded-full flex items-center justify-center ${service.color}`}>
+                  <IconComponent size={18} />
                 </div>
                 <span className="text-xs font-medium text-gray-700 text-center">
                   {service.name}
@@ -114,34 +121,24 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
 
         {/* Important Information */}
         <div className="space-y-3">
-          <h3 className="text-lg font-semibold text-gray-900">Important Information</h3>
+          <h3 className="text-base font-semibold text-gray-900">Important Information</h3>
           
           <Card className="bg-gradient-to-r from-gray-600 to-gray-700 text-white">
-            <CardContent className="p-6">
-              <h4 className="text-lg font-semibold mb-4">How to Buy BPC Code</h4>
-              <ul className="space-y-2 text-sm text-gray-200">
-                <li className="flex items-start gap-2">
-                  <span className="text-white">•</span>
-                  Click "Buy BPC" from dashboard
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-white">•</span>
-                  Fill details and amount
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-white">•</span>
-                  Complete payment for BPC code
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-white">•</span>
-                  Use code for
-                </li>
-              </ul>
+            <CardContent className="p-4">
+              <h4 className="text-base font-semibold mb-3">How to Buy BPC Code</h4>
+              <div className="text-sm text-gray-200 min-h-[60px]">
+                <TypingText 
+                  texts={instructionSteps}
+                  typingSpeed={50}
+                  deletingSpeed={30}
+                  pauseTime={2000}
+                />
+              </div>
               
-              <div className="flex gap-2 mt-4">
-                <div className="h-2 w-2 bg-white/60 rounded-full"></div>
-                <div className="h-2 w-2 bg-white rounded-full"></div>
-                <div className="h-2 w-2 bg-white/60 rounded-full"></div>
+              <div className="flex gap-2 mt-3">
+                <div className="h-1.5 w-1.5 bg-white/60 rounded-full"></div>
+                <div className="h-1.5 w-1.5 bg-white rounded-full"></div>
+                <div className="h-1.5 w-1.5 bg-white/60 rounded-full"></div>
               </div>
             </CardContent>
           </Card>

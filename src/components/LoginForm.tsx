@@ -16,81 +16,91 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     if (isSignUp) {
-      console.log('Signing up with:', { email, fullName, password });
-    } else {
-      console.log('Logging in with:', { email, password });
+      setIsLoading(true);
+      // Simulate account creation loading
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      setIsLoading(false);
     }
+    
+    console.log(isSignUp ? 'Signing up with:' : 'Logging in with:', { email, fullName, password });
     onLogin(email, fullName || 'User');
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="w-full max-w-md mx-auto text-center">
+          <div className="mb-8">
+            <h1 className="text-4xl font-black text-blue-600 tracking-wider mb-4">
+              BLUE PAY
+            </h1>
+            <h2 className="text-xl text-gray-700 mb-8">Create your account</h2>
+          </div>
+          
+          <div className="flex flex-col items-center space-y-4">
+            <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-gray-600">Creating your account...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-bluepay-50 to-bluepay-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md mx-auto shadow-2xl border-0">
-        <CardHeader className="text-center space-y-4 pb-8">
-          <div className="mx-auto">
-            <h1 className="text-4xl font-black text-bluepay-600 tracking-wider">
-              BLUEPAY2025
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-md mx-auto">
+        <div className="text-center mb-8">
+          <div className="mb-6">
+            <h1 className="text-4xl font-black text-blue-600 tracking-wider">
+              BLUE PAY
             </h1>
           </div>
-          <CardTitle className="text-2xl font-semibold text-gray-800">
-            {isSignUp ? 'Create Account' : 'Login'}
-          </CardTitle>
-          <CardDescription className="text-gray-600">
-            {isSignUp ? 'Sign up to continue' : 'Login or create an account to continue'}
-          </CardDescription>
-        </CardHeader>
+          <p className="text-gray-600 text-base">
+            {isSignUp ? 'Create your account' : 'login or create an account to continue'}
+          </p>
+        </div>
         
-        <CardContent className="space-y-6">
+        <div className="bg-white rounded-2xl p-6 shadow-sm">
           <form onSubmit={handleSubmit} className="space-y-4">
             {isSignUp && (
               <div className="space-y-2">
-                <Label htmlFor="fullName" className="text-sm font-medium">
-                  Full Name
-                </Label>
                 <Input
-                  id="fullName"
                   type="text"
-                  placeholder="Enter Full Name"
+                  placeholder="Full Name"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   required
-                  className="h-12 rounded-xl border-2 border-gray-200 focus:border-bluepay-500 transition-colors"
+                  className="h-12 rounded-xl border border-gray-300 text-base"
                 />
               </div>
             )}
             
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium">
-                Email
-              </Label>
               <Input
-                id="email"
                 type="email"
-                placeholder="Enter Email"
+                placeholder={isSignUp ? "Email Address" : "Enter Email"}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="h-12 rounded-xl border-2 border-gray-200 focus:border-bluepay-500 transition-colors"
+                className="h-12 rounded-xl border border-gray-300 text-base"
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-medium">
-                Password
-              </Label>
               <div className="relative">
                 <Input
-                  id="password"
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="Enter Password"
+                  placeholder={isSignUp ? "Password" : "Enter Password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="h-12 rounded-xl border-2 border-gray-200 focus:border-bluepay-500 transition-colors pr-12"
+                  className="h-12 rounded-xl border border-gray-300 text-base pr-12"
                 />
                 <button
                   type="button"
@@ -104,41 +114,31 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
             
             <Button
               type="submit"
-              className="w-full h-12 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors font-medium text-lg"
+              className="w-full h-12 bg-gray-800 text-white rounded-xl hover:bg-gray-900 transition-colors font-medium text-base mt-6"
             >
-              {isSignUp ? 'Sign Up' : 'Login'}
+              {isSignUp ? 'Register' : 'Login'}
             </Button>
           </form>
           
-          <div className="text-center space-y-4">
-            {!isSignUp && (
-              <a href="#" className="text-bluepay-600 hover:text-bluepay-700 font-medium">
-                Forgot Password?
-              </a>
-            )}
-            
+          <div className="text-center mt-6">
             <div className="text-sm text-gray-600">
               {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
               <button
                 onClick={() => setIsSignUp(!isSignUp)}
-                className="text-bluepay-600 hover:text-bluepay-700 font-medium"
+                className="text-blue-600 hover:text-blue-700 font-medium"
               >
-                {isSignUp ? 'Login' : 'Sign Up'}
+                {isSignUp ? 'Login' : 'Register'}
               </button>
             </div>
-            
-            <div className="text-orange-500 font-medium">
-              New version2025!!
-            </div>
           </div>
-          
-          <div className="text-right">
-            <a href="#" className="text-orange-500 hover:text-orange-600 font-medium">
-              Need Help?
-            </a>
-          </div>
-        </CardContent>
-      </Card>
+        </div>
+
+        <div className="text-right mt-4">
+          <a href="#" className="text-orange-500 hover:text-orange-600 text-sm">
+            Need Help?
+          </a>
+        </div>
+      </div>
     </div>
   );
 };
