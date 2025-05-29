@@ -86,7 +86,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
               </button>
             </div>
             
-            <div className="flex gap-4 mt-4">
+            <div className="flex gap-6 mt-4">
               <button className="flex items-center gap-2 text-white/90 hover:text-white transition-colors">
                 <History size={16} />
                 <span className="text-sm font-medium">History</span>
@@ -111,7 +111,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
                 <div className={`h-10 w-10 rounded-full flex items-center justify-center ${service.color}`}>
                   <IconComponent size={18} />
                 </div>
-                <span className="text-xs font-medium text-gray-700 text-center">
+                <span className="text-xs font-medium text-gray-700 text-center leading-tight whitespace-nowrap">
                   {service.name}
                 </span>
               </button>
@@ -126,12 +126,11 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
           <Card className="bg-gradient-to-r from-gray-600 to-gray-700 text-white">
             <CardContent className="p-4">
               <h4 className="text-base font-semibold mb-3">How to Buy BPC Code</h4>
-              <div className="text-sm text-gray-200 min-h-[60px]">
+              <div className="min-h-[100px]">
                 <TypingText 
                   texts={instructionSteps}
-                  typingSpeed={50}
-                  deletingSpeed={30}
-                  pauseTime={2000}
+                  typingSpeed={80}
+                  pauseTime={1500}
                 />
               </div>
               

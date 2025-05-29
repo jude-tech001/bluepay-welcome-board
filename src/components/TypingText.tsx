@@ -10,46 +10,59 @@ interface TypingTextProps {
 
 const TypingText: React.FC<TypingTextProps> = ({ 
   texts, 
-  typingSpeed = 50, 
-  deletingSpeed = 30, 
+  typingSpeed = 80, 
+  deletingSpeed = 50, 
   pauseTime = 2000 
 }) => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const [displayedTexts, setDisplayedTexts] = useState<string[]>([]);
   const [currentText, setCurrentText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
 
   useEffect(() => {
+    if (isCompleted) return;
+
     const fullText = texts[currentTextIndex];
     
     const timeout = setTimeout(() => {
-      if (!isDeleting) {
-        // Typing
-        if (currentText.length < fullText.length) {
-          setCurrentText(fullText.substring(0, currentText.length + 1));
-        } else {
-          // Finished typing, start deleting after pause
-          setTimeout(() => setIsDeleting(true), pauseTime);
-        }
+      if (currentText.length < fullText.length) {
+        // Still typing current line
+        setCurrentText(fullText.substring(0, currentText.length + 1));
       } else {
-        // Deleting
-        if (currentText.length > 0) {
-          setCurrentText(fullText.substring(0, currentText.length - 1));
-        } else {
-          // Finished deleting, move to next text
-          setIsDeleting(false);
-          setCurrentTextIndex((prev) => (prev + 1) % texts.length);
-        }
+        // Finished typing current line
+        setTimeout(() => {
+          // Add completed text to displayed texts
+          setDisplayedTexts(prev => [...prev, fullText]);
+          setCurrentText('');
+          
+          if (currentTextIndex < texts.length - 1) {
+            // Move to next text
+            setCurrentTextIndex(prev => prev + 1);
+          } else {
+            // All texts completed
+            setIsCompleted(true);
+          }
+        }, pauseTime);
       }
-    }, isDeleting ? deletingSpeed : typingSpeed);
+    }, typingSpeed);
 
     return () => clearTimeout(timeout);
-  }, [currentText, isDeleting, currentTextIndex, texts, typingSpeed, deletingSpeed, pauseTime]);
+  }, [currentText, currentTextIndex, texts, typingSpeed, pauseTime, isCompleted]);
 
   return (
-    <span>
-      {currentText}
-      <span className="animate-pulse">|</span>
-    </span>
+    <div className="space-y-2">
+      {displayedTexts.map((text, index) => (
+        <div key={index} className="text-sm text-gray-200">
+          {index + 1}. {text}
+        </div>
+      ))}
+      {!isCompleted && (
+        <div className="text-sm text-gray-200">
+          {displayedTexts.length + 1}. {currentText}
+          <span className="animate-pulse">|</span>
+        </div>
+      )}
+    </div>
   );
 };
 

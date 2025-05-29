@@ -55,6 +55,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md mx-auto">
+        {/* Need Help at the top right */}
+        <div className="text-right mb-4">
+          <a href="#" className="text-orange-500 hover:text-orange-600 text-sm">
+            Need Help?
+          </a>
+        </div>
+
         <div className="text-center mb-8">
           <div className="mb-6">
             <h1 className="text-4xl font-black text-blue-600 tracking-wider">
@@ -131,12 +138,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
               </button>
             </div>
           </div>
-        </div>
-
-        <div className="text-right mt-4">
-          <a href="#" className="text-orange-500 hover:text-orange-600 text-sm">
-            Need Help?
-          </a>
         </div>
       </div>
     </div>
