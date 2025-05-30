@@ -4,7 +4,6 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, CheckCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import BpcPaymentPage from './BpcPaymentPage';
 
 interface WithdrawalPageProps {
   onBack: () => void;
@@ -20,7 +19,6 @@ const WithdrawalPage: React.FC<WithdrawalPageProps> = ({ onBack, onWithdrawSucce
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [bpcError, setBpcError] = useState('');
-  const [showBpcPayment, setShowBpcPayment] = useState(false);
   const { toast } = useToast();
 
   const nigerianBanks = [
@@ -115,18 +113,6 @@ const WithdrawalPage: React.FC<WithdrawalPageProps> = ({ onBack, onWithdrawSucce
       }, 3000);
     }, 3000);
   };
-
-  const handleBuyBpcClick = () => {
-    console.log('Buy BPC button clicked');
-    setShowBpcPayment(true);
-  };
-
-  if (showBpcPayment) {
-    return <BpcPaymentPage onBack={() => {
-      console.log('Returning from BPC payment');
-      setShowBpcPayment(false);
-    }} />;
-  }
 
   if (showSuccess) {
     return (
@@ -224,7 +210,7 @@ const WithdrawalPage: React.FC<WithdrawalPageProps> = ({ onBack, onWithdrawSucce
           <div>
             <Input
               type="text"
-              placeholder="BPC CODE (Buy BPC)"
+              placeholder="BPC CODE"
               value={bpcCode}
               onChange={(e) => setBpcCode(e.target.value)}
               required
@@ -232,14 +218,6 @@ const WithdrawalPage: React.FC<WithdrawalPageProps> = ({ onBack, onWithdrawSucce
             />
             {bpcError && <p className="text-red-500 text-sm mt-1">{bpcError}</p>}
           </div>
-
-          <Button
-            type="button"
-            onClick={handleBuyBpcClick}
-            className="w-full h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-base font-medium"
-          >
-            Buy BPC code
-          </Button>
 
           <div className="mt-6">
             <p className="text-lg font-medium text-gray-900 mb-4">

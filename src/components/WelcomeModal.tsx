@@ -16,21 +16,25 @@ const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose, userEmail 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md mx-4 rounded-2xl p-6">
+      <DialogContent className="sm:max-w-md mx-4 rounded-2xl p-6 bg-white border-0 shadow-xl">
         <DialogHeader className="text-center space-y-4">
           <DialogTitle className="text-2xl font-bold text-gray-900">
             Welcome to Balance
           </DialogTitle>
-          <DialogDescription className="text-gray-700 leading-relaxed text-sm px-2">
-            <span className="text-blue-600 font-medium">{userEmail}</span> you have
-            been given 200,000 to withdraw every day. dont click on the reset
-            button untill tomorrow, else you will be banned join group{' '}
-            <button 
-              onClick={handleTelegramClick}
-              className="text-blue-600 hover:text-blue-700 underline font-medium"
-            >
-              Here
-            </button>
+          <DialogDescription className="text-gray-700 leading-relaxed text-sm px-2 space-y-2">
+            <div className="text-center">
+              <span className="text-blue-600 font-medium block mb-2">{userEmail}</span>
+              <p className="text-gray-600 text-sm leading-5">
+                you have been given 200,000 to withdraw every day. dont click on the reset
+                button untill tomorrow, else you will be banned join group{' '}
+                <button 
+                  onClick={handleTelegramClick}
+                  className="inline-block bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors ml-1"
+                >
+                  Here
+                </button>
+              </p>
+            </div>
           </DialogDescription>
         </DialogHeader>
         

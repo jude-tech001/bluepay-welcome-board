@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -12,6 +11,7 @@ import EarnMorePage from './EarnMorePage';
 import SupportPage from './SupportPage';
 import HistoryPage from './HistoryPage';
 import NotificationPage from './NotificationPage';
+import BpcPaymentPage from './BpcPaymentPage';
 
 interface DashboardProps {
   userEmail: string;
@@ -56,6 +56,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
   ];
 
   const handleServiceClick = (servicePage: string) => {
+    console.log('Service clicked:', servicePage);
     setCurrentPage(servicePage);
   };
 
@@ -78,6 +79,10 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
   // Render different pages based on current page
   if (currentPage === 'withdrawal') {
     return <WithdrawalPage onBack={() => setCurrentPage('dashboard')} onWithdrawSuccess={handleWithdrawSuccess} />;
+  }
+  
+  if (currentPage === 'buyBpc') {
+    return <BpcPaymentPage onBack={() => setCurrentPage('dashboard')} />;
   }
   
   if (currentPage === 'group') {

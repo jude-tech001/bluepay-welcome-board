@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,7 +12,7 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
   const [step, setStep] = useState('form'); // form, preparing, account, verifying, failed
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
-  const [amount, setAmount] = useState('5500');
+  const [amount, setAmount] = useState('7000');
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -113,10 +114,10 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
         <div className="bg-white p-8 rounded-2xl shadow-lg text-center max-w-sm mx-4">
           <div className="mb-6">
             <div className="relative w-24 h-24 mx-auto">
-              <div className="absolute inset-0 rounded-full border-4 border-purple-200"></div>
-              <div className="absolute inset-0 rounded-full border-4 border-purple-600 border-t-transparent animate-spin"></div>
-              <div className="absolute inset-4 bg-purple-100 rounded-full flex items-center justify-center">
-                <div className="w-8 h-8 border-2 border-purple-600 rounded-sm"></div>
+              <div className="absolute inset-0 rounded-full border-4 border-blue-200"></div>
+              <div className="absolute inset-0 rounded-full border-4 border-blue-600 border-t-transparent animate-spin"></div>
+              <div className="absolute inset-4 bg-blue-100 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 border-2 border-blue-600 rounded-sm"></div>
               </div>
             </div>
           </div>
@@ -146,7 +147,7 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
             <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="text-white text-2xl font-bold">₦</span>
             </div>
-            <h2 className="text-3xl font-bold text-gray-900">NGN 6,500</h2>
+            <h2 className="text-3xl font-bold text-gray-900">NGN 7,000</h2>
             <p className="text-gray-600">{email}</p>
           </div>
 
@@ -159,9 +160,9 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-gray-600 text-sm">Amount</p>
-                <p className="text-lg font-semibold">NGN 6500</p>
+                <p className="text-lg font-semibold">NGN 7000</p>
               </div>
-              <button onClick={() => copyToClipboard('6500')} className="p-2 bg-yellow-400 rounded-lg">
+              <button onClick={() => copyToClipboard('7000')} className="p-2 bg-yellow-400 rounded-lg">
                 <Copy size={16} />
               </button>
             </div>
@@ -208,7 +209,7 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
         <div className="bg-white p-8 rounded-2xl shadow-lg text-center max-w-sm mx-4">
           <div className="mb-6">
             <div className="w-24 h-24 mx-auto">
-              <div className="w-full h-full rounded-full border-4 border-purple-600 border-t-transparent animate-spin"></div>
+              <div className="w-full h-full rounded-full border-4 border-blue-600 border-t-transparent animate-spin"></div>
             </div>
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Verifying Payment</h2>
