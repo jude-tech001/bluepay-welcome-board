@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -12,6 +13,9 @@ import SupportPage from './SupportPage';
 import HistoryPage from './HistoryPage';
 import NotificationPage from './NotificationPage';
 import BpcPaymentPage from './BpcPaymentPage';
+import AirtimePage from './AirtimePage';
+import DataPage from './DataPage';
+import WatchPage from './WatchPage';
 
 interface DashboardProps {
   userEmail: string;
@@ -21,7 +25,7 @@ interface DashboardProps {
 
 interface Transaction {
   id: string;
-  type: 'withdrawal' | 'deposit';
+  type: 'withdrawal' | 'deposit' | 'airtime' | 'data';
   amount: number;
   description: string;
   date: string;
@@ -76,6 +80,22 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
     setTransactions(prev => [newTransaction, ...prev]);
   };
 
+  const handlePurchaseSuccess = (amount: number, type: 'airtime' | 'data', description: string) => {
+    const newBalance = balance - amount;
+    setBalance(newBalance);
+    
+    const newTransaction: Transaction = {
+      id: Date.now().toString(),
+      type: type,
+      amount: amount,
+      description: description,
+      date: new Date().toLocaleString(),
+      status: 'success'
+    };
+    
+    setTransactions(prev => [newTransaction, ...prev]);
+  };
+
   // Render different pages based on current page
   if (currentPage === 'withdrawal') {
     return <WithdrawalPage onBack={() => setCurrentPage('dashboard')} onWithdrawSuccess={handleWithdrawSuccess} />;
@@ -109,6 +129,18 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
     return <NotificationPage onBack={() => setCurrentPage('dashboard')} />;
   }
 
+  if (currentPage === 'airtime') {
+    return <AirtimePage onBack={() => setCurrentPage('dashboard')} onPurchaseSuccess={handlePurchaseSuccess} balance={balance} />;
+  }
+
+  if (currentPage === 'data') {
+    return <DataPage onBack={() => setCurrentPage('dashboard')} onPurchaseSuccess={handlePurchaseSuccess} balance={balance} />;
+  }
+
+  if (currentPage === 'watch') {
+    return <WatchPage onBack={() => setCurrentPage('dashboard')} />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <WelcomeModal 
@@ -132,9 +164,6 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
             <h1 className="text-base font-semibold text-white">
               Hi, {userName}
             </h1>
-            <button className="text-xs text-blue-200 hover:text-white">
-              Need help?
-            </button>
           </div>
         </div>
         <div className="relative">

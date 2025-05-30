@@ -2,11 +2,11 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, ArrowUpRight, Calendar } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, Calendar, Phone, Wifi, TrendingUp } from 'lucide-react';
 
 interface Transaction {
   id: string;
-  type: 'withdrawal' | 'deposit';
+  type: 'withdrawal' | 'deposit' | 'airtime' | 'data';
   amount: number;
   description: string;
   date: string;
@@ -19,6 +19,19 @@ interface HistoryPageProps {
 }
 
 const HistoryPage: React.FC<HistoryPageProps> = ({ onBack, transactions }) => {
+  const getTransactionIcon = (type: string) => {
+    switch (type) {
+      case 'airtime':
+        return <Phone size={16} className="text-green-500" />;
+      case 'data':
+        return <Wifi size={16} className="text-blue-500" />;
+      case 'withdrawal':
+        return <TrendingUp size={16} className="text-red-500" />;
+      default:
+        return <ArrowUpRight size={16} className="text-gray-500" />;
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -48,9 +61,7 @@ const HistoryPage: React.FC<HistoryPageProps> = ({ onBack, transactions }) => {
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <ArrowUpRight size={16} className={
-                          transaction.type === 'withdrawal' ? 'text-red-500' : 'text-green-500'
-                        } />
+                        {getTransactionIcon(transaction.type)}
                         <h3 className="font-semibold text-gray-900">{transaction.description}</h3>
                       </div>
                       <p className="text-sm text-gray-600 mb-2">{transaction.date}</p>
@@ -63,10 +74,8 @@ const HistoryPage: React.FC<HistoryPageProps> = ({ onBack, transactions }) => {
                       </span>
                     </div>
                     <div className="text-right">
-                      <p className={`font-bold ${
-                        transaction.type === 'withdrawal' ? 'text-red-600' : 'text-green-600'
-                      }`}>
-                        {transaction.type === 'withdrawal' ? '-' : '+'}₦{transaction.amount.toLocaleString()}
+                      <p className="font-bold text-red-600">
+                        -₦{transaction.amount.toLocaleString()}
                       </p>
                     </div>
                   </div>

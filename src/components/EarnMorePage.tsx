@@ -62,7 +62,7 @@ const EarnMorePage: React.FC<EarnMorePageProps> = ({ onBack, userEmail }) => {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="text-center">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">₦5,000</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">₦10,000</h3>
               <p className="text-gray-600">For each successful referral</p>
             </div>
 
@@ -103,7 +103,7 @@ const EarnMorePage: React.FC<EarnMorePageProps> = ({ onBack, userEmail }) => {
                 </div>
                 <div className="flex items-start gap-2">
                   <span className="bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">3</span>
-                  <span>You earn ₦5,000 for each successful signup</span>
+                  <span>You earn ₦10,000 for each successful signup</span>
                 </div>
               </div>
             </div>

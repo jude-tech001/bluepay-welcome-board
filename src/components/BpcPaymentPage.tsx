@@ -162,8 +162,8 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
                 <p className="text-gray-600 text-sm">Amount</p>
                 <p className="text-lg font-semibold">NGN 7000</p>
               </div>
-              <button onClick={() => copyToClipboard('7000')} className="p-2 bg-yellow-400 rounded-lg">
-                <Copy size={16} />
+              <button onClick={() => copyToClipboard('7000')} className="p-2 bg-blue-400 rounded-lg">
+                <Copy size={16} className="text-white" />
               </button>
             </div>
 
@@ -172,8 +172,8 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
                 <p className="text-gray-600 text-sm">Account Number</p>
                 <p className="text-lg font-semibold">5268583383</p>
               </div>
-              <button onClick={() => copyToClipboard('5268583383')} className="p-2 bg-yellow-400 rounded-lg">
-                <Copy size={16} />
+              <button onClick={() => copyToClipboard('5268583383')} className="p-2 bg-blue-400 rounded-lg">
+                <Copy size={16} className="text-white" />
               </button>
             </div>
 
@@ -189,12 +189,12 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
           </div>
 
           <p className="text-gray-600 text-sm mb-6">
-            Make a payment to the account to generate your PAY ID
+            Make payment to the above account to generate your BPC CODE
           </p>
 
           <Button
             onClick={handleBankTransferConfirm}
-            className="w-full h-14 bg-yellow-400 hover:bg-yellow-500 text-black rounded-xl text-lg font-semibold"
+            className="w-full h-14 bg-blue-400 hover:bg-blue-500 text-white rounded-xl text-lg font-semibold"
           >
             I have made this bank Transfer
           </Button>
