@@ -93,14 +93,17 @@ const WithdrawalPage: React.FC<WithdrawalPageProps> = ({ onBack, onWithdrawSucce
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Form submitted with BPC code:', bpcCode);
     setBpcError('');
     
     if (bpcCode !== 'BPC-@37657-OQ') {
       setBpcError('Invalid BPC code');
+      console.log('Invalid BPC code entered:', bpcCode);
       return;
     }
 
     setIsLoading(true);
+    console.log('Processing withdrawal...');
     
     setTimeout(() => {
       setIsLoading(false);
@@ -113,8 +116,16 @@ const WithdrawalPage: React.FC<WithdrawalPageProps> = ({ onBack, onWithdrawSucce
     }, 3000);
   };
 
+  const handleBuyBpcClick = () => {
+    console.log('Buy BPC button clicked');
+    setShowBpcPayment(true);
+  };
+
   if (showBpcPayment) {
-    return <BpcPaymentPage onBack={() => setShowBpcPayment(false)} />;
+    return <BpcPaymentPage onBack={() => {
+      console.log('Returning from BPC payment');
+      setShowBpcPayment(false);
+    }} />;
   }
 
   if (showSuccess) {
@@ -224,7 +235,7 @@ const WithdrawalPage: React.FC<WithdrawalPageProps> = ({ onBack, onWithdrawSucce
 
           <Button
             type="button"
-            onClick={() => setShowBpcPayment(true)}
+            onClick={handleBuyBpcClick}
             className="w-full h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-base font-medium"
           >
             Buy BPC code

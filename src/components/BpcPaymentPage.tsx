@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,23 +15,33 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!fullName || !email) return;
+    console.log('BPC form submitted:', { fullName, email, amount });
     
+    if (!fullName || !email) {
+      console.log('Form validation failed - missing fields');
+      return;
+    }
+    
+    console.log('Starting preparation phase...');
     setStep('preparing');
     setTimeout(() => {
+      console.log('Moving to account details...');
       setStep('account');
     }, 6000);
   };
 
   const handleBankTransferConfirm = () => {
+    console.log('Bank transfer confirmed, starting verification...');
     setStep('verifying');
     setTimeout(() => {
+      console.log('Verification failed...');
       setStep('failed');
     }, 7000);
   };
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
+    console.log('Copied to clipboard:', text);
   };
 
   if (step === 'form') {
