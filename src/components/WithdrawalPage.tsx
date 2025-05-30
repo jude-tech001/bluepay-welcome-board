@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, CheckCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import BpcPaymentPage from './BpcPaymentPage';
 
 interface WithdrawalPageProps {
   onBack: () => void;
@@ -20,7 +20,7 @@ const WithdrawalPage: React.FC<WithdrawalPageProps> = ({ onBack, onWithdrawSucce
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [bpcError, setBpcError] = useState('');
-  const [showBuyBpc, setShowBuyBpc] = useState(false);
+  const [showBpcPayment, setShowBpcPayment] = useState(false);
   const { toast } = useToast();
 
   const nigerianBanks = [
@@ -112,6 +112,10 @@ const WithdrawalPage: React.FC<WithdrawalPageProps> = ({ onBack, onWithdrawSucce
       }, 3000);
     }, 3000);
   };
+
+  if (showBpcPayment) {
+    return <BpcPaymentPage onBack={() => setShowBpcPayment(false)} />;
+  }
 
   if (showSuccess) {
     return (
@@ -220,19 +224,11 @@ const WithdrawalPage: React.FC<WithdrawalPageProps> = ({ onBack, onWithdrawSucce
 
           <Button
             type="button"
-            onClick={() => setShowBuyBpc(!showBuyBpc)}
+            onClick={() => setShowBpcPayment(true)}
             className="w-full h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-base font-medium"
           >
             Buy BPC code
           </Button>
-
-          {showBuyBpc && (
-            <div className="bg-blue-50 p-4 rounded-xl">
-              <p className="text-blue-800 text-sm">
-                Contact support to purchase BPC codes or visit our telegram channel for more information.
-              </p>
-            </div>
-          )}
 
           <div className="mt-6">
             <p className="text-lg font-medium text-gray-900 mb-4">
