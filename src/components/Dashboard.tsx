@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Bell, Eye, EyeOff, History, TrendingUp, CreditCard, Play, Phone, Wifi, HelpCircle, Users, User } from 'lucide-react';
 import WelcomeModal from './WelcomeModal';
 import TypingText from './TypingText';
@@ -10,18 +10,31 @@ import GroupPage from './GroupPage';
 import ProfilePage from './ProfilePage';
 import EarnMorePage from './EarnMorePage';
 import SupportPage from './SupportPage';
+import HistoryPage from './HistoryPage';
+import NotificationPage from './NotificationPage';
 
 interface DashboardProps {
   userEmail: string;
   userName: string;
+  profileImage?: string;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
+interface Transaction {
+  id: string;
+  type: 'withdrawal' | 'deposit';
+  amount: number;
+  description: string;
+  date: string;
+  status: 'success' | 'pending' | 'failed';
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage }) => {
   const [showBalance, setShowBalance] = useState(true);
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const [currentPage, setCurrentPage] = useState<string>('dashboard');
+  const [balance, setBalance] = useState(200000);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   
-  const balance = "₦200,000.00";
   const weeklyRewards = "₦200,000.00";
   
   const services = [
@@ -46,9 +59,25 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
     setCurrentPage(servicePage);
   };
 
+  const handleWithdrawSuccess = (amount: number) => {
+    const newBalance = balance - amount;
+    setBalance(newBalance);
+    
+    const newTransaction: Transaction = {
+      id: Date.now().toString(),
+      type: 'withdrawal',
+      amount: amount,
+      description: 'Bank Transfer',
+      date: new Date().toLocaleString(),
+      status: 'success'
+    };
+    
+    setTransactions(prev => [newTransaction, ...prev]);
+  };
+
   // Render different pages based on current page
   if (currentPage === 'withdrawal') {
-    return <WithdrawalPage onBack={() => setCurrentPage('dashboard')} />;
+    return <WithdrawalPage onBack={() => setCurrentPage('dashboard')} onWithdrawSuccess={handleWithdrawSuccess} />;
   }
   
   if (currentPage === 'group') {
@@ -67,6 +96,14 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
     return <SupportPage onBack={() => setCurrentPage('dashboard')} />;
   }
 
+  if (currentPage === 'history') {
+    return <HistoryPage onBack={() => setCurrentPage('dashboard')} transactions={transactions} />;
+  }
+
+  if (currentPage === 'notifications') {
+    return <NotificationPage onBack={() => setCurrentPage('dashboard')} />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <WelcomeModal 
@@ -79,6 +116,9 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
       <div className="bg-blue-600 px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Avatar className="h-10 w-10 bg-white">
+            {profileImage ? (
+              <AvatarImage src={profileImage} />
+            ) : null}
             <AvatarFallback className="text-blue-600 font-semibold text-sm">
               {userName.charAt(0).toUpperCase()}
             </AvatarFallback>
@@ -87,11 +127,16 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
             <h1 className="text-base font-semibold text-white">
               Hi, {userName}
             </h1>
+            <button className="text-xs text-blue-200 hover:text-white">
+              Need help?
+            </button>
           </div>
         </div>
         <div className="relative">
-          <Bell className="h-5 w-5 text-white" />
-          <div className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full"></div>
+          <button onClick={() => setCurrentPage('notifications')}>
+            <Bell className="h-5 w-5 text-white" />
+            <div className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full"></div>
+          </button>
         </div>
       </div>
 
@@ -103,7 +148,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
               <div>
                 <p className="text-blue-100 text-xs mb-1">Your Balance</p>
                 <h2 className="text-2xl font-bold">
-                  {showBalance ? balance : '••••••••'}
+                  {showBalance ? `₦${balance.toLocaleString()}.00` : '••••••••'}
                 </h2>
                 <p className="text-blue-200 text-xs mt-1">
                   Weekly Rewards: {showBalance ? weeklyRewards : '••••••••'}
@@ -118,7 +163,10 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
             </div>
             
             <div className="flex justify-between items-center mt-4">
-              <button className="flex items-center gap-2 text-white/90 hover:text-white transition-colors">
+              <button 
+                onClick={() => setCurrentPage('history')}
+                className="flex items-center gap-2 text-white/90 hover:text-white transition-colors"
+              >
                 <History size={16} />
                 <span className="text-sm font-medium">History</span>
               </button>
@@ -146,7 +194,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName }) => {
                 <div className={`h-10 w-10 rounded-full flex items-center justify-center ${service.color}`}>
                   <IconComponent size={18} />
                 </div>
-                <span className="text-xs font-medium text-gray-700 text-center leading-tight whitespace-nowrap">
+                <span className="text-xs font-medium text-gray-700 text-center leading-tight">
                   {service.name}
                 </span>
               </button>

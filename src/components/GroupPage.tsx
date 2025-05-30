@@ -10,11 +10,11 @@ interface GroupPageProps {
 
 const GroupPage: React.FC<GroupPageProps> = ({ onBack }) => {
   const handleTelegramJoin = () => {
-    window.open('https://t.me/bluepay_official', '_blank');
+    window.open('https://t.me/bluepayuser_telegram_channel', '_blank');
   };
 
   const handleWhatsAppJoin = () => {
-    window.open('https://chat.whatsapp.com/bluepay_group', '_blank');
+    window.open('https://chat.whatsapp.com/LiUh0smQfa8DiGWFliBGMl', '_blank');
   };
 
   return (

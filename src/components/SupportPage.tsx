@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -18,15 +17,15 @@ const SupportPage: React.FC<SupportPageProps> = ({ onBack }) => {
   const [chatInput, setChatInput] = useState('');
 
   const handleEmailSupport = () => {
-    window.open('mailto:support@bluepay.com?subject=Support Request&body=' + encodeURIComponent(message));
+    window.open('mailto:bluepaycompany@gmail.com?subject=Support Request&body=' + encodeURIComponent(message));
   };
 
   const handleTelegramSupport = () => {
-    window.open('https://t.me/bluepay_support', '_blank');
+    window.open('https://t.me/Bluepaysupport1', '_blank');
   };
 
   const handleChatBot = () => {
-    setShowChatBot(true);
+    window.open('http://telegram.me/Userbluepay_bot', '_blank');
   };
 
   const sendChatMessage = () => {
