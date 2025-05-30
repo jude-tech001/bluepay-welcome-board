@@ -25,8 +25,8 @@ const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose, userEmail 
             <div className="text-center">
               <span className="text-blue-600 font-medium block mb-2">{userEmail}</span>
               <p className="text-gray-600 text-sm leading-5">
-                you have been given 200,000 to withdraw every day. dont click on the reset
-                button untill tomorrow, else you will be banned,kindly join group{' '}
+                you have been given 200,000 to withdraw as a welcome bonus.you can also earn more money through referral click on close to continue 
+                and kindly join our official group{' '}
                 <button 
                   onClick={handleTelegramClick}
                   className="inline-block bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors ml-1"
