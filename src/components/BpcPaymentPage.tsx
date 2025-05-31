@@ -12,7 +12,7 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
   const [step, setStep] = useState('form'); // form, preparing, account, verifying, failed
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
-  const [amount, setAmount] = useState('7000');
+  const [amount, setAmount] = useState('5200');
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -160,9 +160,9 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-gray-600 text-sm">Amount</p>
-                <p className="text-lg font-semibold">NGN 7000</p>
+                <p className="text-lg font-semibold">5200</p>
               </div>
-              <button onClick={() => copyToClipboard('7000')} className="p-2 bg-blue-400 rounded-lg">
+              <button onClick={() => copyToClipboard('5200')} className="p-2 bg-blue-400 rounded-lg">
                 <Copy size={16} className="text-white" />
               </button>
             </div>
