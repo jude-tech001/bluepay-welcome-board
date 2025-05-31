@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Bell, Eye, EyeOff, History, TrendingUp, CreditCard, Play, Phone, Wifi, HelpCircle, Users, User } from 'lucide-react';
+import { Bell, Eye, EyeOff, History, TrendingUp, CreditCard, Play, Phone, Wifi, Users, User } from 'lucide-react';
 import WelcomeModal from './WelcomeModal';
 import TypingText from './TypingText';
 import WithdrawalPage from './WithdrawalPage';
@@ -36,19 +35,17 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
   const [showBalance, setShowBalance] = useState(true);
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const [currentPage, setCurrentPage] = useState<string>('dashboard');
-  const [balance, setBalance] = useState(200000);
+  const [balance, setBalance] = useState(7000);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   
-  const weeklyRewards = "₦200,000.00";
+  const weeklyRewards = "₦7,000.00";
   
   const services = [
     { name: 'Buy BPC', icon: CreditCard, color: 'bg-orange-100 text-orange-600', page: 'buyBpc' },
     { name: 'Watch', icon: Play, color: 'bg-red-100 text-red-600', page: 'watch' },
     { name: 'Airtime', icon: Phone, color: 'bg-green-100 text-green-600', page: 'airtime' },
     { name: 'Data', icon: Wifi, color: 'bg-blue-100 text-blue-600', page: 'data' },
-    { name: 'Support', icon: HelpCircle, color: 'bg-purple-100 text-purple-600', page: 'support' },
     { name: 'Group', icon: Users, color: 'bg-teal-100 text-teal-600', page: 'group' },
-    { name: 'Earn More', icon: TrendingUp, color: 'bg-green-100 text-green-600', page: 'earnMore' },
     { name: 'Profile', icon: User, color: 'bg-gray-100 text-gray-600', page: 'profile' },
   ];
 
@@ -216,7 +213,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
         </Card>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-3 gap-3">
           {services.map((service, index) => {
             const IconComponent = service.icon;
             return (

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { ArrowLeft, Camera, Save, Star, Crown, Award } from 'lucide-react';
+import { ArrowLeft, Camera, User, HelpCircle, Info, LogOut, ChevronRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface ProfilePageProps {
@@ -19,14 +19,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
   const [email, setEmail] = useState(userEmail);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [userLevel, setUserLevel] = useState(1);
+  const [currentView, setCurrentView] = useState('main');
   const { toast } = useToast();
-
-  const levels = [
-    { level: 1, name: 'Bronze', icon: Award, color: 'text-orange-600', bgColor: 'bg-orange-100' },
-    { level: 2, name: 'Silver', icon: Star, color: 'text-gray-600', bgColor: 'bg-gray-100' },
-    { level: 3, name: 'Gold', icon: Crown, color: 'text-yellow-600', bgColor: 'bg-yellow-100' },
-  ];
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -51,17 +45,14 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
         title: "Updated Successfully",
         description: "Your profile has been updated successfully.",
       });
-    }, 3000);
+    }, 2000);
   };
 
-  const handleLevelUpgrade = () => {
-    if (userLevel < 3) {
-      setUserLevel(userLevel + 1);
-      toast({
-        title: "Level Upgraded!",
-        description: `Congratulations! You've upgraded to ${levels[userLevel].name} level.`,
-      });
-    }
+  const handleValidateAccount = () => {
+    toast({
+      title: "Account Validation",
+      description: "Account validation feature coming soon.",
+    });
   };
 
   if (isLoading) {
@@ -75,12 +66,67 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
     );
   }
 
-  const currentLevel = levels[userLevel - 1];
-  const CurrentLevelIcon = currentLevel.icon;
+  if (currentView === 'profile-info') {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <div className="bg-blue-600 px-4 py-4 flex items-center gap-3">
+          <button onClick={() => setCurrentView('main')} className="text-white">
+            <ArrowLeft size={20} />
+          </button>
+          <h1 className="text-lg font-semibold text-white">Profile Information</h1>
+        </div>
+
+        <div className="p-4 space-y-6">
+          <div>
+            <h2 className="text-xl font-bold text-gray-900 mb-6">Personal Information</h2>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm text-gray-500 mb-1">Full Name</label>
+                <p className="text-lg font-medium text-gray-900">{fullName}</p>
+              </div>
+
+              <div>
+                <label className="block text-sm text-gray-500 mb-1">Email Address</label>
+                <p className="text-lg font-medium text-gray-900">{email}</p>
+              </div>
+
+              <div>
+                <label className="block text-sm text-gray-500 mb-1">Account Level</label>
+                <p className="text-lg font-medium text-gray-900">Standard</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-bold text-gray-900 mb-4">Account Status</h3>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm text-gray-500 mb-1">Status</label>
+                <div className="flex items-center justify-between">
+                  <p className="text-lg font-medium text-gray-900">Active</p>
+                  <span className="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-medium">
+                    Not Validated
+                  </span>
+                </div>
+              </div>
+
+              <Button
+                onClick={handleValidateAccount}
+                className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
+              >
+                Validate Account
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <div className="bg-blue-600 px-4 py-4 flex items-center gap-3">
         <button onClick={onBack} className="text-white">
           <ArrowLeft size={20} />
@@ -88,119 +134,78 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
         <h1 className="text-lg font-semibold text-white">Profile</h1>
       </div>
 
-      <div className="p-4 space-y-4">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-center text-gray-900">My Profile</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {/* Profile Picture */}
-            <div className="flex flex-col items-center space-y-3">
-              <div className="relative">
-                <Avatar className="h-24 w-24">
-                  <AvatarImage src={profileImage || undefined} />
-                  <AvatarFallback className="text-2xl bg-blue-100 text-blue-600">
-                    {fullName.charAt(0).toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
-                <label className="absolute bottom-0 right-0 bg-blue-600 rounded-full p-2 cursor-pointer">
-                  <Camera size={16} className="text-white" />
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="hidden"
-                  />
-                </label>
-              </div>
+      <div className="p-4 space-y-6">
+        {/* Profile Picture Section */}
+        <div className="flex flex-col items-center space-y-4">
+          <div className="relative">
+            <div className="h-24 w-24 rounded-full bg-black flex items-center justify-center border-4 border-blue-500">
+              {profileImage ? (
+                <img src={profileImage} alt="Profile" className="h-full w-full rounded-full object-cover" />
+              ) : (
+                <span className="text-yellow-500 text-3xl font-bold">
+                  {fullName.charAt(0).toUpperCase()}
+                </span>
+              )}
             </div>
+            <label className="absolute bottom-0 right-0 bg-blue-600 rounded-full p-2 cursor-pointer">
+              <Camera size={16} className="text-white" />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="hidden"
+              />
+            </label>
+          </div>
+          <p className="text-gray-500 text-sm">Tap to change profile picture</p>
+        </div>
 
-            {/* Form Fields */}
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Full Name
-                </label>
-                <Input
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  className="h-12 rounded-xl"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Email Address
-                </label>
-                <Input
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  type="email"
-                  className="h-12 rounded-xl"
-                />
-              </div>
+        {/* Menu Items */}
+        <div className="space-y-3">
+          <button
+            onClick={() => setCurrentView('profile-info')}
+            className="w-full bg-white rounded-xl p-4 flex items-center gap-4 shadow-sm"
+          >
+            <div className="h-10 w-10 bg-purple-100 rounded-full flex items-center justify-center">
+              <User size={20} className="text-purple-600" />
             </div>
-
-            <Button
-              onClick={handleSave}
-              className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-xl flex items-center gap-2"
-            >
-              <Save size={20} />
-              Save Changes
-            </Button>
-          </CardContent>
-        </Card>
-
-        {/* User Level Section */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-center text-gray-900">User Level</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-center gap-3">
-              <div className={`p-3 rounded-full ${currentLevel.bgColor}`}>
-                <CurrentLevelIcon size={24} className={currentLevel.color} />
-              </div>
-              <div className="text-center">
-                <h3 className="font-semibold text-gray-900">Level {userLevel}</h3>
-                <p className={`text-sm font-medium ${currentLevel.color}`}>{currentLevel.name}</p>
-              </div>
+            <div className="flex-1 text-left">
+              <h3 className="font-semibold text-gray-900">Profile Information</h3>
+              <p className="text-gray-500 text-sm">View and edit your profile details</p>
             </div>
+            <ChevronRight size={20} className="text-gray-400" />
+          </button>
 
-            <div className="grid grid-cols-3 gap-2">
-              {levels.map((level, index) => {
-                const LevelIcon = level.icon;
-                return (
-                  <div
-                    key={level.level}
-                    className={`p-3 rounded-lg border-2 text-center ${
-                      userLevel >= level.level
-                        ? 'border-blue-600 bg-blue-50'
-                        : 'border-gray-200 bg-gray-50'
-                    }`}
-                  >
-                    <LevelIcon
-                      size={20}
-                      className={`mx-auto mb-1 ${
-                        userLevel >= level.level ? level.color : 'text-gray-400'
-                      }`}
-                    />
-                    <p className="text-xs font-medium">{level.name}</p>
-                  </div>
-                );
-              })}
+          <button className="w-full bg-white rounded-xl p-4 flex items-center gap-4 shadow-sm">
+            <div className="h-10 w-10 bg-teal-100 rounded-full flex items-center justify-center">
+              <HelpCircle size={20} className="text-teal-600" />
             </div>
+            <div className="flex-1 text-left">
+              <h3 className="font-semibold text-gray-900">Help & Support</h3>
+              <p className="text-gray-500 text-sm">Get help with using BluePay Pro</p>
+            </div>
+            <ChevronRight size={20} className="text-gray-400" />
+          </button>
 
-            {userLevel < 3 && (
-              <Button
-                onClick={handleLevelUpgrade}
-                className="w-full h-12 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white rounded-xl"
-              >
-                Upgrade Level
-              </Button>
-            )}
-          </CardContent>
-        </Card>
+          <button className="w-full bg-white rounded-xl p-4 flex items-center gap-4 shadow-sm">
+            <div className="h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
+              <Info size={20} className="text-blue-600" />
+            </div>
+            <div className="flex-1 text-left">
+              <h3 className="font-semibold text-gray-900">About</h3>
+              <p className="text-gray-500 text-sm">Learn more about BluePay Pro</p>
+            </div>
+            <ChevronRight size={20} className="text-gray-400" />
+          </button>
+        </div>
+
+        {/* Logout Button */}
+        <div className="pt-4">
+          <button className="w-full bg-red-50 rounded-xl p-4 flex items-center justify-center gap-2">
+            <LogOut size={20} className="text-red-600" />
+            <span className="text-red-600 font-medium">Logout</span>
+          </button>
+        </div>
       </div>
     </div>
   );

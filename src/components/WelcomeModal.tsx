@@ -22,10 +22,10 @@ const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose, userEmail 
             WELCOME TO BLUEPAY
           </DialogTitle>
           <DialogDescription className="text-gray-700 leading-relaxed text-sm px-2 space-y-2">
-            <div className="text-center">
+            <div className="text-center flex flex-col items-center justify-center">
               <span className="text-blue-600 font-medium block mb-2">{userEmail}</span>
-              <p className="text-gray-600 text-sm leading-5">
-                you have been given 200,000 to withdraw as a welcome bonus.you can also earn more money through referral click on close to continue 
+              <p className="text-gray-600 text-sm leading-5 text-center max-w-xs mx-auto">
+                you have been given 7,000 to withdraw as a welcome bonus. you can also earn more money through referral click on close to continue 
                 and kindly join our official group{' '}
                 <button 
                   onClick={handleTelegramClick}
