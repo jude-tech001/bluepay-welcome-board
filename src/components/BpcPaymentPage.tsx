@@ -147,7 +147,7 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
             <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="text-white text-2xl font-bold">₦</span>
             </div>
-            <h2 className="text-3xl font-bold text-gray-900">NGN 7,000</h2>
+            <h2 className="text-3xl font-bold text-gray-900">NGN 5,200</h2>
             <p className="text-gray-600">{email}</p>
           </div>
 
