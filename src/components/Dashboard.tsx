@@ -46,7 +46,9 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
     { name: 'Watch', icon: Play, color: 'bg-red-100 text-red-600', page: 'watch' },
     { name: 'Airtime', icon: Phone, color: 'bg-green-100 text-green-600', page: 'airtime' },
     { name: 'Data', icon: Wifi, color: 'bg-blue-100 text-blue-600', page: 'data' },
+    { name: 'Support', icon: HelpCircle, color: 'bg-purple-100 text-purple-600', page: 'support' },
     { name: 'Group', icon: Users, color: 'bg-teal-100 text-teal-600', page: 'group' },
+    { name: 'Earn More', icon: TrendingUp, color: 'bg-green-100 text-green-600', page: 'earnMore' },
     { name: 'Profile', icon: User, color: 'bg-gray-100 text-gray-600', page: 'profile' },
   ];
 
@@ -165,13 +167,6 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <button 
-            onClick={() => setCurrentPage('support')}
-            className="text-white text-xs flex items-center gap-1"
-          >
-            <HelpCircle size={14} />
-            Need help?
-          </button>
           <button onClick={() => setCurrentPage('notifications')}>
             <Bell className="h-5 w-5 text-white" />
             <div className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full"></div>
@@ -185,12 +180,12 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
           <CardContent className="p-4">
             <div className="flex justify-between items-start mb-3">
               <div>
-                <p className="text-blue-100 text-xs mb-1">Today Spent</p>
+                <p className="text-blue-100 text-xs mb-1">Your Balance</p>
                 <h2 className="text-3xl font-bold">
-                  {showBalance ? `₦${balance.toLocaleString()}` : '••••••••'}
+                  {showBalance ? `₦${balance.toLocaleString()}.00` : '••••••••'}
                 </h2>
                 <p className="text-blue-200 text-xs mt-2">
-                  Daily spend target: ₦200,000
+                  Weekly Rewards: ₦200,000.00
                 </p>
               </div>
               <div className="flex flex-col items-end gap-2">
@@ -199,12 +194,6 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
                   className="text-white/80 hover:text-white transition-colors"
                 >
                   {showBalance ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-                <button 
-                  onClick={() => setCurrentPage('withdrawal')}
-                  className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-xs font-medium"
-                >
-                  WITHDRAW
                 </button>
               </div>
             </div>
@@ -218,18 +207,18 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
                 <span className="text-sm font-medium">History</span>
               </button>
               <button 
-                onClick={() => setCurrentPage('earnMore')}
+                onClick={() => setCurrentPage('withdrawal')}
                 className="flex items-center gap-2 text-white/90 hover:text-white transition-colors"
               >
                 <TrendingUp size={16} />
-                <span className="text-sm font-medium">Earn More</span>
+                <span className="text-sm font-medium">Withdraw</span>
               </button>
             </div>
           </CardContent>
         </Card>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-3 gap-3">
+        {/* Services Grid - 4 columns for top row, 4 columns for bottom row */}
+        <div className="grid grid-cols-4 gap-3">
           {services.map((service, index) => {
             const IconComponent = service.icon;
             return (

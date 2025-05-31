@@ -16,15 +16,15 @@ const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose, userEmail 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md mx-4 rounded-2xl p-0 bg-white border-0 shadow-xl">
-        <div className="p-6">
+      <DialogContent className="w-full max-w-sm mx-auto rounded-2xl p-0 bg-white border-0 shadow-xl">
+        <div className="w-full p-6">
           <DialogHeader className="text-center space-y-4">
             <DialogTitle className="text-2xl font-bold text-gray-900 text-center">
               Welcome
             </DialogTitle>
-            <DialogDescription className="text-gray-700 leading-relaxed text-sm space-y-2">
-              <div className="text-center">
-                <p className="text-gray-900 text-sm leading-5 text-center max-w-xs mx-auto">
+            <DialogDescription className="text-gray-700 leading-relaxed text-sm">
+              <div className="w-full text-center">
+                <p className="text-gray-900 text-sm leading-5 text-center w-full">
                   {userEmail.split('@')[0]} You Have Been Given 200,000 to withdraw everyday. don't click on the reset button until tomorrow, else you will be banned join group{' '}
                   <button 
                     onClick={handleTelegramClick}
@@ -37,7 +37,7 @@ const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose, userEmail 
             </DialogDescription>
           </DialogHeader>
           
-          <div className="flex gap-3 mt-6">
+          <div className="flex gap-3 mt-6 w-full">
             <Button
               onClick={onClose}
               className="flex-1 bg-red-500 hover:bg-red-600 text-white rounded-xl h-11 text-sm font-medium"
@@ -48,7 +48,7 @@ const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose, userEmail 
               onClick={handleTelegramClick}
               className="flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded-xl h-11 text-sm font-medium"
             >
-              RESET
+              JOIN GROUP
             </Button>
           </div>
         </div>
