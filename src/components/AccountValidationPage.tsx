@@ -16,7 +16,7 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
     fullName: userName,
     email: userEmail,
     phoneNumber: '',
-    amount 20000: ''
+    amount: ''
   });
 
   const copyToClipboard = (text: string) => {
