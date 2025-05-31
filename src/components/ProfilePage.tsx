@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,9 +14,10 @@ interface ProfilePageProps {
   userEmail: string;
   userName: string;
   onProfileUpdate?: (profileImage: string) => void;
+  onLogout?: () => void;
 }
 
-const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, onProfileUpdate }) => {
+const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, onProfileUpdate, onLogout }) => {
   const [fullName, setFullName] = useState(userName);
   const [email, setEmail] = useState(userEmail);
   const [profileImage, setProfileImage] = useState<string | null>(null);
@@ -53,6 +53,15 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
 
   const handleValidateAccount = () => {
     setCurrentView('validate');
+  };
+
+  const handleLogout = () => {
+    if (onLogout) {
+      onLogout();
+    } else {
+      // Fallback: reload the page to reset the app state
+      window.location.reload();
+    }
   };
 
   if (isLoading) {
@@ -219,7 +228,10 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
 
         {/* Logout Button */}
         <div className="pt-4">
-          <button className="w-full bg-red-50 rounded-xl p-4 flex items-center justify-center gap-2">
+          <button 
+            onClick={handleLogout}
+            className="w-full bg-red-50 rounded-xl p-4 flex items-center justify-center gap-2"
+          >
             <LogOut size={20} className="text-red-600" />
             <span className="text-red-600 font-medium">Logout</span>
           </button>

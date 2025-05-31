@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -72,6 +71,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
     }
   };
 
+  const handleNeedHelp = () => {
+    window.open('https://wa.me/+2348127519989', '_blank');
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
@@ -113,9 +116,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
       <div className="w-full max-w-md mx-auto">
         {/* Need Help at the top right */}
         <div className="text-right mb-4">
-          <a href="#" className="text-orange-500 hover:text-orange-600 text-sm">
+          <button 
+            onClick={handleNeedHelp}
+            className="text-orange-500 hover:text-orange-600 text-sm"
+          >
             Need Help?
-          </a>
+          </button>
         </div>
 
         <div className="text-center mb-8">
