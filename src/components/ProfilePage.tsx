@@ -6,6 +6,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ArrowLeft, Camera, User, HelpCircle, Info, LogOut, ChevronRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import AboutPage from './AboutPage';
+import SupportPage from './SupportPage';
+import AccountValidationPage from './AccountValidationPage';
 
 interface ProfilePageProps {
   onBack: () => void;
@@ -49,10 +52,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
   };
 
   const handleValidateAccount = () => {
-    toast({
-      title: "Account Validation",
-      description: "Account validation feature coming soon.",
-    });
+    setCurrentView('validate');
   };
 
   if (isLoading) {
@@ -64,6 +64,18 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
         </div>
       </div>
     );
+  }
+
+  if (currentView === 'about') {
+    return <AboutPage onBack={() => setCurrentView('main')} />;
+  }
+
+  if (currentView === 'support') {
+    return <SupportPage onBack={() => setCurrentView('main')} />;
+  }
+
+  if (currentView === 'validate') {
+    return <AccountValidationPage onBack={() => setCurrentView('profile-info')} userEmail={userEmail} userName={userName} />;
   }
 
   if (currentView === 'profile-info') {
@@ -176,7 +188,10 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
             <ChevronRight size={20} className="text-gray-400" />
           </button>
 
-          <button className="w-full bg-white rounded-xl p-4 flex items-center gap-4 shadow-sm">
+          <button 
+            onClick={() => setCurrentView('support')}
+            className="w-full bg-white rounded-xl p-4 flex items-center gap-4 shadow-sm"
+          >
             <div className="h-10 w-10 bg-teal-100 rounded-full flex items-center justify-center">
               <HelpCircle size={20} className="text-teal-600" />
             </div>
@@ -187,7 +202,10 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
             <ChevronRight size={20} className="text-gray-400" />
           </button>
 
-          <button className="w-full bg-white rounded-xl p-4 flex items-center gap-4 shadow-sm">
+          <button 
+            onClick={() => setCurrentView('about')}
+            className="w-full bg-white rounded-xl p-4 flex items-center gap-4 shadow-sm"
+          >
             <div className="h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
               <Info size={20} className="text-blue-600" />
             </div>

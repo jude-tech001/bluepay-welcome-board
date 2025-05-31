@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Bell, Eye, EyeOff, History, TrendingUp, CreditCard, Play, Phone, Wifi, Users, User } from 'lucide-react';
+import { Bell, Eye, EyeOff, History, TrendingUp, CreditCard, Play, Phone, Wifi, Users, User, HelpCircle } from 'lucide-react';
 import WelcomeModal from './WelcomeModal';
 import TypingText from './TypingText';
 import WithdrawalPage from './WithdrawalPage';
@@ -35,10 +36,10 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
   const [showBalance, setShowBalance] = useState(true);
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const [currentPage, setCurrentPage] = useState<string>('dashboard');
-  const [balance, setBalance] = useState(7000);
+  const [balance, setBalance] = useState(200000);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   
-  const weeklyRewards = "₦7,000.00";
+  const weeklyRewards = "₦200,000.00";
   
   const services = [
     { name: 'Buy BPC', icon: CreditCard, color: 'bg-orange-100 text-orange-600', page: 'buyBpc' },
@@ -163,7 +164,14 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
             </h1>
           </div>
         </div>
-        <div className="relative">
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={() => setCurrentPage('support')}
+            className="text-white text-xs flex items-center gap-1"
+          >
+            <HelpCircle size={14} />
+            Need help?
+          </button>
           <button onClick={() => setCurrentPage('notifications')}>
             <Bell className="h-5 w-5 text-white" />
             <div className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full"></div>
@@ -177,20 +185,28 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
           <CardContent className="p-4">
             <div className="flex justify-between items-start mb-3">
               <div>
-                <p className="text-blue-100 text-xs mb-1">Your Balance</p>
-                <h2 className="text-2xl font-bold">
-                  {showBalance ? `₦${balance.toLocaleString()}.00` : '••••••••'}
+                <p className="text-blue-100 text-xs mb-1">Today Spent</p>
+                <h2 className="text-3xl font-bold">
+                  {showBalance ? `₦${balance.toLocaleString()}` : '••••••••'}
                 </h2>
-                <p className="text-blue-200 text-xs mt-1">
-                  Weekly Rewards: {showBalance ? weeklyRewards : '••••••••'}
+                <p className="text-blue-200 text-xs mt-2">
+                  Daily spend target: ₦200,000
                 </p>
               </div>
-              <button
-                onClick={() => setShowBalance(!showBalance)}
-                className="text-white/80 hover:text-white transition-colors"
-              >
-                {showBalance ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
+              <div className="flex flex-col items-end gap-2">
+                <button
+                  onClick={() => setShowBalance(!showBalance)}
+                  className="text-white/80 hover:text-white transition-colors"
+                >
+                  {showBalance ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+                <button 
+                  onClick={() => setCurrentPage('withdrawal')}
+                  className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-xs font-medium"
+                >
+                  WITHDRAW
+                </button>
+              </div>
             </div>
             
             <div className="flex justify-between items-center mt-4">
@@ -202,11 +218,11 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
                 <span className="text-sm font-medium">History</span>
               </button>
               <button 
-                onClick={() => setCurrentPage('withdrawal')}
+                onClick={() => setCurrentPage('earnMore')}
                 className="flex items-center gap-2 text-white/90 hover:text-white transition-colors"
               >
                 <TrendingUp size={16} />
-                <span className="text-sm font-medium">Withdraw</span>
+                <span className="text-sm font-medium">Earn More</span>
               </button>
             </div>
           </CardContent>
