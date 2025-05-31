@@ -26,7 +26,7 @@ const AirtimePage: React.FC<AirtimePageProps> = ({ onBack, onPurchaseSuccess, ba
     e.preventDefault();
     setBpcError('');
     
-    if (bpcCode !== 'BPC-@37657-OQ') {
+    if (bpcCode !== 'B@pay2037codeQT') {
       setBpcError('Invalid BPC code');
       return;
     }
