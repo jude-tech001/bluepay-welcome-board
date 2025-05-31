@@ -152,7 +152,7 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
           </div>
 
           <p className="text-center text-gray-700 mb-6">
-            Make to the above account to generate your BPC CODE
+            Proceed to your bank app to complete this Transfer
           </p>
 
           {/* Account Details */}
@@ -170,21 +170,21 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-gray-600 text-sm">Account Number</p>
-                <p className="text-lg font-semibold">9046881405</p>
+                <p className="text-lg font-semibold">5268583383</p>
               </div>
-              <button onClick={() => copyToClipboard('9046881405')} className="p-2 bg-blue-400 rounded-lg">
+              <button onClick={() => copyToClipboard('5268583383')} className="p-2 bg-blue-400 rounded-lg">
                 <Copy size={16} className="text-white" />
               </button>
             </div>
 
             <div>
               <p className="text-gray-600 text-sm">Bank Name</p>
-              <p className="text-lg font-semibold">Opay</p>
+              <p className="text-lg font-semibold">Sterling Bank</p>
             </div>
 
             <div>
               <p className="text-gray-600 text-sm">Account Name</p>
-              <p className="text-lg font-semibold">Ebuka Sabastine</p>
+              <p className="text-lg font-semibold">CORALPAY-NextGen PG</p>
             </div>
           </div>
 
@@ -212,9 +212,9 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
               <div className="w-full h-full rounded-full border-4 border-blue-600 border-t-transparent animate-spin"></div>
             </div>
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Validating Account</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Verifying Payment</h2>
           <p className="text-gray-600 mb-2">
-            Please wait while we validate your account...
+            Please wait while we verify your payment...
           </p>
           <p className="text-gray-500 text-sm">
             This may take a few moments
@@ -234,7 +234,7 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
             </div>
           </div>
           
-          <h2 className="text-2xl font-bold text-blue-600 mb-4">
+          <h2 className="text-2xl font-bold text-yellow-600 mb-4">
             Transaction verification failed!
           </h2>
           

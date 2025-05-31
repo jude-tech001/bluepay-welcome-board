@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -36,10 +35,10 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
   const [showBalance, setShowBalance] = useState(true);
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const [currentPage, setCurrentPage] = useState<string>('dashboard');
-  const [balance, setBalance] = useState(200000);
+  const [balance, setBalance] = useState(7000);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   
-  const weeklyRewards = "₦200,000.00";
+  const weeklyRewards = "₦7,000.00";
   
   const services = [
     { name: 'Buy BPC', icon: CreditCard, color: 'bg-orange-100 text-orange-600', page: 'buyBpc' },
@@ -94,10 +93,6 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
     setTransactions(prev => [newTransaction, ...prev]);
   };
 
-  const handleNeedHelpClick = () => {
-    window.open('https://wa.me/2348000000000', '_blank');
-  };
-
   // Render different pages based on current page
   if (currentPage === 'withdrawal') {
     return <WithdrawalPage onBack={() => setCurrentPage('dashboard')} onWithdrawSuccess={handleWithdrawSuccess} />;
@@ -112,12 +107,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
   }
   
   if (currentPage === 'profile') {
-    return <ProfilePage 
-      onBack={() => setCurrentPage('dashboard')} 
-      userEmail={userEmail} 
-      userName={userName}
-      onSupportClick={() => setCurrentPage('support')}
-    />;
+    return <ProfilePage onBack={() => setCurrentPage('dashboard')} userEmail={userEmail} userName={userName} />;
   }
   
   if (currentPage === 'earnMore') {
@@ -173,19 +163,11 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
             </h1>
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <button 
-            onClick={handleNeedHelpClick}
-            className="text-orange-400 hover:text-orange-300 transition-colors text-sm font-medium underline"
-          >
-            Need Help?
+        <div className="relative">
+          <button onClick={() => setCurrentPage('notifications')}>
+            <Bell className="h-5 w-5 text-white" />
+            <div className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full"></div>
           </button>
-          <div className="relative">
-            <button onClick={() => setCurrentPage('notifications')}>
-              <Bell className="h-5 w-5 text-white" />
-              <div className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full"></div>
-            </button>
-          </div>
         </div>
       </div>
 
