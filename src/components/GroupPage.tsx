@@ -14,7 +14,7 @@ const GroupPage: React.FC<GroupPageProps> = ({ onBack }) => {
   };
 
   const handleWhatsAppJoin = () => {
-    window.open('https://chat.whatsapp.com/LiUh0smQfa8DiGWFliBGMl', '_blank');
+    window.open('https://chat.whatsapp.com/KvXOX0mpDNeANsNCpP8igY', '_blank');
   };
 
   return (
