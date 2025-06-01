@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -43,12 +42,20 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
     }, 3000);
   };
 
+  const handleBackNavigation = () => {
+    if (currentStep === 'form') {
+      onBack();
+    } else if (currentStep === 'warning' || currentStep === 'payment' || currentStep === 'processing' || currentStep === 'failed') {
+      setCurrentStep('form');
+    }
+  };
+
   // Form step
   if (currentStep === 'form') {
     return (
       <div className="min-h-screen bg-gray-50">
         <div className="bg-blue-600 px-4 py-4 flex items-center gap-3">
-          <button onClick={onBack} className="text-white">
+          <button onClick={handleBackNavigation} className="text-white">
             <ArrowLeft size={20} />
           </button>
           <h1 className="text-lg font-semibold text-white">Account Validation</h1>
@@ -119,7 +126,7 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
               />
               <h2 className="text-lg font-semibold text-gray-900">Service Notice</h2>
             </div>
-            <button onClick={onBack} className="text-gray-400 hover:text-gray-600">
+            <button onClick={handleBackNavigation} className="text-gray-400 hover:text-gray-600">
               <XCircle size={20} />
             </button>
           </div>
@@ -158,7 +165,7 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
     return (
       <div className="min-h-screen bg-gray-50">
         <div className="bg-blue-600 px-4 py-4 flex items-center gap-3">
-          <button onClick={onBack} className="text-white">
+          <button onClick={handleBackNavigation} className="text-white">
             <ArrowLeft size={20} />
           </button>
           <h1 className="text-lg font-semibold text-white">Payment Details</h1>
@@ -242,7 +249,7 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
     return (
       <div className="min-h-screen bg-gray-50">
         <div className="bg-red-600 px-4 py-4 flex items-center gap-3">
-          <button onClick={onBack} className="text-white">
+          <button onClick={handleBackNavigation} className="text-white">
             <ArrowLeft size={20} />
           </button>
           <h1 className="text-lg font-semibold text-white">Validation Failed</h1>

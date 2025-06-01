@@ -80,25 +80,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="w-full max-w-md mx-auto text-center">
           <div className="mb-8">
-            <div className="text-4xl font-black text-blue-600 tracking-wider mb-4 relative">
-              <span className="relative z-10 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent">
-                BLUE
-              </span>
-              <span className="relative z-10 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-                PAY
-              </span>
-              <div className="absolute -bottom-2 left-0 w-full h-3 bg-gradient-to-r from-blue-400 to-blue-600 opacity-30 rounded-lg transform -skew-x-12"></div>
-              <div className="absolute -bottom-3 left-2 w-3 h-6 bg-blue-500 rounded-full opacity-60 transform rotate-12"></div>
-              <div className="absolute -bottom-2 left-12 w-2 h-4 bg-blue-400 rounded-full opacity-50"></div>
-              <div className="absolute -bottom-1 right-12 w-2 h-3 bg-blue-500 rounded-full opacity-60"></div>
-              <div className="absolute -bottom-3 right-2 w-3 h-5 bg-blue-600 rounded-full opacity-70 transform -rotate-12"></div>
-              
-              {/* Dripping effect */}
-              <div className="absolute -bottom-6 left-8 w-1 h-4 bg-blue-400 rounded-full opacity-40"></div>
-              <div className="absolute -bottom-8 left-9 w-2 h-2 bg-blue-400 rounded-full opacity-30"></div>
-              <div className="absolute -bottom-5 right-16 w-1 h-3 bg-blue-500 rounded-full opacity-50"></div>
-              <div className="absolute -bottom-7 right-15 w-1.5 h-1.5 bg-blue-500 rounded-full opacity-40"></div>
-            </div>
+            <img 
+              src="/lovable-uploads/15a7c86b-9e29-4e98-940c-4fa28531e9e6.png" 
+              alt="BluePay 2025" 
+              className="h-16 mx-auto mb-4"
+            />
             <h2 className="text-xl text-gray-700 mb-8">Create your account</h2>
           </div>
           
@@ -115,10 +101,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md mx-auto">
         {/* Need Help at the top right */}
-        <div className="text-right mb-4">
+        <div className="text-right mb-2">
           <button 
             onClick={handleNeedHelp}
-            className="text-orange-500 hover:text-orange-600 text-sm"
+            className="text-orange-500 hover:text-orange-600 text-xs"
           >
             Need Help?
           </button>
@@ -126,25 +112,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
 
         <div className="text-center mb-8">
           <div className="mb-6">
-            <div className="text-4xl font-black text-blue-600 tracking-wider relative inline-block">
-              <span className="relative z-10 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent">
-                BLUE
-              </span>
-              <span className="relative z-10 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-                PAY
-              </span>
-              <div className="absolute -bottom-2 left-0 w-full h-3 bg-gradient-to-r from-blue-400 to-blue-600 opacity-30 rounded-lg transform -skew-x-12"></div>
-              <div className="absolute -bottom-3 left-2 w-3 h-6 bg-blue-500 rounded-full opacity-60 transform rotate-12"></div>
-              <div className="absolute -bottom-2 left-12 w-2 h-4 bg-blue-400 rounded-full opacity-50"></div>
-              <div className="absolute -bottom-1 right-12 w-2 h-3 bg-blue-500 rounded-full opacity-60"></div>
-              <div className="absolute -bottom-3 right-2 w-3 h-5 bg-blue-600 rounded-full opacity-70 transform -rotate-12"></div>
-              
-              {/* Dripping effect */}
-              <div className="absolute -bottom-6 left-8 w-1 h-4 bg-blue-400 rounded-full opacity-40"></div>
-              <div className="absolute -bottom-8 left-9 w-2 h-2 bg-blue-400 rounded-full opacity-30"></div>
-              <div className="absolute -bottom-5 right-16 w-1 h-3 bg-blue-500 rounded-full opacity-50"></div>
-              <div className="absolute -bottom-7 right-15 w-1.5 h-1.5 bg-blue-500 rounded-full opacity-40"></div>
-            </div>
+            <img 
+              src="/lovable-uploads/15a7c86b-9e29-4e98-940c-4fa28531e9e6.png" 
+              alt="BluePay 2025" 
+              className="h-16 mx-auto"
+            />
           </div>
           <p className="text-gray-600 text-base">
             {isSignUp ? 'Create your account' : 'login or create an account to continue'}
