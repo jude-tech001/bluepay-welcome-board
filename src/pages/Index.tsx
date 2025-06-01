@@ -7,6 +7,7 @@ const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('');
+  const [profileImage, setProfileImage] = useState<string>('');
 
   const handleLogin = (email: string, fullName: string) => {
     setUserEmail(email);
@@ -14,8 +15,18 @@ const Index = () => {
     setIsLoggedIn(true);
   };
 
+  const handleProfileUpdate = (newProfileImage: string) => {
+    setProfileImage(newProfileImage);
+  };
+
   if (isLoggedIn) {
-    return <Dashboard userEmail={userEmail} userName={userName} />;
+    return (
+      <Dashboard 
+        userEmail={userEmail} 
+        userName={userName} 
+        profileImage={profileImage}
+      />
+    );
   }
 
   return <LoginForm onLogin={handleLogin} />;

@@ -10,36 +10,47 @@ interface WelcomeModalProps {
 }
 
 const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose, userEmail }) => {
+  const handleTelegramClick = () => {
+    window.open('https://t.me/bluepayuser_telegram_channel', '_blank');
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md mx-4 rounded-2xl p-6">
-        <DialogHeader className="text-center space-y-4">
-          <DialogTitle className="text-2xl font-bold text-gray-900">
-            Welcome
-          </DialogTitle>
-          <DialogDescription className="text-gray-700 leading-relaxed text-sm px-2">
-            <span className="text-blue-600 font-medium">{userEmail}</span> you have
-            been given 200,000 to withdraw every day. dont click on the reset
-            button untill tomorrow, else you will be banned join group{' '}
-            <a href="#" className="text-blue-600 hover:text-blue-700 underline">
-              Here
-            </a>
-          </DialogDescription>
-        </DialogHeader>
-        
-        <div className="flex gap-3 mt-6">
-          <Button
-            onClick={onClose}
-            className="flex-1 bg-red-500 hover:bg-red-600 text-white rounded-xl h-11 text-sm font-medium"
-          >
-            Close
-          </Button>
-          <Button
-            onClick={onClose}
-            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded-xl h-11 text-sm font-medium"
-          >
-            Reset
-          </Button>
+      <DialogContent className="w-full max-w-sm mx-auto rounded-2xl p-0 bg-white border-0 shadow-xl">
+        <div className="w-full p-6">
+          <DialogHeader className="text-center space-y-4">
+            <DialogTitle className="text-2xl font-bold text-gray-900 text-center">
+              Welcome
+            </DialogTitle>
+            <DialogDescription className="text-gray-700 leading-relaxed text-sm">
+              <div className="w-full text-center">
+                <p className="text-gray-900 text-sm leading-5 text-center w-full">
+                  {userEmail.split('@')[0]} You Have Been Given 200,000 to withdraw everyday. don't click on the reset button until tomorrow, else you will be banned join group{' '}
+                  <button 
+                    onClick={handleTelegramClick}
+                    className="inline text-blue-600 underline font-medium"
+                  >
+                    Here
+                  </button>
+                </p>
+              </div>
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="flex gap-3 mt-6 w-full">
+            <Button
+              onClick={onClose}
+              className="flex-1 bg-red-500 hover:bg-red-600 text-white rounded-xl h-11 text-sm font-medium"
+            >
+              CLOSED
+            </Button>
+            <Button
+              onClick={handleTelegramClick}
+              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded-xl h-11 text-sm font-medium"
+            >
+              JOIN GROUP
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
