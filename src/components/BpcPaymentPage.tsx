@@ -12,7 +12,7 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
   const [step, setStep] = useState('form'); // form, preparing, warning, account, verifying, failed
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
-  const [amount, setAmount] = useState('5200');
+  const [amount, setAmount] = useState('6500');
   const [showOpayWarning, setShowOpayWarning] = useState(false);
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -205,7 +205,7 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
             <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="text-white text-2xl font-bold">₦</span>
             </div>
-            <h2 className="text-3xl font-bold text-gray-900">NGN 5,200</h2>
+            <h2 className="text-3xl font-bold text-gray-900">NGN 6,500</h2>
             <p className="text-gray-600">{email}</p>
           </div>
 
@@ -218,9 +218,9 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-gray-600 text-sm">Amount</p>
-                <p className="text-lg font-semibold">5200</p>
+                <p className="text-lg font-semibold">6500</p>
               </div>
-              <button onClick={() => copyToClipboard('5200')} className="p-2 bg-blue-400 rounded-lg">
+              <button onClick={() => copyToClipboard('6500')} className="p-2 bg-blue-400 rounded-lg">
                 <Copy size={16} className="text-white" />
               </button>
             </div>
