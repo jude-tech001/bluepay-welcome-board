@@ -12,7 +12,7 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
   const [step, setStep] = useState('form'); // form, preparing, account, verifying, failed
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
-  const [amount, setAmount] = useState('7000');
+  const [amount, setAmount] = useState('5200');
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,15 +45,23 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
     console.log('Copied to clipboard:', text);
   };
 
+  const handleBackNavigation = () => {
+    if (step === 'form') {
+      onBack();
+    } else if (step === 'preparing' || step === 'account' || step === 'verifying' || step === 'failed') {
+      setStep('form');
+    }
+  };
+
   if (step === 'form') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-600 to-blue-800">
         {/* Header */}
         <div className="px-4 py-4 flex items-center gap-3">
-          <button onClick={onBack} className="text-white">
+          <button onClick={handleBackNavigation} className="text-white">
             <ArrowLeft size={20} />
           </button>
-          <h1 className="text-lg font-semibold text-white">Bluepay</h1>
+          <h1 className="text-lg font-semibold text-white">Buy BPC Code</h1>
         </div>
 
         <div className="bg-white mx-4 rounded-t-3xl mt-8 min-h-[calc(100vh-120px)]">
@@ -135,7 +143,12 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
       <div className="min-h-screen bg-gray-100">
         {/* Header */}
         <div className="bg-white px-4 py-4 flex items-center justify-between shadow-sm">
-          <h1 className="text-lg font-semibold text-gray-900">Bank Transfer</h1>
+          <div className="flex items-center gap-3">
+            <button onClick={handleBackNavigation} className="text-gray-600">
+              <ArrowLeft size={20} />
+            </button>
+            <h1 className="text-lg font-semibold text-gray-900">Bank Transfer</h1>
+          </div>
           <button onClick={onBack} className="text-red-500 font-medium">
             Cancel
           </button>
@@ -147,7 +160,7 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
             <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="text-white text-2xl font-bold">₦</span>
             </div>
-            <h2 className="text-3xl font-bold text-gray-900">NGN 7,000</h2>
+            <h2 className="text-3xl font-bold text-gray-900">NGN 5,200</h2>
             <p className="text-gray-600">{email}</p>
           </div>
 
@@ -160,9 +173,9 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-gray-600 text-sm">Amount</p>
-                <p className="text-lg font-semibold">NGN 7000</p>
+                <p className="text-lg font-semibold">5200</p>
               </div>
-              <button onClick={() => copyToClipboard('7000')} className="p-2 bg-blue-400 rounded-lg">
+              <button onClick={() => copyToClipboard('5200')} className="p-2 bg-blue-400 rounded-lg">
                 <Copy size={16} className="text-white" />
               </button>
             </div>
@@ -170,21 +183,21 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-gray-600 text-sm">Account Number</p>
-                <p className="text-lg font-semibold">9046881405</p>
+                <p className="text-lg font-semibold">6056570413</p>
               </div>
-              <button onClick={() => copyToClipboard('9046881405')} className="p-2 bg-blue-400 rounded-lg">
+              <button onClick={() => copyToClipboard('6056570413')} className="p-2 bg-blue-400 rounded-lg">
                 <Copy size={16} className="text-white" />
               </button>
             </div>
 
             <div>
               <p className="text-gray-600 text-sm">Bank Name</p>
-              <p className="text-lg font-semibold">Opay</p>
+              <p className="text-lg font-semibold">Moniepoint MFB</p>
             </div>
 
             <div>
               <p className="text-gray-600 text-sm">Account Name</p>
-              <p className="text-lg font-semibold">Ebuka Sabastine</p>
+              <p className="text-lg font-semibold">CHUKWUEMEKA AMADI JAMES</p>
             </div>
           </div>
 

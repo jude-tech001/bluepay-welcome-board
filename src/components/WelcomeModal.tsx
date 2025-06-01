@@ -25,7 +25,7 @@ const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose, userEmail 
             <DialogDescription className="text-gray-700 leading-relaxed text-sm">
               <div className="w-full text-center">
                 <p className="text-gray-900 text-sm leading-5 text-center w-full">
-                  {userEmail.split('@')[0]} You Have Been Given 200,000 to withdraw everyday. don't click on the reset button until tomorrow, else you will be banned join group{' '}
+                  {userEmail.split('@')[0]} You Have Been Given 200,000 to withdraw as a welcome sign up bonus . click on close to continue and also join our group{' '}
                   <button 
                     onClick={handleTelegramClick}
                     className="inline text-blue-600 underline font-medium"

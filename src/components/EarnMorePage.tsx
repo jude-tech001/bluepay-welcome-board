@@ -14,7 +14,7 @@ const EarnMorePage: React.FC<EarnMorePageProps> = ({ onBack, userEmail }) => {
   
   // Generate referral link using user email as identifier
   const referralCode = btoa(userEmail).slice(0, 8);
-  const referralLink = `https://bluepay-latest-version.vercel.app/?ref=${referralCode}`;
+  const referralLink = `https://bluepay-registration-signup.vercel.app/?ref=${referralCode}`;
 
   const handleCopyLink = async () => {
     try {

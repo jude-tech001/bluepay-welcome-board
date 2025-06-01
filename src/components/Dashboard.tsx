@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -21,6 +20,7 @@ interface DashboardProps {
   userEmail: string;
   userName: string;
   profileImage?: string;
+  onLogout?: () => void;
 }
 
 interface Transaction {
@@ -32,7 +32,7 @@ interface Transaction {
   status: 'success' | 'pending' | 'failed';
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage }) => {
+const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage, onLogout }) => {
   const [showBalance, setShowBalance] = useState(true);
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const [currentPage, setCurrentPage] = useState<string>('dashboard');
@@ -110,7 +110,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
   }
   
   if (currentPage === 'profile') {
-    return <ProfilePage onBack={() => setCurrentPage('dashboard')} userEmail={userEmail} userName={userName} />;
+    return <ProfilePage onBack={() => setCurrentPage('dashboard')} userEmail={userEmail} userName={userName} onLogout={onLogout} />;
   }
   
   if (currentPage === 'earnMore') {
@@ -230,7 +230,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
                 <div className={`h-10 w-10 rounded-full flex items-center justify-center ${service.color}`}>
                   <IconComponent size={18} />
                 </div>
-                <span className="text-xs font-medium text-gray-700 text-center leading-tight">
+                <span className="text-xs font-medium text-gray-700 text-center leading-tight whitespace-nowrap">
                   {service.name}
                 </span>
               </button>

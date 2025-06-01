@@ -15,6 +15,13 @@ const Index = () => {
     setIsLoggedIn(true);
   };
 
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUserEmail('');
+    setUserName('');
+    setProfileImage('');
+  };
+
   const handleProfileUpdate = (newProfileImage: string) => {
     setProfileImage(newProfileImage);
   };
@@ -25,6 +32,7 @@ const Index = () => {
         userEmail={userEmail} 
         userName={userName} 
         profileImage={profileImage}
+        onLogout={handleLogout}
       />
     );
   }
