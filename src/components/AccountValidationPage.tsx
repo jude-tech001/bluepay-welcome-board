@@ -112,9 +112,11 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
         <div className="bg-white rounded-2xl shadow-lg max-w-md w-full">
           <div className="flex items-center justify-between p-4 border-b">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                <div className="w-4 h-4 bg-white rounded-sm"></div>
-              </div>
+              <img 
+                src="/lovable-uploads/629c21bc-e917-4c27-90e6-ab673d42978b.png" 
+                alt="Opay Logo" 
+                className="w-8 h-8"
+              />
               <h2 className="text-lg font-semibold text-gray-900">Service Notice</h2>
             </div>
             <button onClick={onBack} className="text-gray-400 hover:text-gray-600">
@@ -135,13 +137,13 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
               </div>
             </div>
 
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 mb-6 text-sm">
               We apologize for any inconvenience. All other banks are working normally and your payment will be processed immediately.
             </p>
 
             <Button
               onClick={handleWarningContinue}
-              className="w-full h-12 bg-purple-600 hover:bg-purple-700 text-white rounded-xl"
+              className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
             >
               I Understand
             </Button>
