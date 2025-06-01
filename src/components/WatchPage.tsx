@@ -25,7 +25,7 @@ const WatchPage: React.FC<WatchPageProps> = ({ onBack }) => {
             <iframe
               width="100%"
               height="100%"
-              src="https://www.youtube.com/embed/OOHonNE2mew?si=ifCBycPsrvh__Yh7"
+              src="https://youtube.com/shorts/OOHonNE2mew?si=4JQHvjTT059Kw3Ib"
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
