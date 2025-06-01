@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -80,11 +81,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="w-full max-w-md mx-auto text-center">
           <div className="mb-8">
-            <img 
-              src="/lovable-uploads/15a7c86b-9e29-4e98-940c-4fa28531e9e6.png" 
-              alt="BluePay 2025" 
-              className="h-16 mx-auto mb-4"
-            />
+            <div className="bg-white rounded-lg p-4 inline-block mb-4">
+              <img 
+                src="/lovable-uploads/15a7c86b-9e29-4e98-940c-4fa28531e9e6.png" 
+                alt="BluePay 2025" 
+                className="h-20 mx-auto"
+              />
+            </div>
             <h2 className="text-xl text-gray-700 mb-8">Create your account</h2>
           </div>
           
@@ -101,7 +104,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md mx-auto">
         {/* Need Help at the top right */}
-        <div className="text-right mb-2">
+        <div className="text-right mb-1">
           <button 
             onClick={handleNeedHelp}
             className="text-orange-500 hover:text-orange-600 text-xs"
@@ -112,11 +115,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
 
         <div className="text-center mb-8">
           <div className="mb-6">
-            <img 
-              src="/lovable-uploads/15a7c86b-9e29-4e98-940c-4fa28531e9e6.png" 
-              alt="BluePay 2025" 
-              className="h-16 mx-auto"
-            />
+            <div className="bg-white rounded-lg p-4 inline-block mb-2">
+              <img 
+                src="/lovable-uploads/15a7c86b-9e29-4e98-940c-4fa28531e9e6.png" 
+                alt="BluePay 2025" 
+                className="h-20 mx-auto"
+              />
+            </div>
           </div>
           <p className="text-gray-600 text-base">
             {isSignUp ? 'Create your account' : 'login or create an account to continue'}
