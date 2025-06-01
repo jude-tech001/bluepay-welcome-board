@@ -1,18 +1,19 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ArrowLeft, X, CheckCircle, Copy } from 'lucide-react';
+import { Dialog, DialogContent, DialogOverlay } from '@/components/ui/dialog';
 
 interface BpcPaymentPageProps {
   onBack: () => void;
 }
 
 const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
-  const [step, setStep] = useState('form'); // form, preparing, account, verifying, failed
+  const [step, setStep] = useState('form'); // form, preparing, warning, account, verifying, failed
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [amount, setAmount] = useState('5200');
+  const [showOpayWarning, setShowOpayWarning] = useState(false);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,9 +27,15 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
     console.log('Starting preparation phase...');
     setStep('preparing');
     setTimeout(() => {
-      console.log('Moving to account details...');
-      setStep('account');
+      console.log('Showing Opay warning...');
+      setShowOpayWarning(true);
     }, 6000);
+  };
+
+  const handleOpayWarningContinue = () => {
+    setShowOpayWarning(false);
+    console.log('Moving to account details...');
+    setStep('account');
   };
 
   const handleBankTransferConfirm = () => {
@@ -52,6 +59,44 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
       setStep('form');
     }
   };
+
+  // Opay Warning Modal
+  if (showOpayWarning) {
+    return (
+      <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl shadow-lg max-w-md w-full">
+          <div className="p-6 text-center">
+            <div className="mb-6">
+              <img 
+                src="/lovable-uploads/629c21bc-e917-4c27-90e6-ab673d42978b.png" 
+                alt="Opay Logo" 
+                className="w-16 h-16 mx-auto mb-4"
+              />
+            </div>
+            
+            <h2 className="text-2xl font-bold text-red-600 mb-4">Opay Service Down</h2>
+            
+            <p className="text-gray-700 mb-6">
+              Please do not use Opay bank for payments at this time.
+            </p>
+            
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+              <p className="text-red-700 text-sm">
+                The Opay bank service is currently experiencing issues. Please use other supported banks for your payment.
+              </p>
+            </div>
+
+            <Button
+              onClick={handleOpayWarningContinue}
+              className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
+            >
+              I Understand
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (step === 'form') {
     return (
