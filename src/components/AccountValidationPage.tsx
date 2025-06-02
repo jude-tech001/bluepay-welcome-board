@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -18,6 +18,93 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
     email: userEmail,
     amount: '20000'
   });
+
+  // Touch/swipe handling
+  const touchStartX = useRef<number>(0);
+  const touchEndX = useRef<number>(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Mouse drag handling for desktop
+  const mouseStartX = useRef<number>(0);
+  const mouseEndX = useRef<number>(0);
+  const isDragging = useRef<boolean>(false);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    
+    const distance = touchStartX.current - touchEndX.current;
+    const isRightSwipe = distance < -50;
+
+    if (isRightSwipe) {
+      handleBackNavigation();
+    }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    mouseStartX.current = e.clientX;
+    isDragging.current = true;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging.current) return;
+    mouseEndX.current = e.clientX;
+  };
+
+  const handleMouseUp = () => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    
+    const distance = mouseStartX.current - mouseEndX.current;
+    const isRightDrag = distance < -100;
+
+    if (isRightDrag) {
+      handleBackNavigation();
+    }
+  };
+
+  const handleBackNavigation = () => {
+    if (currentStep === 'form') {
+      onBack();
+    } else if (currentStep === 'warning' || currentStep === 'payment' || currentStep === 'failed') {
+      setCurrentStep('form');
+    }
+  };
+
+  // Add event listeners for mouse events
+  useEffect(() => {
+    const handleGlobalMouseMove = (e: MouseEvent) => {
+      if (!isDragging.current) return;
+      mouseEndX.current = e.clientX;
+    };
+
+    const handleGlobalMouseUp = () => {
+      if (!isDragging.current) return;
+      isDragging.current = false;
+      
+      const distance = mouseStartX.current - mouseEndX.current;
+      const isRightDrag = distance < -100;
+
+      if (isRightDrag) {
+        handleBackNavigation();
+      }
+    };
+
+    document.addEventListener('mousemove', handleGlobalMouseMove);
+    document.addEventListener('mouseup', handleGlobalMouseUp);
+
+    return () => {
+      document.removeEventListener('mousemove', handleGlobalMouseMove);
+      document.removeEventListener('mouseup', handleGlobalMouseUp);
+    };
+  }, [currentStep]);
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -46,9 +133,18 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
   // Form step
   if (currentStep === 'form') {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div 
+        ref={containerRef}
+        className="min-h-screen bg-gray-50"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      >
         <div className="bg-blue-600 px-4 py-4 flex items-center gap-3">
-          <button onClick={onBack} className="text-white">
+          <button onClick={handleBackNavigation} className="text-white">
             <ArrowLeft size={20} />
           </button>
           <h1 className="text-lg font-semibold text-white">Account Validation</h1>
@@ -96,7 +192,15 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
   // Loading step
   if (currentStep === 'loading') {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div 
+        className="min-h-screen bg-gray-50 flex items-center justify-center"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      >
         <div className="bg-white p-8 rounded-2xl shadow-lg text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent mx-auto mb-4"></div>
           <p className="text-gray-600">Loading account details...</p>
@@ -108,7 +212,15 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
   // Warning step with Opay service notice
   if (currentStep === 'warning') {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div 
+        className="min-h-screen bg-gray-50 flex items-center justify-center p-4"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      >
         <div className="bg-white rounded-2xl shadow-lg max-w-md w-full">
           <div className="flex items-center justify-between p-4 border-b">
             <div className="flex items-center gap-3">
@@ -119,7 +231,7 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
               />
               <h2 className="text-lg font-semibold text-gray-900">Service Notice</h2>
             </div>
-            <button onClick={onBack} className="text-gray-400 hover:text-gray-600">
+            <button onClick={handleBackNavigation} className="text-gray-400 hover:text-gray-600">
               <XCircle size={20} />
             </button>
           </div>
@@ -156,9 +268,17 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
   // Payment step with updated account details
   if (currentStep === 'payment') {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div 
+        className="min-h-screen bg-gray-50"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      >
         <div className="bg-blue-600 px-4 py-4 flex items-center gap-3">
-          <button onClick={onBack} className="text-white">
+          <button onClick={handleBackNavigation} className="text-white">
             <ArrowLeft size={20} />
           </button>
           <h1 className="text-lg font-semibold text-white">Payment Details</h1>
@@ -228,7 +348,15 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
   // Processing step
   if (currentStep === 'processing') {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div 
+        className="min-h-screen bg-gray-50 flex items-center justify-center"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      >
         <div className="bg-white p-8 rounded-2xl shadow-lg text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent mx-auto mb-4"></div>
           <p className="text-gray-600">Account validation in progress...</p>
@@ -240,9 +368,17 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
   // Failed step
   if (currentStep === 'failed') {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div 
+        className="min-h-screen bg-gray-50"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      >
         <div className="bg-red-600 px-4 py-4 flex items-center gap-3">
-          <button onClick={onBack} className="text-white">
+          <button onClick={handleBackNavigation} className="text-white">
             <ArrowLeft size={20} />
           </button>
           <h1 className="text-lg font-semibold text-white">Validation Failed</h1>
@@ -267,7 +403,7 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
               </Button>
               
               <Button
-                onClick={onBack}
+                onClick={handleBackNavigation}
                 variant="outline"
                 className="w-full h-12 rounded-xl"
               >

@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -19,6 +19,85 @@ const AirtimePage: React.FC<AirtimePageProps> = ({ onBack, onPurchaseSuccess, ba
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [bpcError, setBpcError] = useState('');
+
+  // Touch/swipe handling
+  const touchStartX = useRef<number>(0);
+  const touchEndX = useRef<number>(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Mouse drag handling for desktop
+  const mouseStartX = useRef<number>(0);
+  const mouseEndX = useRef<number>(0);
+  const isDragging = useRef<boolean>(false);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    
+    const distance = touchStartX.current - touchEndX.current;
+    const isRightSwipe = distance < -50;
+
+    if (isRightSwipe) {
+      onBack();
+    }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    mouseStartX.current = e.clientX;
+    isDragging.current = true;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging.current) return;
+    mouseEndX.current = e.clientX;
+  };
+
+  const handleMouseUp = () => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    
+    const distance = mouseStartX.current - mouseEndX.current;
+    const isRightDrag = distance < -100;
+
+    if (isRightDrag) {
+      onBack();
+    }
+  };
+
+  // Add event listeners for mouse events
+  useEffect(() => {
+    const handleGlobalMouseMove = (e: MouseEvent) => {
+      if (!isDragging.current) return;
+      mouseEndX.current = e.clientX;
+    };
+
+    const handleGlobalMouseUp = () => {
+      if (!isDragging.current) return;
+      isDragging.current = false;
+      
+      const distance = mouseStartX.current - mouseEndX.current;
+      const isRightDrag = distance < -100;
+
+      if (isRightDrag) {
+        onBack();
+      }
+    };
+
+    document.addEventListener('mousemove', handleGlobalMouseMove);
+    document.addEventListener('mouseup', handleGlobalMouseUp);
+
+    return () => {
+      document.removeEventListener('mousemove', handleGlobalMouseMove);
+      document.removeEventListener('mouseup', handleGlobalMouseUp);
+    };
+  }, [onBack]);
 
   const networks = ['MTN', 'Airtel', 'Glo', '9Mobile'];
 
@@ -46,7 +125,15 @@ const AirtimePage: React.FC<AirtimePageProps> = ({ onBack, onPurchaseSuccess, ba
 
   if (showSuccess) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div 
+        className="min-h-screen bg-gray-50 flex items-center justify-center"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      >
         <div className="bg-white p-8 rounded-2xl shadow-lg text-center max-w-sm mx-4">
           <div className="mb-4">
             <CheckCircle size={80} className="text-blue-600 mx-auto" />
@@ -65,7 +152,15 @@ const AirtimePage: React.FC<AirtimePageProps> = ({ onBack, onPurchaseSuccess, ba
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div 
+        className="min-h-screen bg-gray-50 flex items-center justify-center"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      >
         <div className="bg-white p-8 rounded-2xl shadow-lg text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent mx-auto mb-4"></div>
           <p className="text-gray-600">Processing airtime purchase...</p>
@@ -75,7 +170,16 @@ const AirtimePage: React.FC<AirtimePageProps> = ({ onBack, onPurchaseSuccess, ba
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div 
+      ref={containerRef}
+      className="min-h-screen bg-gray-50"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+    >
       {/* Header */}
       <div className="bg-blue-600 px-4 py-4 flex items-center gap-3">
         <button onClick={onBack} className="text-white">
