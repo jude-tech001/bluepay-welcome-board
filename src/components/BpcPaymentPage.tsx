@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ArrowLeft, X, CheckCircle, Copy, Check } from 'lucide-react';
@@ -17,6 +17,59 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
   const [showOpayWarning, setShowOpayWarning] = useState(false);
   const [bpcCode] = useState('BPC343524');
   const [copied, setCopied] = useState(false);
+  
+  // Touch/swipe handling
+  const touchStartX = useRef<number>(0);
+  const touchEndX = useRef<number>(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    
+    const distance = touchStartX.current - touchEndX.current;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isRightSwipe) {
+      // Swipe right to go back
+      handleBackNavigation();
+    }
+  };
+
+  // Mouse drag handling for desktop
+  const mouseStartX = useRef<number>(0);
+  const mouseEndX = useRef<number>(0);
+  const isDragging = useRef<boolean>(false);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    mouseStartX.current = e.clientX;
+    isDragging.current = true;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging.current) return;
+    mouseEndX.current = e.clientX;
+  };
+
+  const handleMouseUp = () => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    
+    const distance = mouseStartX.current - mouseEndX.current;
+    const isRightDrag = distance < -100; // Require longer drag for mouse
+
+    if (isRightDrag) {
+      handleBackNavigation();
+    }
+  };
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,6 +124,34 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
     }
   };
 
+  // Add event listeners for mouse events
+  useEffect(() => {
+    const handleGlobalMouseMove = (e: MouseEvent) => {
+      if (!isDragging.current) return;
+      mouseEndX.current = e.clientX;
+    };
+
+    const handleGlobalMouseUp = () => {
+      if (!isDragging.current) return;
+      isDragging.current = false;
+      
+      const distance = mouseStartX.current - mouseEndX.current;
+      const isRightDrag = distance < -100;
+
+      if (isRightDrag) {
+        handleBackNavigation();
+      }
+    };
+
+    document.addEventListener('mousemove', handleGlobalMouseMove);
+    document.addEventListener('mouseup', handleGlobalMouseUp);
+
+    return () => {
+      document.removeEventListener('mousemove', handleGlobalMouseMove);
+      document.removeEventListener('mouseup', handleGlobalMouseUp);
+    };
+  }, [step]);
+
   // Opay Warning Modal
   if (showOpayWarning) {
     return (
@@ -111,7 +192,16 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
 
   if (step === 'confirmed') {
     return (
-      <div className="min-h-screen bg-gray-100">
+      <div 
+        ref={containerRef}
+        className="min-h-screen bg-gray-100"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      >
         {/* Header */}
         <div className="bg-gray-700 px-4 py-4 flex items-center justify-center">
           <h1 className="text-lg font-semibold text-white">BLUEPAY</h1>
@@ -170,7 +260,16 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
 
   if (step === 'form') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-600 to-blue-800">
+      <div 
+        ref={containerRef}
+        className="min-h-screen bg-gradient-to-br from-blue-600 to-blue-800"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      >
         {/* Header */}
         <div className="px-4 py-4 flex items-center gap-3">
           <button onClick={handleBackNavigation} className="text-white">
@@ -233,7 +332,15 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
 
   if (step === 'preparing') {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div 
+        className="min-h-screen bg-gray-50 flex items-center justify-center"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      >
         <div className="bg-white p-8 rounded-2xl shadow-lg text-center max-w-sm mx-4">
           <div className="mb-6">
             <div className="relative w-24 h-24 mx-auto">
@@ -255,7 +362,15 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
 
   if (step === 'account') {
     return (
-      <div className="min-h-screen bg-gray-100">
+      <div 
+        className="min-h-screen bg-gray-100"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      >
         {/* Header */}
         <div className="bg-white px-4 py-4 flex items-center justify-between shadow-sm">
           <div className="flex items-center gap-3">
@@ -333,7 +448,15 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
 
   if (step === 'verifying') {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div 
+        className="min-h-screen bg-gray-50 flex items-center justify-center"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      >
         <div className="bg-white p-8 rounded-2xl shadow-lg text-center max-w-sm mx-4">
           <div className="mb-6">
             <div className="w-24 h-24 mx-auto">
@@ -354,7 +477,15 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
 
   if (step === 'failed') {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div 
+        className="min-h-screen bg-gray-50 flex items-center justify-center"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      >
         <div className="bg-white p-8 rounded-2xl shadow-lg text-center max-w-sm mx-4">
           <div className="mb-6">
             <div className="w-20 h-20 bg-red-500 rounded-full flex items-center justify-center mx-auto">
