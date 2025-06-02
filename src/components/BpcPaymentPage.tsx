@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -44,8 +45,8 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
     console.log('Bank transfer confirmed, starting verification...');
     setStep('verifying');
     setTimeout(() => {
-      console.log('Payment confirmed successfully...');
-      setStep('confirmed');
+      console.log('Payment failed - verification unsuccessful...');
+      setStep('failed');
     }, 7000);
   };
 
@@ -59,7 +60,13 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
   const handleBackNavigation = () => {
     if (step === 'form') {
       onBack();
-    } else if (step === 'preparing' || step === 'account' || step === 'verifying' || step === 'confirmed' || step === 'failed') {
+    } else if (step === 'preparing') {
+      setStep('form');
+    } else if (step === 'account') {
+      setStep('form');
+    } else if (step === 'verifying') {
+      setStep('account');
+    } else if (step === 'confirmed' || step === 'failed') {
       setStep('form');
     }
   };
