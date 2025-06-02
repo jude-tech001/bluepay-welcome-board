@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -114,11 +115,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md mx-auto">
-        {/* Need Help at the top right */}
-        <div className="text-right mb-4">
+        {/* Need Help at the top right - smaller and moved up */}
+        <div className="text-right mb-2">
           <button 
             onClick={handleNeedHelp}
-            className="text-orange-500 hover:text-orange-600 text-sm"
+            className="text-orange-500 hover:text-orange-600 text-xs"
           >
             Need Help?
           </button>

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -15,6 +16,7 @@ import BpcPaymentPage from './BpcPaymentPage';
 import AirtimePage from './AirtimePage';
 import DataPage from './DataPage';
 import WatchPage from './WatchPage';
+import { useNavigation } from '@/App';
 
 interface DashboardProps {
   userEmail: string;
@@ -64,6 +66,10 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
     setCurrentPage(servicePage);
   };
 
+  const handleBackToDashboard = () => {
+    setCurrentPage('dashboard');
+  };
+
   const handleWithdrawSuccess = (amount: number) => {
     const newBalance = balance - amount;
     setBalance(newBalance);
@@ -98,47 +104,47 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
 
   // Render different pages based on current page
   if (currentPage === 'withdrawal') {
-    return <WithdrawalPage onBack={() => setCurrentPage('dashboard')} onWithdrawSuccess={handleWithdrawSuccess} />;
+    return <WithdrawalPage onBack={handleBackToDashboard} onWithdrawSuccess={handleWithdrawSuccess} />;
   }
   
   if (currentPage === 'buyBpc') {
-    return <BpcPaymentPage onBack={() => setCurrentPage('dashboard')} />;
+    return <BpcPaymentPage onBack={handleBackToDashboard} />;
   }
   
   if (currentPage === 'group') {
-    return <GroupPage onBack={() => setCurrentPage('dashboard')} />;
+    return <GroupPage onBack={handleBackToDashboard} />;
   }
   
   if (currentPage === 'profile') {
-    return <ProfilePage onBack={() => setCurrentPage('dashboard')} userEmail={userEmail} userName={userName} onLogout={onLogout} />;
+    return <ProfilePage onBack={handleBackToDashboard} userEmail={userEmail} userName={userName} onLogout={onLogout} />;
   }
   
   if (currentPage === 'earnMore') {
-    return <EarnMorePage onBack={() => setCurrentPage('dashboard')} userEmail={userEmail} />;
+    return <EarnMorePage onBack={handleBackToDashboard} userEmail={userEmail} />;
   }
   
   if (currentPage === 'support') {
-    return <SupportPage onBack={() => setCurrentPage('dashboard')} />;
+    return <SupportPage onBack={handleBackToDashboard} />;
   }
 
   if (currentPage === 'history') {
-    return <HistoryPage onBack={() => setCurrentPage('dashboard')} transactions={transactions} />;
+    return <HistoryPage onBack={handleBackToDashboard} transactions={transactions} />;
   }
 
   if (currentPage === 'notifications') {
-    return <NotificationPage onBack={() => setCurrentPage('dashboard')} />;
+    return <NotificationPage onBack={handleBackToDashboard} />;
   }
 
   if (currentPage === 'airtime') {
-    return <AirtimePage onBack={() => setCurrentPage('dashboard')} onPurchaseSuccess={handlePurchaseSuccess} balance={balance} />;
+    return <AirtimePage onBack={handleBackToDashboard} onPurchaseSuccess={handlePurchaseSuccess} balance={balance} />;
   }
 
   if (currentPage === 'data') {
-    return <DataPage onBack={() => setCurrentPage('dashboard')} onPurchaseSuccess={handlePurchaseSuccess} balance={balance} />;
+    return <DataPage onBack={handleBackToDashboard} onPurchaseSuccess={handlePurchaseSuccess} balance={balance} />;
   }
 
   if (currentPage === 'watch') {
-    return <WatchPage onBack={() => setCurrentPage('dashboard')} />;
+    return <WatchPage onBack={handleBackToDashboard} />;
   }
 
   return (

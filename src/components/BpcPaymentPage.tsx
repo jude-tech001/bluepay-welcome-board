@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -252,7 +253,7 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
 
           <Button
             onClick={handleBankTransferConfirm}
-            className="w-full h-14 bg-blue-400 hover:bg-blue-500 text-white rounded-xl text-lg font-semibold"
+            className="w-full h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-lg font-semibold"
           >
             I have made this bank Transfer
           </Button>
