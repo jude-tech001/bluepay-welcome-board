@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft, X, CheckCircle, Copy } from 'lucide-react';
+import { ArrowLeft, X, CheckCircle, Copy, Check } from 'lucide-react';
 import { Dialog, DialogContent, DialogOverlay } from '@/components/ui/dialog';
 
 interface BpcPaymentPageProps {
@@ -10,11 +9,13 @@ interface BpcPaymentPageProps {
 }
 
 const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
-  const [step, setStep] = useState('form'); // form, preparing, warning, account, verifying, failed
+  const [step, setStep] = useState('form'); // form, preparing, warning, account, verifying, confirmed, failed
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [amount, setAmount] = useState('6500');
   const [showOpayWarning, setShowOpayWarning] = useState(false);
+  const [bpcCode] = useState('BPC343524');
+  const [copied, setCopied] = useState(false);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,20 +44,22 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
     console.log('Bank transfer confirmed, starting verification...');
     setStep('verifying');
     setTimeout(() => {
-      console.log('Verification failed...');
-      setStep('failed');
+      console.log('Payment confirmed successfully...');
+      setStep('confirmed');
     }, 7000);
   };
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
     console.log('Copied to clipboard:', text);
   };
 
   const handleBackNavigation = () => {
     if (step === 'form') {
       onBack();
-    } else if (step === 'preparing' || step === 'account' || step === 'verifying' || step === 'failed') {
+    } else if (step === 'preparing' || step === 'account' || step === 'verifying' || step === 'confirmed' || step === 'failed') {
       setStep('form');
     }
   };
@@ -94,6 +97,65 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
               I Understand
             </Button>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (step === 'confirmed') {
+    return (
+      <div className="min-h-screen bg-gray-100">
+        {/* Header */}
+        <div className="bg-gray-700 px-4 py-4 flex items-center justify-center">
+          <h1 className="text-lg font-semibold text-white">BLUEPAY</h1>
+        </div>
+
+        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)] p-6">
+          {/* Success Icon */}
+          <div className="mb-8">
+            <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center">
+              <Check size={40} className="text-white stroke-[3]" />
+            </div>
+          </div>
+
+          {/* Payment Confirmed Text */}
+          <h2 className="text-3xl font-bold text-gray-900 mb-4 text-center">
+            Payment Confirmed
+          </h2>
+
+          <p className="text-gray-600 text-lg mb-12 text-center">
+            Your payment has been received successfully.
+          </p>
+
+          {/* BPC Code Section */}
+          <div className="w-full max-w-md mb-8">
+            <p className="text-gray-700 text-lg mb-4">Your BPC Code:</p>
+            
+            <div className="bg-gray-50 border-2 border-gray-200 rounded-xl p-4 flex items-center justify-between">
+              <span className="text-2xl font-bold text-gray-900">{bpcCode}</span>
+              <button
+                onClick={() => copyToClipboard(bpcCode)}
+                className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                <Copy size={16} className="text-gray-600" />
+                <span className="text-gray-700 font-medium">
+                  {copied ? 'Copied!' : 'Copy'}
+                </span>
+              </button>
+            </div>
+
+            <p className="text-blue-600 text-sm mt-4 text-center">
+              Use this code for your withdrawals.
+            </p>
+          </div>
+
+          {/* Back to Dashboard Button */}
+          <Button
+            onClick={onBack}
+            className="w-full max-w-md h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-lg font-semibold"
+          >
+            Back to Dashboard
+          </Button>
         </div>
       </div>
     );
