@@ -22,6 +22,7 @@ interface DashboardProps {
   userName: string;
   profileImage?: string;
   onLogout?: () => void;
+  onProfileUpdate?: (newProfileImage: string) => void;
 }
 
 interface Transaction {
@@ -33,7 +34,7 @@ interface Transaction {
   status: 'success' | 'pending' | 'failed';
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage, onLogout }) => {
+const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage, onLogout, onProfileUpdate }) => {
   const [showBalance, setShowBalance] = useState(true);
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const [currentPage, setCurrentPage] = useState<string>('dashboard');
@@ -150,7 +151,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
   }
   
   if (currentPage === 'profile') {
-    return <ProfilePage onBack={handleBackToPreviousPage} userEmail={userEmail} userName={userName} onLogout={onLogout} />;
+    return <ProfilePage onBack={handleBackToPreviousPage} userEmail={userEmail} userName={userName} onLogout={onLogout} onProfileUpdate={onProfileUpdate} />;
   }
   
   if (currentPage === 'earnMore') {

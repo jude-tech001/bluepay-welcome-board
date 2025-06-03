@@ -8,6 +8,29 @@ const Index = () => {
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('');
   const [profileImage, setProfileImage] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Check for existing login session on app load
+  useEffect(() => {
+    const checkExistingSession = () => {
+      const savedLoginState = localStorage.getItem('userLoginState');
+      if (savedLoginState) {
+        try {
+          const loginData = JSON.parse(savedLoginState);
+          setUserEmail(loginData.email);
+          setUserName(loginData.fullName);
+          setProfileImage(loginData.profileImage || '');
+          setIsLoggedIn(true);
+        } catch (error) {
+          console.error('Error parsing saved login state:', error);
+          localStorage.removeItem('userLoginState');
+        }
+      }
+      setIsLoading(false);
+    };
+
+    checkExistingSession();
+  }, []);
 
   // Prevent browser back button from going to login when logged in
   useEffect(() => {
@@ -33,6 +56,14 @@ const Index = () => {
     setUserName(fullName);
     setIsLoggedIn(true);
     
+    // Save login state to localStorage
+    const loginData = {
+      email,
+      fullName,
+      profileImage: profileImage
+    };
+    localStorage.setItem('userLoginState', JSON.stringify(loginData));
+    
     // Replace current history entry to prevent back navigation to login
     window.history.replaceState(null, '', window.location.href);
   };
@@ -43,13 +74,35 @@ const Index = () => {
     setUserName('');
     setProfileImage('');
     
+    // Remove login state from localStorage
+    localStorage.removeItem('userLoginState');
+    
     // Clear navigation history and allow normal navigation
     window.history.replaceState(null, '', window.location.href);
   };
 
   const handleProfileUpdate = (newProfileImage: string) => {
     setProfileImage(newProfileImage);
+    
+    // Update saved login state with new profile image
+    if (isLoggedIn) {
+      const loginData = {
+        email: userEmail,
+        fullName: userName,
+        profileImage: newProfileImage
+      };
+      localStorage.setItem('userLoginState', JSON.stringify(loginData));
+    }
   };
+
+  // Show loading while checking for existing session
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   if (isLoggedIn) {
     return (
@@ -58,6 +111,7 @@ const Index = () => {
         userName={userName} 
         profileImage={profileImage}
         onLogout={handleLogout}
+        onProfileUpdate={handleProfileUpdate}
       />
     );
   }
