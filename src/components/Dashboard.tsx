@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Bell, Eye, EyeOff, History, TrendingUp, CreditCard, Play, Phone, Wifi, Users, User, HelpCircle } from 'lucide-react';
@@ -40,8 +39,28 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
   const [currentPage, setCurrentPage] = useState<string>('dashboard');
   const [balance, setBalance] = useState(200000);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [pageHistory, setPageHistory] = useState<string[]>(['dashboard']);
   
   const weeklyRewards = "₦200,000.00";
+  
+  // Handle browser back button when on dashboard
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      if (currentPage === 'dashboard') {
+        // Prevent going back from dashboard
+        window.history.pushState(null, '', window.location.href);
+      } else {
+        // Allow going back to previous page in app
+        handleBackToPreviousPage();
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [currentPage]);
   
   const services = [
     { name: 'Buy BPC', icon: CreditCard, color: 'bg-orange-100 text-orange-600', page: 'buyBpc' },
@@ -63,11 +82,26 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
 
   const handleServiceClick = (servicePage: string) => {
     console.log('Service clicked:', servicePage);
+    setPageHistory(prev => [...prev, servicePage]);
     setCurrentPage(servicePage);
+    // Add to browser history for proper back navigation
+    window.history.pushState({ page: servicePage }, '', window.location.href);
+  };
+
+  const handleBackToPreviousPage = () => {
+    setPageHistory(prev => {
+      const newHistory = prev.slice(0, -1);
+      const previousPage = newHistory[newHistory.length - 1] || 'dashboard';
+      setCurrentPage(previousPage);
+      return newHistory;
+    });
   };
 
   const handleBackToDashboard = () => {
     setCurrentPage('dashboard');
+    setPageHistory(['dashboard']);
+    // Replace history to dashboard
+    window.history.replaceState({ page: 'dashboard' }, '', window.location.href);
   };
 
   const handleWithdrawSuccess = (amount: number) => {
@@ -104,47 +138,47 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
 
   // Render different pages based on current page
   if (currentPage === 'withdrawal') {
-    return <WithdrawalPage onBack={handleBackToDashboard} onWithdrawSuccess={handleWithdrawSuccess} />;
+    return <WithdrawalPage onBack={handleBackToPreviousPage} onWithdrawSuccess={handleWithdrawSuccess} />;
   }
   
   if (currentPage === 'buyBpc') {
-    return <BpcPaymentPage onBack={handleBackToDashboard} />;
+    return <BpcPaymentPage onBack={handleBackToPreviousPage} />;
   }
   
   if (currentPage === 'group') {
-    return <GroupPage onBack={handleBackToDashboard} />;
+    return <GroupPage onBack={handleBackToPreviousPage} />;
   }
   
   if (currentPage === 'profile') {
-    return <ProfilePage onBack={handleBackToDashboard} userEmail={userEmail} userName={userName} onLogout={onLogout} />;
+    return <ProfilePage onBack={handleBackToPreviousPage} userEmail={userEmail} userName={userName} onLogout={onLogout} />;
   }
   
   if (currentPage === 'earnMore') {
-    return <EarnMorePage onBack={handleBackToDashboard} userEmail={userEmail} />;
+    return <EarnMorePage onBack={handleBackToPreviousPage} userEmail={userEmail} />;
   }
   
   if (currentPage === 'support') {
-    return <SupportPage onBack={handleBackToDashboard} />;
+    return <SupportPage onBack={handleBackToPreviousPage} />;
   }
 
   if (currentPage === 'history') {
-    return <HistoryPage onBack={handleBackToDashboard} transactions={transactions} />;
+    return <HistoryPage onBack={handleBackToPreviousPage} transactions={transactions} />;
   }
 
   if (currentPage === 'notifications') {
-    return <NotificationPage onBack={handleBackToDashboard} />;
+    return <NotificationPage onBack={handleBackToPreviousPage} />;
   }
 
   if (currentPage === 'airtime') {
-    return <AirtimePage onBack={handleBackToDashboard} onPurchaseSuccess={handlePurchaseSuccess} balance={balance} />;
+    return <AirtimePage onBack={handleBackToPreviousPage} onPurchaseSuccess={handlePurchaseSuccess} balance={balance} />;
   }
 
   if (currentPage === 'data') {
-    return <DataPage onBack={handleBackToDashboard} onPurchaseSuccess={handlePurchaseSuccess} balance={balance} />;
+    return <DataPage onBack={handleBackToPreviousPage} onPurchaseSuccess={handlePurchaseSuccess} balance={balance} />;
   }
 
   if (currentPage === 'watch') {
-    return <WatchPage onBack={handleBackToDashboard} />;
+    return <WatchPage onBack={handleBackToPreviousPage} />;
   }
 
   return (
