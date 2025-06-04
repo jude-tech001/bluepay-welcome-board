@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { ArrowLeft, Camera, User, HelpCircle, Info, LogOut, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Camera, User, HelpCircle, Info, LogOut, ChevronRight, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import AboutPage from './AboutPage';
 import SupportPage from './SupportPage';
@@ -53,6 +53,10 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
 
   const handleValidateAccount = () => {
     setCurrentView('validate');
+  };
+
+  const handleDownloadApp = () => {
+    window.open('https://median.co/share/brdmop#apk', '_blank');
   };
 
   const handleLogout = () => {
@@ -193,6 +197,20 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
             <div className="flex-1 text-left">
               <h3 className="font-semibold text-gray-900">Profile Information</h3>
               <p className="text-gray-500 text-sm">View and edit your profile details</p>
+            </div>
+            <ChevronRight size={20} className="text-gray-400" />
+          </button>
+
+          <button
+            onClick={handleDownloadApp}
+            className="w-full bg-white rounded-xl p-4 flex items-center gap-4 shadow-sm"
+          >
+            <div className="h-10 w-10 bg-green-100 rounded-full flex items-center justify-center">
+              <Download size={20} className="text-green-600" />
+            </div>
+            <div className="flex-1 text-left">
+              <h3 className="font-semibold text-gray-900">Download App</h3>
+              <p className="text-gray-500 text-sm">Get the mobile app for your device</p>
             </div>
             <ChevronRight size={20} className="text-gray-400" />
           </button>
