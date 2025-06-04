@@ -293,8 +293,8 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
                 <div className="flex justify-between items-center">
                   <span className="text-blue-100">Account Number:</span>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono">6056570413</span>
-                    <button onClick={() => copyToClipboard('6056570413')} className="text-blue-200 hover:text-white">
+                    <span className="font-mono">1403264944</span>
+                    <button onClick={() => copyToClipboard('1403264944')} className="text-blue-200 hover:text-white">
                       <Copy size={16} />
                     </button>
                   </div>
@@ -303,8 +303,8 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
                 <div className="flex justify-between items-center">
                   <span className="text-blue-100">Account Name:</span>
                   <div className="flex items-center gap-2">
-                    <span className="font-medium">CHUKWUEMEKA AMADI JAMES</span>
-                    <button onClick={() => copyToClipboard('CHUKWUEMEKA AMADI JAMES')} className="text-blue-200 hover:text-white">
+                    <span className="font-medium">JUDE SAMUEL</span>
+                    <button onClick={() => copyToClipboard('JUDE SAMUEL')} className="text-blue-200 hover:text-white">
                       <Copy size={16} />
                     </button>
                   </div>
@@ -313,8 +313,8 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
                 <div className="flex justify-between items-center">
                   <span className="text-blue-100">Bank:</span>
                   <div className="flex items-center gap-2">
-                    <span className="font-medium">Moniepoint MFB</span>
-                    <button onClick={() => copyToClipboard('Moniepoint MFB')} className="text-blue-200 hover:text-white">
+                    <span className="font-medium">TRUST BANC J6 MFB</span>
+                    <button onClick={() => copyToClipboard('TRUST BANC J6 MFB')} className="text-blue-200 hover:text-white">
                       <Copy size={16} />
                     </button>
                   </div>
