@@ -426,7 +426,7 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
 
             <div>
               <p className="text-gray-600 text-sm">Account Name</p>
-              <p className="text-lg font-semibold">JUDE SAMUEL {BPC Agent}</p>
+              <p className="text-lg font-semibold">JUDE SAMUEL (BPC Agent)</p>
             </div>
           </div>
 
