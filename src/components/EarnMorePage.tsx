@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, Copy, Share2, Users, Gift } from 'lucide-react';
@@ -11,10 +11,22 @@ interface EarnMorePageProps {
 
 const EarnMorePage: React.FC<EarnMorePageProps> = ({ onBack, userEmail }) => {
   const [copied, setCopied] = useState(false);
+  const [referralCount, setReferralCount] = useState(0);
+  const [totalEarnings, setTotalEarnings] = useState(0);
   
   // Generate referral link using user email as identifier
   const referralCode = btoa(userEmail).slice(0, 8);
   const referralLink = `https://bluepay-registration-signup.vercel.app/?ref=${referralCode}`;
+
+  // Load referral data from localStorage
+  useEffect(() => {
+    const savedReferrals = localStorage.getItem(`referrals_${referralCode}`);
+    if (savedReferrals) {
+      const referralData = JSON.parse(savedReferrals);
+      setReferralCount(referralData.count || 0);
+      setTotalEarnings(referralData.count * 10000 || 0);
+    }
+  }, [referralCode]);
 
   const handleCopyLink = async () => {
     try {
@@ -30,8 +42,8 @@ const EarnMorePage: React.FC<EarnMorePageProps> = ({ onBack, userEmail }) => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Join BluePay',
-          text: 'Sign up for BluePay and start earning!',
+          title: 'Register on BluePay and start earning today - Sign up now!',
+          text: 'Register on BluePay and start earning today - Sign up now!',
           url: referralLink,
         });
       } catch (err) {
@@ -111,8 +123,8 @@ const EarnMorePage: React.FC<EarnMorePageProps> = ({ onBack, userEmail }) => {
             <Card className="bg-gradient-to-r from-blue-50 to-blue-100">
               <CardContent className="p-4 text-center">
                 <Users className="mx-auto text-blue-600 mb-2" size={32} />
-                <h4 className="font-semibold text-gray-900">0 Referrals</h4>
-                <p className="text-sm text-gray-600">Total Earned: ₦0</p>
+                <h4 className="font-semibold text-gray-900">{referralCount} Referrals</h4>
+                <p className="text-sm text-gray-600">Total Earned: ₦{totalEarnings.toLocaleString()}</p>
               </CardContent>
             </Card>
           </CardContent>

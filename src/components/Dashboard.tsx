@@ -43,6 +43,32 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
   const [pageHistory, setPageHistory] = useState<string[]>(['dashboard']);
   
   const weeklyRewards = "₦200,000.00";
+
+  // Process referral credits on dashboard load
+  useEffect(() => {
+    const processCredits = async () => {
+      const { processReferralCredits } = await import('@/utils/referralService');
+      const credits = processReferralCredits(userEmail);
+      
+      if (credits > 0) {
+        setBalance(prev => prev + credits);
+        
+        // Add transaction record
+        const newTransaction: Transaction = {
+          id: Date.now().toString(),
+          type: 'deposit',
+          amount: credits,
+          description: `Referral Bonus - ${credits / 10000} referrals`,
+          date: new Date().toLocaleString(),
+          status: 'success'
+        };
+        
+        setTransactions(prev => [newTransaction, ...prev]);
+      }
+    };
+    
+    processCredits();
+  }, [userEmail]);
   
   // Handle browser back button when on dashboard
   useEffect(() => {

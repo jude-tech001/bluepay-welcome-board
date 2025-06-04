@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import LoginForm from '@/components/LoginForm';
 import Dashboard from '@/components/Dashboard';
@@ -32,6 +31,27 @@ const Index = () => {
     checkExistingSession();
   }, []);
 
+  // Check for referral code on app load
+  useEffect(() => {
+    const checkReferralCode = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const referralCode = urlParams.get('ref');
+      
+      if (referralCode) {
+        // Store referral code for later processing
+        localStorage.setItem('pending_referral_code', referralCode);
+        
+        // Update page title for referral
+        document.title = 'Register on BluePay and start earning today - Sign up now!';
+        
+        // Clean URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    };
+
+    checkReferralCode();
+  }, []);
+
   // Prevent browser back button from going to login when logged in
   useEffect(() => {
     if (isLoggedIn) {
@@ -55,6 +75,18 @@ const Index = () => {
     setUserEmail(email);
     setUserName(fullName);
     setIsLoggedIn(true);
+    
+    // Process referral if user came from a referral link
+    const referralCode = localStorage.getItem('pending_referral_code');
+    if (referralCode) {
+      import('@/utils/referralService').then(({ trackReferral }) => {
+        const success = trackReferral(referralCode, email);
+        if (success) {
+          console.log('Referral tracked successfully');
+        }
+      });
+      localStorage.removeItem('pending_referral_code');
+    }
     
     // Save login state to localStorage
     const loginData = {
