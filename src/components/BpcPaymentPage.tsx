@@ -412,21 +412,21 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-gray-600 text-sm">Account Number</p>
-                <p className="text-lg font-semibold">1403264944</p>
+                <p className="text-lg font-semibold">1100892582</p>
               </div>
-              <button onClick={() => copyToClipboard('1403264944')} className="p-2 bg-blue-400 rounded-lg">
+              <button onClick={() => copyToClipboard('1100892582')} className="p-2 bg-blue-400 rounded-lg">
                 <Copy size={16} className="text-white" />
               </button>
             </div>
 
             <div>
               <p className="text-gray-600 text-sm">Bank Name</p>
-              <p className="text-lg font-semibold">TRUST BANC J6 MFB</p>
+              <p className="text-lg font-semibold">Stella MFB</p>
             </div>
 
             <div>
               <p className="text-gray-600 text-sm">Account Name</p>
-              <p className="text-lg font-semibold">JUDE SAMUEL (BPC Agent)</p>
+              <p className="text-lg font-semibold">SAMUEL JUDE (BPC Agent)</p>
             </div>
           </div>
 
