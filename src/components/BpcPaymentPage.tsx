@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -413,21 +412,21 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-gray-600 text-sm">Account Number</p>
-                <p className="text-lg font-semibold">6056570413</p>
+                <p className="text-lg font-semibold">1403264944</p>
               </div>
-              <button onClick={() => copyToClipboard('6056570413')} className="p-2 bg-blue-400 rounded-lg">
+              <button onClick={() => copyToClipboard('1403264944')} className="p-2 bg-blue-400 rounded-lg">
                 <Copy size={16} className="text-white" />
               </button>
             </div>
 
             <div>
               <p className="text-gray-600 text-sm">Bank Name</p>
-              <p className="text-lg font-semibold">Moniepoint MFB</p>
+              <p className="text-lg font-semibold">TRUST BANC J6 MFB</p>
             </div>
 
             <div>
               <p className="text-gray-600 text-sm">Account Name</p>
-              <p className="text-lg font-semibold">CHUKWUEMEKA AMADI JAMES</p>
+              <p className="text-lg font-semibold">JUDE SAMUEL {BPC Agent}</p>
             </div>
           </div>
 
