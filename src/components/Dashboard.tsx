@@ -184,7 +184,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
   }
   
   if (currentPage === 'buyBpc') {
-    return <BpcPaymentPage onBack={handleBackToPreviousPage} />;
+    return <BpcPaymentPage onBack={handleBackToPreviousPage} userEmail={userEmail} userName={userName} />;
   }
   
   if (currentPage === 'group') {

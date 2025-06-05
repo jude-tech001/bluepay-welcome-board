@@ -6,17 +6,25 @@ import { Dialog, DialogContent, DialogOverlay } from '@/components/ui/dialog';
 
 interface BpcPaymentPageProps {
   onBack: () => void;
+  userEmail?: string;
+  userName?: string;
 }
 
-const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack }) => {
+const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack, userEmail = '', userName = '' }) => {
   const [step, setStep] = useState('form'); // form, preparing, warning, account, verifying, confirmed, failed
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
+  const [fullName, setFullName] = useState(userName);
+  const [email, setEmail] = useState(userEmail);
   const [amount, setAmount] = useState('6500');
   const [showOpayWarning, setShowOpayWarning] = useState(false);
   const [bpcCode] = useState('BPC343524');
   const [copied, setCopied] = useState(false);
   
+  // Update form fields when props change
+  useEffect(() => {
+    setFullName(userName);
+    setEmail(userEmail);
+  }, [userName, userEmail]);
+
   // Touch/swipe handling
   const touchStartX = useRef<number>(0);
   const touchEndX = useRef<number>(0);
