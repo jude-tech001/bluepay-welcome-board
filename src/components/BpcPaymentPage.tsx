@@ -31,12 +31,6 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack, userEmail = '',
     delay: 1500 
   });
 
-  // Update form fields when props change
-  useEffect(() => {
-    setFullName(userName);
-    setEmail(userEmail);
-  }, [userName, userEmail]);
-
   // Touch/swipe handling
   const touchStartX = useRef<number>(0);
   const touchEndX = useRef<number>(0);
@@ -92,9 +86,9 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack, userEmail = '',
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('BPC form submitted:', { fullName, email, amount });
+    console.log('BPC form submitted:', { fullName: userName, email: userEmail, amount });
     
-    if (!fullName || !email) {
+    if (!userName || !userEmail) {
       console.log('Form validation failed - missing fields');
       return;
     }
@@ -410,7 +404,7 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack, userEmail = '',
               <span className="text-white text-2xl font-bold">₦</span>
             </div>
             <h2 className="text-3xl font-bold text-gray-900">NGN 6,500</h2>
-            <p className="text-gray-600">{email}</p>
+            <p className="text-gray-600">{userEmail}</p>
           </div>
 
           <p className="text-center text-gray-700 mb-6">
