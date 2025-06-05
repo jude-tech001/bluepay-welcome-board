@@ -44,6 +44,21 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
   
   const weeklyRewards = "₦200,000.00";
 
+  // Load balance from localStorage on component mount
+  useEffect(() => {
+    const savedBalance = localStorage.getItem(`user_balance_${userEmail}`);
+    if (savedBalance) {
+      setBalance(Number(savedBalance));
+    }
+  }, [userEmail]);
+
+  // Save balance to localStorage whenever it changes
+  useEffect(() => {
+    if (userEmail) {
+      localStorage.setItem(`user_balance_${userEmail}`, balance.toString());
+    }
+  }, [balance, userEmail]);
+
   // Process referral credits on dashboard load
   useEffect(() => {
     const processCredits = async () => {
