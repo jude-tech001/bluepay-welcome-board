@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ArrowLeft, X, CheckCircle, Copy, Check } from 'lucide-react';
 import { Dialog, DialogContent, DialogOverlay } from '@/components/ui/dialog';
+import { useTypingEffect } from '@/hooks/useTypingEffect';
 
 interface BpcPaymentPageProps {
   onBack: () => void;
@@ -12,13 +13,24 @@ interface BpcPaymentPageProps {
 
 const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack, userEmail = '', userName = '' }) => {
   const [step, setStep] = useState('form'); // form, preparing, warning, account, verifying, confirmed, failed
-  const [fullName, setFullName] = useState(userName);
-  const [email, setEmail] = useState(userEmail);
   const [amount, setAmount] = useState('6500');
   const [showOpayWarning, setShowOpayWarning] = useState(false);
   const [bpcCode] = useState('BPC343524');
   const [copied, setCopied] = useState(false);
   
+  // Typing effects for auto-filling user details
+  const { displayedText: typedName } = useTypingEffect({ 
+    text: userName, 
+    speed: 80, 
+    delay: 500 
+  });
+  
+  const { displayedText: typedEmail } = useTypingEffect({ 
+    text: userEmail, 
+    speed: 60, 
+    delay: 1500 
+  });
+
   // Update form fields when props change
   useEffect(() => {
     setFullName(userName);
@@ -305,8 +317,8 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack, userEmail = '',
                 <Input
                   type="text"
                   placeholder="Your full name"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
+                  value={typedName}
+                  onChange={() => {}} // Read-only with typing effect
                   required
                   className="h-14 rounded-xl border-2 border-gray-300 text-base"
                 />
@@ -317,8 +329,8 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack, userEmail = '',
                 <Input
                   type="email"
                   placeholder="email address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={typedEmail}
+                  onChange={() => {}} // Read-only with typing effect
                   required
                   className="h-14 rounded-xl border-2 border-gray-300 text-base"
                 />
