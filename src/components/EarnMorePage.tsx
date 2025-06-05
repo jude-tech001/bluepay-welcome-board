@@ -42,8 +42,8 @@ const EarnMorePage: React.FC<EarnMorePageProps> = ({ onBack, userEmail }) => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Sign up on BluePay today and start earning',
-          text: 'Sign up on BluePay today and start earning',
+          title: 'Register on BluePay and start earning today - Sign up now!',
+          text: 'Register on BluePay and start earning today - Sign up now!',
           url: referralLink,
         });
       } catch (err) {
@@ -69,7 +69,7 @@ const EarnMorePage: React.FC<EarnMorePageProps> = ({ onBack, userEmail }) => {
           <CardHeader>
             <CardTitle className="text-center text-gray-900 flex items-center justify-center gap-2">
               <Gift className="text-blue-600" size={24} />
-              Sign up on BluePay today and start earning
+              Refer & Earn
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
