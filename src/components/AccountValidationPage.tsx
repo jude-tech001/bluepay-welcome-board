@@ -293,8 +293,8 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
                 <div className="flex justify-between items-center">
                   <span className="text-blue-100">Account Number:</span>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono">1100892582</span>
-                    <button onClick={() => copyToClipboard('1100892582')} className="text-blue-200 hover:text-white">
+                    <span className="font-mono">8973416638</span>
+                    <button onClick={() => copyToClipboard('8973416638')} className="text-blue-200 hover:text-white">
                       <Copy size={16} />
                     </button>
                   </div>
@@ -313,7 +313,7 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
                 <div className="flex justify-between items-center">
                   <span className="text-blue-100">Bank:</span>
                   <div className="flex items-center gap-2">
-                    <span className="font-medium">Stella MFB</span>
+                    <span className="font-medium">PALMPAY</span>
                     <button onClick={() => copyToClipboard('Stella MFB')} className="text-blue-200 hover:text-white">
                       <Copy size={16} />
                     </button>
