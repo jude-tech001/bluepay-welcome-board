@@ -156,8 +156,8 @@ const SupportPage: React.FC<SupportPageProps> = ({ onBack }) => {
           <CardContent className="p-4">
             <h3 className="font-semibold text-gray-900 mb-2">Contact Information</h3>
             <div className="text-sm text-gray-600 space-y-1">
-              <p>Email: support@bluepay.com</p>
-              <p>Phone: +234 800 BLUEPAY</p>
+              <p>Email: bluepaycompany@gmail.com</p>
+              <p>Phone: +19127037327</p>
               <p>Hours: 24/7 Support Available</p>
             </div>
           </CardContent>
