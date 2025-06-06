@@ -1,8 +1,11 @@
+
 import React, { useState, useEffect } from 'react';
 import LoginForm from '@/components/LoginForm';
 import Dashboard from '@/components/Dashboard';
+import SplashScreen from '@/components/SplashScreen';
 
 const Index = () => {
+  const [showSplash, setShowSplash] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('');
@@ -20,6 +23,7 @@ const Index = () => {
           setUserName(loginData.fullName);
           setProfileImage(loginData.profileImage || '');
           setIsLoggedIn(true);
+          setShowSplash(false); // Skip splash if already logged in
         } catch (error) {
           console.error('Error parsing saved login state:', error);
           localStorage.removeItem('userLoginState');
@@ -71,6 +75,10 @@ const Index = () => {
     }
   }, [isLoggedIn]);
 
+  const handleGetStarted = () => {
+    setShowSplash(false);
+  };
+
   const handleLogin = (email: string, fullName: string) => {
     setUserEmail(email);
     setUserName(fullName);
@@ -105,6 +113,7 @@ const Index = () => {
     setUserEmail('');
     setUserName('');
     setProfileImage('');
+    setShowSplash(true); // Show splash again after logout
     
     // Remove login state from localStorage
     localStorage.removeItem('userLoginState');
@@ -134,6 +143,11 @@ const Index = () => {
         <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
+  }
+
+  // Show splash screen first
+  if (showSplash && !isLoggedIn) {
+    return <SplashScreen onGetStarted={handleGetStarted} />;
   }
 
   if (isLoggedIn) {
