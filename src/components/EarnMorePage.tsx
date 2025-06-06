@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, Copy, Share2, Users, Gift } from 'lucide-react';
+import { ArrowLeft, Copy, Share2, Users, Gift, Phone, Facebook, Instagram, Twitter, ExternalLink } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 interface EarnMorePageProps {
   onBack: () => void;
@@ -38,6 +39,15 @@ const EarnMorePage: React.FC<EarnMorePageProps> = ({ onBack, userEmail }) => {
     }
   };
 
+  // Create specific share links for different platforms
+  const shareLinks = {
+    whatsapp: `https://api.whatsapp.com/send?text=Register on BluePay and start earning today - Sign up now! ${encodeURIComponent(referralLink)}`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(referralLink)}&quote=Register on BluePay and start earning today - Sign up now!`,
+    twitter: `https://twitter.com/intent/tweet?text=Register on BluePay and start earning today - Sign up now!&url=${encodeURIComponent(referralLink)}`,
+    instagram: `https://www.instagram.com/?url=${encodeURIComponent(referralLink)}`, // Note: Instagram doesn't have a direct share API
+    telegram: `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=Register on BluePay and start earning today - Sign up now!`
+  };
+
   const handleShare = async () => {
     if (navigator.share) {
       try {
@@ -50,8 +60,14 @@ const EarnMorePage: React.FC<EarnMorePageProps> = ({ onBack, userEmail }) => {
         console.error('Error sharing:', err);
       }
     } else {
-      handleCopyLink();
+      // If Web Share API is not available, we'll show our custom share options
+      // This is handled by the Popover component in the render
+      console.log("Web Share API not available, showing custom share options");
     }
+  };
+
+  const handleSocialShare = (platform: string, url: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -92,13 +108,88 @@ const EarnMorePage: React.FC<EarnMorePageProps> = ({ onBack, userEmail }) => {
                   <Copy size={16} />
                   {copied ? 'Copied!' : 'Copy Link'}
                 </Button>
-                <Button
-                  onClick={handleShare}
-                  className="flex-1 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2"
-                >
-                  <Share2 size={16} />
-                  Share
-                </Button>
+                
+                {navigator.share ? (
+                  <Button
+                    onClick={handleShare}
+                    className="flex-1 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2"
+                  >
+                    <Share2 size={16} />
+                    Share
+                  </Button>
+                ) : (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button 
+                        className="flex-1 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2"
+                      >
+                        <Share2 size={16} />
+                        Share
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-64 p-2">
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-medium">Share via</h4>
+                        <div className="grid grid-cols-3 gap-2">
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="flex flex-col items-center gap-1 h-auto py-2"
+                            onClick={() => handleSocialShare('whatsapp', shareLinks.whatsapp)}
+                          >
+                            <Phone size={18} className="text-green-600" />
+                            <span className="text-xs">WhatsApp</span>
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="flex flex-col items-center gap-1 h-auto py-2"
+                            onClick={() => handleSocialShare('facebook', shareLinks.facebook)}
+                          >
+                            <Facebook size={18} className="text-blue-600" />
+                            <span className="text-xs">Facebook</span>
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="flex flex-col items-center gap-1 h-auto py-2" 
+                            onClick={() => handleSocialShare('twitter', shareLinks.twitter)}
+                          >
+                            <Twitter size={18} className="text-blue-400" />
+                            <span className="text-xs">Twitter</span>
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="flex flex-col items-center gap-1 h-auto py-2"
+                            onClick={() => handleSocialShare('instagram', shareLinks.instagram)}
+                          >
+                            <Instagram size={18} className="text-pink-600" />
+                            <span className="text-xs">Instagram</span>
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="flex flex-col items-center gap-1 h-auto py-2"
+                            onClick={() => handleSocialShare('telegram', shareLinks.telegram)}
+                          >
+                            <ExternalLink size={18} className="text-blue-500" />
+                            <span className="text-xs">Telegram</span>
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="flex flex-col items-center gap-1 h-auto py-2"
+                            onClick={handleCopyLink}
+                          >
+                            <Copy size={18} className="text-gray-600" />
+                            <span className="text-xs">Copy</span>
+                          </Button>
+                        </div>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                )}
               </div>
             </div>
 
