@@ -19,24 +19,24 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onGetStarted }) => {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col justify-center items-center px-6 relative z-10">
-        {/* Logo Section */}
-        <div className="mb-12">
-          <div className="bg-white rounded-lg p-6 mb-8 shadow-lg">
-            <div className="text-4xl font-black text-blue-600 text-center tracking-wider">
+      {/* Main Content - Reduced size and spacing */}
+      <div className="flex-1 flex flex-col justify-center items-center px-4 relative z-10">
+        {/* Logo Section - Made smaller */}
+        <div className="mb-8">
+          <div className="bg-white rounded-lg p-4 shadow-lg">
+            <div className="text-3xl font-black text-blue-600 text-center tracking-wider">
               BLUEPAY
             </div>
           </div>
         </div>
 
-        {/* Main Heading */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white leading-tight mb-6">
+        {/* Main Heading - Made smaller with less spacing */}
+        <div className="text-center mb-6">
+          <h1 className="text-3xl font-bold text-white leading-tight mb-4">
             Get Your Account Ready And Instantly.
           </h1>
           
-          <p className="text-white/90 text-lg leading-relaxed max-w-sm">
+          <p className="text-white/90 text-base leading-relaxed max-w-sm">
             Get your account ready and instantly start buying, selling airtime and data online and start paying all your bills in cheaper price.
           </p>
         </div>
@@ -44,7 +44,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onGetStarted }) => {
         {/* Get Started Button */}
         <Button
           onClick={onGetStarted}
-          className="bg-white text-blue-600 hover:bg-gray-50 px-12 py-4 rounded-full text-lg font-semibold transition-colors duration-200 shadow-lg"
+          className="bg-white text-blue-600 hover:bg-gray-50 px-10 py-3 rounded-full text-lg font-semibold transition-colors duration-200 shadow-lg"
         >
           Get Started
         </Button>

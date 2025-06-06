@@ -85,15 +85,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
     return (
       <div className="min-h-screen bg-blue-600 flex items-center justify-center p-4">
         <div className="w-full max-w-md mx-auto text-center">
-          <div className="mb-8">
-            <div className="text-4xl font-black text-white tracking-wider mb-4">
+          <div className="mb-6">
+            <div className="text-3xl font-black text-white tracking-wider mb-3">
               BLUEPAY
             </div>
-            <h2 className="text-xl text-white mb-8">Create your account</h2>
+            <h2 className="text-xl text-white mb-6">Create your account</h2>
           </div>
           
           <div className="flex flex-col items-center space-y-4">
-            <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
             <p className="text-white">Creating your account...</p>
           </div>
         </div>
@@ -120,31 +120,31 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
         </button>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col justify-center items-center px-6 relative z-10">
-        {/* Logo and Welcome */}
-        <div className="text-center mb-8">
-          <div className="text-4xl font-black text-white tracking-wider mb-4">
+      {/* Main Content - Made more compact */}
+      <div className="flex-1 flex flex-col justify-center items-center px-4 relative z-10 max-w-md mx-auto w-full">
+        {/* Logo and Welcome - Reduced size */}
+        <div className="text-center mb-6">
+          <div className="text-3xl font-black text-white tracking-wider mb-2">
             BLUEPAY
           </div>
-          <h1 className="text-2xl font-bold text-white mb-6">
-            {isSignUp ? 'Welcome!' : 'Welcome!'}
+          <h1 className="text-2xl font-bold text-white mb-4">
+            Welcome!
           </h1>
           
-          <p className="text-white/90 text-base leading-relaxed max-w-sm mb-8">
+          <p className="text-white/90 text-sm leading-relaxed mb-6">
             Get your account ready and instantly start buying, selling airtime and data online and start paying all your bills in cheaper price.
           </p>
         </div>
 
-        {/* Form */}
-        <div className="w-full max-w-sm space-y-4">
+        {/* Form - Made more compact with white background inside inputs */}
+        <div className="w-full space-y-3">
           {error && (
-            <div className="mb-4 p-3 bg-red-500/20 border border-red-400 rounded-lg">
-              <p className="text-white text-sm">{error}</p>
+            <div className="mb-3 p-2 bg-red-500/20 border border-red-400 rounded-lg">
+              <p className="text-white text-xs">{error}</p>
             </div>
           )}
           
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3">
             {isSignUp && (
               <Input
                 type="text"
@@ -152,7 +152,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 required
-                className="h-14 rounded-lg border-2 border-white/20 bg-white/10 text-white placeholder:text-white/70 text-base focus:border-white focus:bg-white/20"
+                className="h-12 rounded-lg border-2 border-blue-600 bg-white text-blue-900 placeholder:text-blue-400 text-base"
               />
             )}
             
@@ -162,7 +162,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="h-14 rounded-lg border-2 border-white/20 bg-white/10 text-white placeholder:text-white/70 text-base focus:border-white focus:bg-white/20"
+              className="h-12 rounded-lg border-2 border-blue-600 bg-white text-blue-900 placeholder:text-blue-400 text-base"
             />
             
             <Input
@@ -171,25 +171,25 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="h-14 rounded-lg border-2 border-white/20 bg-white/10 text-white placeholder:text-white/70 text-base focus:border-white focus:bg-white/20"
+              className="h-12 rounded-lg border-2 border-blue-600 bg-white text-blue-900 placeholder:text-blue-400 text-base"
             />
             
             {isSignUp && (
-              <p className="text-white/80 text-sm mt-4">
+              <p className="text-white/80 text-xs mt-3">
                 Any further actions indicates that you agree with our terms & conditions!
               </p>
             )}
             
             <Button
               type="submit"
-              className="w-full h-14 bg-white text-blue-600 rounded-full hover:bg-gray-100 transition-colors font-semibold text-lg mt-6"
+              className="w-full h-12 bg-white text-blue-600 rounded-full hover:bg-gray-100 transition-colors font-semibold text-base mt-4"
             >
               {isSignUp ? 'Create account' : 'Sign in'}
             </Button>
           </form>
           
-          <div className="text-center mt-6">
-            <div className="text-white/90 text-base">
+          <div className="text-center mt-4">
+            <div className="text-white/90 text-sm">
               {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
               <button
                 onClick={() => {
