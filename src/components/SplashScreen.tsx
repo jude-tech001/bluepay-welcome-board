@@ -11,7 +11,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onGetStarted }) => {
     <div className="min-h-screen bg-blue-600 flex flex-col relative overflow-hidden">
       {/* Header */}
       <div className="flex justify-between items-center p-4 text-white relative z-10">
-        <div className="text-2xl font-bold">BLUEPAY 2025</div>
+        <div className="text-2xl font-bold">BLUEPAY</div>
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 bg-white rounded-full"></div>
           <div className="w-2 h-2 bg-white rounded-full"></div>
@@ -25,7 +25,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onGetStarted }) => {
         <div className="mb-12">
           <div className="bg-white rounded-lg p-6 mb-8 shadow-lg">
             <div className="text-4xl font-black text-blue-600 text-center tracking-wider">
-              BLUEPAY2025
+              BLUEPAY
             </div>
           </div>
         </div>

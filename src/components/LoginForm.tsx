@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Eye, EyeOff } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 interface LoginFormProps {
   onLogin: (email: string, fullName: string) => void;
@@ -13,7 +13,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -76,36 +75,26 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
     window.open('https://wa.me/+2348127519989', '_blank');
   };
 
+  const handleBack = () => {
+    if (isSignUp) {
+      setIsSignUp(false);
+    }
+  };
+
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-blue-600 flex items-center justify-center p-4">
         <div className="w-full max-w-md mx-auto text-center">
           <div className="mb-8">
-            <div className="text-4xl font-black text-blue-600 tracking-wider mb-4 relative">
-              <span className="relative z-10 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent">
-                BLUE
-              </span>
-              <span className="relative z-10 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-                PAY
-              </span>
-              <div className="absolute -bottom-2 left-0 w-full h-3 bg-gradient-to-r from-blue-400 to-blue-600 opacity-30 rounded-lg transform -skew-x-12"></div>
-              <div className="absolute -bottom-3 left-2 w-3 h-6 bg-blue-500 rounded-full opacity-60 transform rotate-12"></div>
-              <div className="absolute -bottom-2 left-12 w-2 h-4 bg-blue-400 rounded-full opacity-50"></div>
-              <div className="absolute -bottom-1 right-12 w-2 h-3 bg-blue-500 rounded-full opacity-60"></div>
-              <div className="absolute -bottom-3 right-2 w-3 h-5 bg-blue-600 rounded-full opacity-70 transform -rotate-12"></div>
-              
-              {/* Dripping effect */}
-              <div className="absolute -bottom-6 left-8 w-1 h-4 bg-blue-400 rounded-full opacity-40"></div>
-              <div className="absolute -bottom-8 left-9 w-2 h-2 bg-blue-400 rounded-full opacity-30"></div>
-              <div className="absolute -bottom-5 right-16 w-1 h-3 bg-blue-500 rounded-full opacity-50"></div>
-              <div className="absolute -bottom-7 right-15 w-1.5 h-1.5 bg-blue-500 rounded-full opacity-40"></div>
+            <div className="text-4xl font-black text-white tracking-wider mb-4">
+              BLUEPAY
             </div>
-            <h2 className="text-xl text-gray-700 mb-8">Create your account</h2>
+            <h2 className="text-xl text-white mb-8">Create your account</h2>
           </div>
           
           <div className="flex flex-col items-center space-y-4">
-            <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-gray-600">Creating your account...</p>
+            <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-white">Creating your account...</p>
           </div>
         </div>
       </div>
@@ -113,120 +102,115 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md mx-auto">
-        {/* Need Help at the top right - smaller and moved up */}
-        <div className="text-right mb-2">
-          <button 
-            onClick={handleNeedHelp}
-            className="text-orange-500 hover:text-orange-600 text-xs"
-          >
-            Need Help?
+    <div className="min-h-screen bg-blue-600 flex flex-col relative overflow-hidden">
+      {/* Header */}
+      <div className="flex justify-between items-center p-4 text-white relative z-10">
+        {isSignUp ? (
+          <button onClick={handleBack} className="p-2">
+            <ArrowLeft size={24} />
           </button>
-        </div>
+        ) : (
+          <div></div>
+        )}
+        <button 
+          onClick={handleNeedHelp}
+          className="text-white hover:text-gray-200 text-sm"
+        >
+          You Need Help?
+        </button>
+      </div>
 
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col justify-center items-center px-6 relative z-10">
+        {/* Logo and Welcome */}
         <div className="text-center mb-8">
-          <div className="mb-6">
-            <div className="text-4xl font-black text-blue-600 tracking-wider relative inline-block">
-              <span className="relative z-10 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent">
-                BLUE
-              </span>
-              <span className="relative z-10 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent">
-                PAY
-              </span>
-              <div className="absolute -bottom-2 left-0 w-full h-3 bg-gradient-to-r from-blue-400 to-blue-600 opacity-30 rounded-lg transform -skew-x-12"></div>
-              <div className="absolute -bottom-3 left-2 w-3 h-6 bg-blue-500 rounded-full opacity-60 transform rotate-12"></div>
-              <div className="absolute -bottom-2 left-12 w-2 h-4 bg-blue-400 rounded-full opacity-50"></div>
-              <div className="absolute -bottom-1 right-12 w-2 h-3 bg-blue-500 rounded-full opacity-60"></div>
-              <div className="absolute -bottom-3 right-2 w-3 h-5 bg-blue-600 rounded-full opacity-70 transform -rotate-12"></div>
-              
-              {/* Dripping effect */}
-              <div className="absolute -bottom-6 left-8 w-1 h-4 bg-blue-400 rounded-full opacity-40"></div>
-              <div className="absolute -bottom-8 left-9 w-2 h-2 bg-blue-400 rounded-full opacity-30"></div>
-              <div className="absolute -bottom-5 right-16 w-1 h-3 bg-blue-500 rounded-full opacity-50"></div>
-              <div className="absolute -bottom-7 right-15 w-1.5 h-1.5 bg-blue-500 rounded-full opacity-40"></div>
-            </div>
+          <div className="text-4xl font-black text-white tracking-wider mb-4">
+            BLUEPAY
           </div>
-          <p className="text-gray-600 text-base">
-            {isSignUp ? 'Create your account' : 'login or create an account to continue'}
+          <h1 className="text-2xl font-bold text-white mb-6">
+            {isSignUp ? 'Welcome!' : 'Welcome!'}
+          </h1>
+          
+          <p className="text-white/90 text-base leading-relaxed max-w-sm mb-8">
+            Get your account ready and instantly start buying, selling airtime and data online and start paying all your bills in cheaper price.
           </p>
         </div>
-        
-        <div className="bg-white rounded-2xl p-6 shadow-sm">
+
+        {/* Form */}
+        <div className="w-full max-w-sm space-y-4">
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-600 text-sm">{error}</p>
+            <div className="mb-4 p-3 bg-red-500/20 border border-red-400 rounded-lg">
+              <p className="text-white text-sm">{error}</p>
             </div>
           )}
           
           <form onSubmit={handleSubmit} className="space-y-4">
             {isSignUp && (
-              <div className="space-y-2">
-                <Input
-                  type="text"
-                  placeholder="Full Name"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  required
-                  className="h-12 rounded-xl border border-gray-300 text-base"
-                />
-              </div>
+              <Input
+                type="text"
+                placeholder="Your Full Name"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+                className="h-14 rounded-lg border-2 border-white/20 bg-white/10 text-white placeholder:text-white/70 text-base focus:border-white focus:bg-white/20"
+              />
             )}
             
-            <div className="space-y-2">
-              <Input
-                type="email"
-                placeholder={isSignUp ? "Email Address" : "Enter Email"}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="h-12 rounded-xl border border-gray-300 text-base"
-              />
-            </div>
+            <Input
+              type="email"
+              placeholder="Your Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="h-14 rounded-lg border-2 border-white/20 bg-white/10 text-white placeholder:text-white/70 text-base focus:border-white focus:bg-white/20"
+            />
             
-            <div className="space-y-2">
-              <div className="relative">
-                <Input
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder={isSignUp ? "Password" : "Enter Password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="h-12 rounded-xl border border-gray-300 text-base pr-12"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
-              </div>
-            </div>
+            <Input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="h-14 rounded-lg border-2 border-white/20 bg-white/10 text-white placeholder:text-white/70 text-base focus:border-white focus:bg-white/20"
+            />
+            
+            {isSignUp && (
+              <p className="text-white/80 text-sm mt-4">
+                Any further actions indicates that you agree with our terms & conditions!
+              </p>
+            )}
             
             <Button
               type="submit"
-              className="w-full h-12 bg-gray-800 text-white rounded-xl hover:bg-gray-900 transition-colors font-medium text-base mt-6"
+              className="w-full h-14 bg-white text-blue-600 rounded-full hover:bg-gray-100 transition-colors font-semibold text-lg mt-6"
             >
-              {isSignUp ? 'Register' : 'Login'}
+              {isSignUp ? 'Create account' : 'Sign in'}
             </Button>
           </form>
           
           <div className="text-center mt-6">
-            <div className="text-sm text-gray-600">
+            <div className="text-white/90 text-base">
               {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
               <button
                 onClick={() => {
                   setIsSignUp(!isSignUp);
                   setError('');
                 }}
-                className="text-blue-600 hover:text-blue-700 font-medium"
+                className="text-white font-semibold underline hover:text-gray-200"
               >
-                {isSignUp ? 'Login' : 'Register'}
+                {isSignUp ? 'Sign in' : 'Create account'}
               </button>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Background Decorative Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/20 rounded-full"></div>
+        <div className="absolute top-1/3 -left-16 w-32 h-32 bg-blue-400/10 rounded-full"></div>
+        <div className="absolute bottom-20 right-10 w-24 h-24 bg-blue-700/20 rounded-full"></div>
+        <div className="absolute bottom-1/3 left-5 w-16 h-16 bg-blue-300/15 rounded-full"></div>
       </div>
     </div>
   );
