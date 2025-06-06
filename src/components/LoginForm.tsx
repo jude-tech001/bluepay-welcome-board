@@ -72,7 +72,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   };
 
   const handleNeedHelp = () => {
-    window.open('https://wa.me/+2348127519989', '_blank');
+    window.open('https://wa.me/19127037327', '_blank');
   };
 
   const handleBack = () => {
