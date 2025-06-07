@@ -94,7 +94,7 @@ const WithdrawalPage: React.FC<WithdrawalPageProps> = ({ onBack, onWithdrawSucce
     console.log('Form submitted with BPC code:', bpcCode);
     setBpcError('');
     
-    if (bpcCode !== 'B@pay2037codeQT') {
+    if (bpcCode !== 'BPC-2008@Code205OT') {
       setBpcError('Invalid BPC code');
       console.log('Invalid BPC code entered:', bpcCode);
       return;
