@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft } from 'lucide-react';
 
 interface LoginFormProps {
   onLogin: (email: string, fullName: string) => void;
@@ -75,26 +74,20 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
     window.open('https://wa.me/19127037327', '_blank');
   };
 
-  const handleBack = () => {
-    if (isSignUp) {
-      setIsSignUp(false);
-    }
-  };
-
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-blue-600 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="w-full max-w-md mx-auto text-center">
           <div className="mb-6">
-            <div className="text-3xl font-black text-white tracking-wider mb-3">
-              BLUEPAY
+            <div className="text-4xl font-bold text-blue-600 mb-3">
+              BLUE PAY
             </div>
-            <h2 className="text-xl text-white mb-6">Create your account</h2>
+            <h2 className="text-xl text-gray-700 mb-6">Create your account</h2>
           </div>
           
           <div className="flex flex-col items-center space-y-4">
-            <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-white">Creating your account...</p>
+            <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-gray-600">Creating your account...</p>
           </div>
         </div>
       </div>
@@ -102,115 +95,90 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   }
 
   return (
-    <div className="min-h-screen bg-blue-600 flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
-      <div className="flex justify-between items-center p-4 text-white relative z-10">
-        {isSignUp ? (
-          <button onClick={handleBack} className="p-2">
-            <ArrowLeft size={24} />
-          </button>
-        ) : (
-          <div></div>
-        )}
+      <div className="flex justify-end items-center p-4">
         <button 
           onClick={handleNeedHelp}
-          className="text-white hover:text-gray-200 text-sm"
+          className="text-orange-400 hover:text-orange-500 text-sm font-medium"
         >
-          You Need Help?
+          Need Help?
         </button>
       </div>
 
-      {/* Main Content - Made more compact */}
-      <div className="flex-1 flex flex-col justify-center items-center px-4 relative z-10 max-w-md mx-auto w-full">
-        {/* Logo and Welcome - Reduced size */}
-        <div className="text-center mb-6">
-          <div className="text-3xl font-black text-white tracking-wider mb-2">
-            BLUEPAY
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col justify-center items-center px-6 max-w-md mx-auto w-full">
+        {/* Logo and Title */}
+        <div className="text-center mb-8">
+          <div className="text-4xl font-bold text-blue-600 mb-4">
+            BLUE PAY
           </div>
-          <h1 className="text-2xl font-bold text-white mb-4">
-            Welcome!
+          <h1 className="text-lg text-gray-600">
+            {isSignUp ? 'Create your account' : 'login or create an account to continue'}
           </h1>
-          
-          <p className="text-white/90 text-sm leading-relaxed mb-6">
-            Get your account ready and instantly start buying, selling airtime and data online and start paying all your bills in cheaper price.
-          </p>
         </div>
 
-        {/* Form - Made more compact with white background inside inputs */}
-        <div className="w-full space-y-3">
+        {/* Form */}
+        <div className="w-full space-y-4">
           {error && (
-            <div className="mb-3 p-2 bg-red-500/20 border border-red-400 rounded-lg">
-              <p className="text-white text-xs">{error}</p>
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-red-600 text-sm">{error}</p>
             </div>
           )}
           
-          <form onSubmit={handleSubmit} className="space-y-3">
+          <form onSubmit={handleSubmit} className="space-y-4">
             {isSignUp && (
               <Input
                 type="text"
-                placeholder="Your Full Name"
+                placeholder="Full Name"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 required
-                className="h-12 rounded-lg border-2 border-blue-600 bg-white text-blue-900 placeholder:text-blue-400 text-base"
+                className="h-14 rounded-3xl border-gray-200 bg-gray-100 text-gray-700 placeholder:text-gray-500 text-base px-6 focus:border-blue-400 focus:ring-blue-400"
               />
             )}
             
             <Input
               type="email"
-              placeholder="Your Email"
+              placeholder={isSignUp ? "Email Address" : "Enter Email"}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="h-12 rounded-lg border-2 border-blue-600 bg-white text-blue-900 placeholder:text-blue-400 text-base"
+              className="h-14 rounded-3xl border-gray-200 bg-gray-100 text-gray-700 placeholder:text-gray-500 text-base px-6 focus:border-blue-400 focus:ring-blue-400"
             />
             
             <Input
               type="password"
-              placeholder="Password"
+              placeholder={isSignUp ? "Password" : "Enter Password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="h-12 rounded-lg border-2 border-blue-600 bg-white text-blue-900 placeholder:text-blue-400 text-base"
+              className="h-14 rounded-3xl border-gray-200 bg-gray-100 text-gray-700 placeholder:text-gray-500 text-base px-6 focus:border-blue-400 focus:ring-blue-400"
             />
-            
-            {isSignUp && (
-              <p className="text-white/80 text-xs mt-3">
-                Any further actions indicates that you agree with our terms & conditions!
-              </p>
-            )}
             
             <Button
               type="submit"
-              className="w-full h-12 bg-white text-blue-600 rounded-full hover:bg-gray-100 transition-colors font-semibold text-base mt-4"
+              className="w-full h-14 bg-black text-white rounded-3xl hover:bg-gray-800 transition-colors font-medium text-base mt-6"
             >
-              {isSignUp ? 'Create account' : 'Sign in'}
+              {isSignUp ? 'Register' : 'Login'}
             </Button>
           </form>
           
-          <div className="text-center mt-4">
-            <div className="text-white/90 text-sm">
+          <div className="text-center mt-6">
+            <div className="text-gray-600 text-base">
               {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
               <button
                 onClick={() => {
                   setIsSignUp(!isSignUp);
                   setError('');
                 }}
-                className="text-white font-semibold underline hover:text-gray-200"
+                className="text-blue-600 font-medium hover:text-blue-700"
               >
-                {isSignUp ? 'Sign in' : 'Create account'}
+                {isSignUp ? 'Login' : 'Register'}
               </button>
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Background Decorative Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/20 rounded-full"></div>
-        <div className="absolute top-1/3 -left-16 w-32 h-32 bg-blue-400/10 rounded-full"></div>
-        <div className="absolute bottom-20 right-10 w-24 h-24 bg-blue-700/20 rounded-full"></div>
-        <div className="absolute bottom-1/3 left-5 w-16 h-16 bg-blue-300/15 rounded-full"></div>
       </div>
     </div>
   );
