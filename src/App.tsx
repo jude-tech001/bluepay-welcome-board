@@ -1,4 +1,5 @@
 
+import React from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -25,9 +26,8 @@ export const useNavigation = () => {
   return context;
 };
 
-const NavigationProvider = ({ children }: { children: ReactNode }) => {
+const NavigationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const goBack = () => {
     // Check if there's history to go back to
@@ -50,7 +50,7 @@ const NavigationProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const AppContent = () => (
+const AppContent: React.FC = () => (
   <NavigationProvider>
     <Routes>
       <Route path="/" element={<Index />} />
@@ -60,7 +60,7 @@ const AppContent = () => (
   </NavigationProvider>
 );
 
-const App = () => (
+const App: React.FC = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
