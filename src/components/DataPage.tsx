@@ -115,7 +115,7 @@ const DataPage: React.FC<DataPageProps> = ({ onBack, onPurchaseSuccess, balance 
     e.preventDefault();
     setBpcError('');
     
-    if (bpcCode !== 'B@pay2037codeQT') {
+    if (bpcCode !== 'BPC-2008@Code205OT') {
       setBpcError('Invalid BPC code');
       return;
     }
