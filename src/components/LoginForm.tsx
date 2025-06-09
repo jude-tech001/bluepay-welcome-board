@@ -71,7 +71,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   };
 
   const handleNeedHelp = () => {
-    window.open('https://wa.me/19127037327', '_blank');
+    window.open('wa.me/2348122110806', '_blank');
   };
 
   if (isLoading) {
