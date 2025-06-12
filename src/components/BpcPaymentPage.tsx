@@ -13,7 +13,7 @@ interface BpcPaymentPageProps {
 
 const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack, userEmail = '', userName = '' }) => {
   const [step, setStep] = useState('form'); // form, preparing, warning, account, verifying, confirmed, failed
-  const [amount, setAmount] = useState('6,000');
+  const [amount, setAmount] = useState('7,500');
   const [showOpayWarning, setShowOpayWarning] = useState(false);
   const [bpcCode] = useState('BPC343524');
   const [copied, setCopied] = useState(false);
@@ -416,9 +416,9 @@ const BpcPaymentPage: React.FC<BpcPaymentPageProps> = ({ onBack, userEmail = '',
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-gray-600 text-sm">Amount</p>
-                <p className="text-lg font-semibold">6000</p>
+                <p className="text-lg font-semibold">7500</p>
               </div>
-              <button onClick={() => copyToClipboard('6000')} className="p-2 bg-blue-400 rounded-lg">
+              <button onClick={() => copyToClipboard('7500')} className="p-2 bg-blue-400 rounded-lg">
                 <Copy size={16} className="text-white" />
               </button>
             </div>
