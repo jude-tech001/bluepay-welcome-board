@@ -293,8 +293,8 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
                 <div className="flex justify-between items-center">
                   <span className="text-blue-100">Account Number:</span>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono">3212683346</span>
-                    <button onClick={() => copyToClipboard('3212683346')} className="text-blue-200 hover:text-white">
+                    <span className="font-mono">6056570413</span>
+                    <button onClick={() => copyToClipboard('6056570413')} className="text-blue-200 hover:text-white">
                       <Copy size={16} />
                     </button>
                   </div>
@@ -304,7 +304,7 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
                   <span className="text-blue-100">Account Name:</span>
                   <div className="flex items-center gap-2">
                     <span className="font-medium">JOEL SAMUEL</span>
-                    <button onClick={() => copyToClipboard('JOEL SAMUEL')} className="text-blue-200 hover:text-white">
+                    <button onClick={() => copyToClipboard('Chukwuemeka A James')} className="text-blue-200 hover:text-white">
                       <Copy size={16} />
                     </button>
                   </div>
@@ -313,8 +313,8 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
                 <div className="flex justify-between items-center">
                   <span className="text-blue-100">Bank:</span>
                   <div className="flex items-center gap-2">
-                    <span className="font-medium">Nombank MFB</span>
-                    <button onClick={() => copyToClipboard('Nombank MFB')} className="text-blue-200 hover:text-white">
+                    <span className="font-medium">MONIEPOINT MFB</span>
+                    <button onClick={() => copyToClipboard('MONIEPOINT MFB')} className="text-blue-200 hover:text-white">
                       <Copy size={16} />
                     </button>
                   </div>
