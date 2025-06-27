@@ -293,8 +293,8 @@ const AccountValidationPage: React.FC<AccountValidationPageProps> = ({ onBack, u
                 <div className="flex justify-between items-center">
                   <span className="text-blue-100">Account Number:</span>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono">1618014975</span>
-                    <button onClick={() => copyToClipboard('1618014975')} className="text-blue-200 hover:text-white">
+                    <span className="font-mono">3212683346</span>
+                    <button onClick={() => copyToClipboard('3212683346')} className="text-blue-200 hover:text-white">
                       <Copy size={16} />
                     </button>
                   </div>
