@@ -103,7 +103,23 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
       window.removeEventListener('popstate', handlePopState);
     };
   }, [currentPage]);
-  
+
+  const handleBalanceReset = () => {
+    setBalance(200000);
+    
+    // Add transaction record for the reset
+    const newTransaction: Transaction = {
+      id: Date.now().toString(),
+      type: 'deposit',
+      amount: 200000,
+      description: 'Balance Reset',
+      date: new Date().toLocaleString(),
+      status: 'success'
+    };
+    
+    setTransactions(prev => [newTransaction, ...prev]);
+  };
+
   const services = [
     { name: 'Buy BPC', icon: CreditCard, color: 'bg-orange-100 text-orange-600', page: 'buyBpc' },
     { name: 'Watch', icon: Play, color: 'bg-red-100 text-red-600', page: 'watch' },
@@ -192,7 +208,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
   }
   
   if (currentPage === 'profile') {
-    return <ProfilePage onBack={handleBackToPreviousPage} userEmail={userEmail} userName={userName} onLogout={onLogout} onProfileUpdate={onProfileUpdate} />;
+    return <ProfilePage onBack={handleBackToPreviousPage} userEmail={userEmail} userName={userName} onLogout={onLogout} onProfileUpdate={onProfileUpdate} onBalanceReset={handleBalanceReset} />;
   }
   
   if (currentPage === 'earnMore') {

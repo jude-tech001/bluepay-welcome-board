@@ -3,7 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { ArrowLeft, Camera, User, HelpCircle, Info, LogOut, ChevronRight, Download } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { ArrowLeft, Camera, User, HelpCircle, Info, LogOut, ChevronRight, Download, RotateCcw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import AboutPage from './AboutPage';
 import SupportPage from './SupportPage';
@@ -15,14 +16,17 @@ interface ProfilePageProps {
   userName: string;
   onProfileUpdate?: (profileImage: string) => void;
   onLogout?: () => void;
+  onBalanceReset?: () => void;
 }
 
-const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, onProfileUpdate, onLogout }) => {
+const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, onProfileUpdate, onLogout, onBalanceReset }) => {
   const [fullName, setFullName] = useState(userName);
   const [email, setEmail] = useState(userEmail);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [currentView, setCurrentView] = useState('main');
+  const [bpcCode, setBpcCode] = useState('');
+  const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
   const { toast } = useToast();
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,6 +69,29 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
     } else {
       // Fallback: reload the page to reset the app state
       window.location.reload();
+    }
+  };
+
+  const handleResetBalance = () => {
+    // Check if the entered BPC code is correct (you can modify this validation as needed)
+    const correctBpcCode = 'RESET2024'; // This should be your actual BPC code validation
+    
+    if (bpcCode === correctBpcCode) {
+      if (onBalanceReset) {
+        onBalanceReset();
+      }
+      setIsResetDialogOpen(false);
+      setBpcCode('');
+      toast({
+        title: "Balance Reset Successful",
+        description: "Your balance has been reset to ₦200,000.00",
+      });
+    } else {
+      toast({
+        title: "Invalid BPC Code",
+        description: "Please enter the correct BPC code to reset your balance.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -200,6 +227,56 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
             </div>
             <ChevronRight size={20} className="text-gray-400" />
           </button>
+
+          <Dialog open={isResetDialogOpen} onOpenChange={setIsResetDialogOpen}>
+            <DialogTrigger asChild>
+              <button className="w-full bg-white rounded-xl p-4 flex items-center gap-4 shadow-sm">
+                <div className="h-10 w-10 bg-orange-100 rounded-full flex items-center justify-center">
+                  <RotateCcw size={20} className="text-orange-600" />
+                </div>
+                <div className="flex-1 text-left">
+                  <h3 className="font-semibold text-gray-900">Reset Balance</h3>
+                  <p className="text-gray-500 text-sm">Reset your balance to ₦200,000.00</p>
+                </div>
+                <ChevronRight size={20} className="text-gray-400" />
+              </button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle>Reset Balance</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <p className="text-sm text-gray-600">
+                  Enter your BPC code to reset your balance to ₦200,000.00
+                </p>
+                <Input
+                  type="text"
+                  placeholder="Enter BPC Code"
+                  value={bpcCode}
+                  onChange={(e) => setBpcCode(e.target.value)}
+                  className="w-full"
+                />
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setIsResetDialogOpen(false);
+                      setBpcCode('');
+                    }}
+                    className="flex-1"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleResetBalance}
+                    className="flex-1 bg-blue-600 hover:bg-blue-700"
+                  >
+                    Reset Balance
+                  </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
 
           <button
             onClick={handleDownloadApp}
