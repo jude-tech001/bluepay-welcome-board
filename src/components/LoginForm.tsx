@@ -263,18 +263,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
               {isSignUp ? 'Register' : 'Login'}
             </Button>
           </form>
-
-          {/* Forgot Password Link - Only show when in login mode */}
-          {!isSignUp && (
-            <div className="text-center mt-4">
-              <button
-                onClick={() => setShowForgotPassword(true)}
-                className="text-gray-600 text-sm hover:text-gray-800"
-              >
-                Forgot password?
-              </button>
-            </div>
-          )}
           
           <div className="text-center mt-6">
             <div className="text-gray-600 text-base">
@@ -290,6 +278,18 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
               </button>
             </div>
           </div>
+
+          {/* Forgot Password Link - Only show when in login mode and positioned below register/login toggle */}
+          {!isSignUp && (
+            <div className="text-center mt-4">
+              <button
+                onClick={() => setShowForgotPassword(true)}
+                className="text-gray-600 text-sm hover:text-gray-800"
+              >
+                Forgot password?
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
