@@ -14,6 +14,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   const [fullName, setFullName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
+  const [retrievedPassword, setRetrievedPassword] = useState('');
 
   // Simple storage for registered users (in a real app, this would be a backend)
   const getRegisteredUsers = () => {
@@ -35,6 +38,24 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   const validateLogin = (userEmail: string, userPassword: string) => {
     const users = getRegisteredUsers();
     return users.find((user: any) => user.email === userEmail && user.password === userPassword);
+  };
+
+  const handleForgotPassword = () => {
+    if (!forgotPasswordEmail) {
+      setError('Please enter your email address');
+      return;
+    }
+
+    const users = getRegisteredUsers();
+    const user = users.find((user: any) => user.email === forgotPasswordEmail);
+    
+    if (!user) {
+      setError('No account found with this email address');
+      return;
+    }
+
+    setRetrievedPassword(user.password);
+    setError('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -74,6 +95,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
     window.open('https://wa.me/19127037327', '_blank');
   };
 
+  const resetForgotPassword = () => {
+    setShowForgotPassword(false);
+    setForgotPasswordEmail('');
+    setRetrievedPassword('');
+    setError('');
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
@@ -88,6 +116,78 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
           <div className="flex flex-col items-center space-y-4">
             <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
             <p className="text-gray-600">Creating your account...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (showForgotPassword) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex flex-col">
+        {/* Header */}
+        <div className="flex justify-end items-center p-4">
+          <button 
+            onClick={handleNeedHelp}
+            className="text-orange-400 hover:text-orange-500 text-sm font-medium"
+          >
+            Need Help?
+          </button>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col justify-center items-center px-6 max-w-md mx-auto w-full">
+          {/* Logo and Title */}
+          <div className="text-center mb-8">
+            <div className="text-4xl font-bold text-blue-600 mb-4">
+              BLUE PAY
+            </div>
+            <h1 className="text-lg text-gray-600">
+              Forgot Password
+            </h1>
+          </div>
+
+          {/* Forgot Password Form */}
+          <div className="w-full space-y-4">
+            {error && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-red-600 text-sm">{error}</p>
+              </div>
+            )}
+
+            {retrievedPassword && (
+              <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <p className="text-green-700 text-sm font-medium mb-2">Your password is:</p>
+                <p className="text-green-800 font-mono bg-white p-2 rounded border text-center">
+                  {retrievedPassword}
+                </p>
+              </div>
+            )}
+            
+            <Input
+              type="email"
+              placeholder="Enter your registration email"
+              value={forgotPasswordEmail}
+              onChange={(e) => setForgotPasswordEmail(e.target.value)}
+              required
+              className="h-14 rounded-3xl border-gray-200 bg-gray-100 text-gray-700 placeholder:text-gray-500 text-base px-6 focus:border-blue-400 focus:ring-blue-400"
+            />
+            
+            <Button
+              onClick={handleForgotPassword}
+              className="w-full h-14 bg-black text-white rounded-3xl hover:bg-gray-800 transition-colors font-medium text-base mt-6"
+            >
+              Retrieve Password
+            </Button>
+
+            <div className="text-center mt-6">
+              <button
+                onClick={resetForgotPassword}
+                className="text-blue-600 font-medium hover:text-blue-700"
+              >
+                Back to Login
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -163,6 +263,18 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
               {isSignUp ? 'Register' : 'Login'}
             </Button>
           </form>
+
+          {/* Forgot Password Link - Only show when in login mode */}
+          {!isSignUp && (
+            <div className="text-center mt-4">
+              <button
+                onClick={() => setShowForgotPassword(true)}
+                className="text-gray-600 text-sm hover:text-gray-800"
+              >
+                Forgot password?
+              </button>
+            </div>
+          )}
           
           <div className="text-center mt-6">
             <div className="text-gray-600 text-base">
