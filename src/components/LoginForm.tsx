@@ -175,7 +175,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
             
             <Button
               onClick={handleForgotPassword}
-              className="w-full h-14 bg-black text-white rounded-3xl hover:bg-gray-800 transition-colors font-medium text-base mt-6"
+              className="w-full h-14 bg-blue-600 text-white rounded-3xl hover:bg-blue-700 transition-colors font-medium text-base mt-6"
             >
               Retrieve Password
             </Button>
@@ -284,7 +284,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
             <div className="text-center mt-4">
               <button
                 onClick={() => setShowForgotPassword(true)}
-                className="text-gray-600 text-sm hover:text-gray-800"
+                className="text-blue-600 text-sm hover:text-blue-700 font-medium"
               >
                 Forgot password?
               </button>

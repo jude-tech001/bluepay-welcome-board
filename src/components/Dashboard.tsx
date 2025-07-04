@@ -279,7 +279,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
             <div className="flex justify-between items-start mb-3">
               <div>
                 <p className="text-blue-100 text-xs mb-1">Your Balance</p>
-                <h2 className="text-3xl font-bold">
+                <h2 className="text-2xl font-bold">
                   {showBalance ? `₦${balance.toLocaleString()}.00` : '••••••••'}
                 </h2>
                 <p className="text-blue-200 text-xs mt-2">
