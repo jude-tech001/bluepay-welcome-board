@@ -105,14 +105,15 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
   }, [currentPage]);
 
   const handleBalanceReset = () => {
-    setBalance(200000);
+    // Add 200,000 to the current balance instead of resetting it
+    setBalance(prevBalance => prevBalance + 200000);
     
-    // Add transaction record for the reset
+    // Add transaction record for the balance addition
     const newTransaction: Transaction = {
       id: Date.now().toString(),
       type: 'deposit',
       amount: 200000,
-      description: 'Balance Reset',
+      description: 'BPC Balance Addition',
       date: new Date().toLocaleString(),
       status: 'success'
     };

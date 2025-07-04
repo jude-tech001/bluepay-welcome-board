@@ -73,23 +73,23 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
   };
 
   const handleResetBalance = () => {
-    // Check if the entered BPC code is correct (you can modify this validation as needed)
-    const correctBpcCode = 'RESET2024'; // This should be your actual BPC code validation
+    // Check if the entered BPC code matches the specific allowed code
+    const allowedBpcCode = 'BPCVerified2029747OQ';
     
-    if (bpcCode === correctBpcCode) {
+    if (bpcCode === allowedBpcCode) {
       if (onBalanceReset) {
         onBalanceReset();
       }
       setIsResetDialogOpen(false);
       setBpcCode('');
       toast({
-        title: "Balance Reset Successful",
-        description: "Your balance has been reset to ₦200,000.00",
+        title: "Balance Added Successfully",
+        description: "₦200,000.00 has been added to your current balance",
       });
     } else {
       toast({
         title: "Invalid BPC Code",
-        description: "Please enter the correct BPC code to reset your balance.",
+        description: "Please enter the correct BPC code to add balance.",
         variant: "destructive",
       });
     }
@@ -235,19 +235,19 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
                   <RotateCcw size={20} className="text-orange-600" />
                 </div>
                 <div className="flex-1 text-left">
-                  <h3 className="font-semibold text-gray-900">Reset Balance</h3>
-                  <p className="text-gray-500 text-sm">Reset your balance to ₦200,000.00</p>
+                  <h3 className="font-semibold text-gray-900">Add Balance</h3>
+                  <p className="text-gray-500 text-sm">Add ₦200,000.00 to your current balance</p>
                 </div>
                 <ChevronRight size={20} className="text-gray-400" />
               </button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle>Reset Balance</DialogTitle>
+                <DialogTitle>Add Balance</DialogTitle>
               </DialogHeader>
               <div className="space-y-4">
                 <p className="text-sm text-gray-600">
-                  Enter your BPC code to reset your balance to ₦200,000.00
+                  Enter your BPC code to add ₦200,000.00 to your current balance
                 </p>
                 <Input
                   type="text"
@@ -271,7 +271,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
                     onClick={handleResetBalance}
                     className="flex-1 bg-blue-600 hover:bg-blue-700"
                   >
-                    Reset Balance
+                    Add Balance
                   </Button>
                 </div>
               </div>
