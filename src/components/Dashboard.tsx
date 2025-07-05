@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -122,14 +123,14 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
   };
 
   const services = [
-    { name: 'Buy BPC', icon: CreditCard, color: 'bg-orange-100 text-orange-600', page: 'buyBpc' },
-    { name: 'Watch', icon: Play, color: 'bg-red-100 text-red-600', page: 'watch' },
-    { name: 'Airtime', icon: Phone, color: 'bg-green-100 text-green-600', page: 'airtime' },
+    { name: 'Buy BPC', icon: CreditCard, color: 'bg-blue-100 text-blue-600', page: 'buyBpc' },
+    { name: 'Watch', icon: Play, color: 'bg-blue-100 text-blue-600', page: 'watch' },
+    { name: 'Airtime', icon: Phone, color: 'bg-blue-100 text-blue-600', page: 'airtime' },
     { name: 'Data', icon: Wifi, color: 'bg-blue-100 text-blue-600', page: 'data' },
-    { name: 'Support', icon: HelpCircle, color: 'bg-purple-100 text-purple-600', page: 'support' },
-    { name: 'Group', icon: Users, color: 'bg-teal-100 text-teal-600', page: 'group' },
-    { name: 'Earn More', icon: TrendingUp, color: 'bg-green-100 text-green-600', page: 'earnMore' },
-    { name: 'Profile', icon: User, color: 'bg-gray-100 text-gray-600', page: 'profile' },
+    { name: 'Support', icon: HelpCircle, color: 'bg-blue-100 text-blue-600', page: 'support' },
+    { name: 'Group', icon: Users, color: 'bg-blue-100 text-blue-600', page: 'group' },
+    { name: 'Earn More', icon: TrendingUp, color: 'bg-blue-100 text-blue-600', page: 'earnMore' },
+    { name: 'Profile', icon: User, color: 'bg-blue-100 text-blue-600', page: 'profile' },
   ];
 
   const instructionSteps = [
@@ -141,6 +142,13 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
 
   const handleServiceClick = (servicePage: string) => {
     console.log('Service clicked:', servicePage);
+    
+    if (servicePage === 'earnMore') {
+      // Open the new BluePay link in a new tab
+      window.open('https://bluepayearn.netlify.app/', '_blank');
+      return;
+    }
+    
     setPageHistory(prev => [...prev, servicePage]);
     setCurrentPage(servicePage);
     // Add to browser history for proper back navigation
@@ -241,7 +249,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <WelcomeModal 
         isOpen={showWelcomeModal}
         onClose={() => setShowWelcomeModal(false)}
@@ -324,7 +332,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
               <button
                 key={index}
                 onClick={() => handleServiceClick(service.page)}
-                className="flex flex-col items-center gap-2 p-3 hover:bg-gray-100 rounded-xl transition-colors"
+                className="flex flex-col items-center gap-2 p-3 hover:bg-blue-50 rounded-xl transition-colors"
               >
                 <div className={`h-10 w-10 rounded-full flex items-center justify-center ${service.color}`}>
                   <IconComponent size={18} />

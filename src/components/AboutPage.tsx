@@ -90,11 +90,8 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack }) => {
           <div>
             <h4 className="text-lg font-semibold text-gray-900 mb-2">Contact Us</h4>
             <p className="text-gray-600 mb-4">
-              For inquiries, please contact us at
+              For inquiries, please contact us at support@bluepay.com
             </p>
-            <div className="bg-gray-100 p-3 rounded-lg text-center">
-              <span className="text-gray-800 font-medium">bluepay-pro.vercel.app</span>
-            </div>
           </div>
         </div>
       </div>
