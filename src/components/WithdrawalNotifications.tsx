@@ -10,7 +10,7 @@ interface WithdrawalNotification {
 
 const WithdrawalNotifications: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
 
   const withdrawals: WithdrawalNotification[] = [
     { name: 'Chiamaka Ndukwe', amount: '₦124,500', email: 'chiamaka.ndukwe@gmail.com' },
@@ -24,13 +24,27 @@ const WithdrawalNotifications: React.FC = () => {
   ];
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIsVisible(false);
+    const showNotification = () => {
+      // Show the notification
+      setIsVisible(true);
       
+      // Hide after 4 seconds
       setTimeout(() => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % withdrawals.length);
-        setIsVisible(true);
-      }, 300);
+        setIsVisible(false);
+        
+        // Change to next notification after fade out
+        setTimeout(() => {
+          setCurrentIndex((prevIndex) => (prevIndex + 1) % withdrawals.length);
+        }, 300);
+      }, 4000);
+    };
+
+    // Show first notification immediately
+    showNotification();
+
+    // Then repeat every 40 seconds
+    const interval = setInterval(() => {
+      showNotification();
     }, 40000);
 
     return () => clearInterval(interval);
@@ -38,11 +52,15 @@ const WithdrawalNotifications: React.FC = () => {
 
   const currentWithdrawal = withdrawals[currentIndex];
 
+  if (!isVisible) {
+    return null;
+  }
+
   return (
     <div className="fixed top-4 left-4 right-4 z-50">
       <div
-        className={`bg-white text-gray-800 px-4 py-3 rounded-lg shadow-lg border border-gray-200 transition-all duration-300 ${
-          isVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform -translate-y-2'
+        className={`bg-white text-gray-800 px-4 py-3 rounded-lg shadow-lg border border-gray-200 transform transition-all duration-300 ${
+          isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-2 scale-95'
         }`}
       >
         <div className="flex items-center gap-3">
