@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -27,7 +27,55 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
   const [currentView, setCurrentView] = useState('main');
   const [bpcCode, setBpcCode] = useState('');
   const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
+  const [lastBalanceAddTime, setLastBalanceAddTime] = useState<number | null>(null);
+  const [timeRemaining, setTimeRemaining] = useState<number>(0);
   const { toast } = useToast();
+
+  useEffect(() => {
+    const savedTime = localStorage.getItem(`last_balance_add_${userEmail}`);
+    if (savedTime) {
+      setLastBalanceAddTime(Number(savedTime));
+    }
+  }, [userEmail]);
+
+  useEffect(() => {
+    if (!lastBalanceAddTime) return;
+
+    const updateTimer = () => {
+      const now = Date.now();
+      const timePassed = now - lastBalanceAddTime;
+      const twentyFourHours = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+      
+      if (timePassed >= twentyFourHours) {
+        setTimeRemaining(0);
+      } else {
+        setTimeRemaining(twentyFourHours - timePassed);
+      }
+    };
+
+    updateTimer();
+    const interval = setInterval(updateTimer, 1000);
+
+    return () => clearInterval(interval);
+  }, [lastBalanceAddTime]);
+
+  const formatTimeRemaining = (milliseconds: number): string => {
+    const hours = Math.floor(milliseconds / (1000 * 60 * 60));
+    const minutes = Math.floor((milliseconds % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((milliseconds % (1000 * 60)) / 1000);
+    
+    return `${hours}h ${minutes}m ${seconds}s`;
+  };
+
+  const canAddBalance = () => {
+    if (!lastBalanceAddTime) return true;
+    
+    const now = Date.now();
+    const timePassed = now - lastBalanceAddTime;
+    const twentyFourHours = 24 * 60 * 60 * 1000;
+    
+    return timePassed >= twentyFourHours;
+  };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -73,13 +121,26 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
   };
 
   const handleResetBalance = () => {
-    // Check if the entered BPC code matches the specific allowed code
+    if (!canAddBalance()) {
+      toast({
+        title: "Balance Add Cooldown",
+        description: `You can add balance again in ${formatTimeRemaining(timeRemaining)}`,
+        variant: "destructive",
+      });
+      return;
+    }
+
     const allowedBpcCode = 'BPCVerified2029747OQ';
     
     if (bpcCode === allowedBpcCode) {
       if (onBalanceReset) {
         onBalanceReset();
       }
+      
+      const now = Date.now();
+      setLastBalanceAddTime(now);
+      localStorage.setItem(`last_balance_add_${userEmail}`, now.toString());
+      
       setIsResetDialogOpen(false);
       setBpcCode('');
       toast({
@@ -187,7 +248,6 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
       </div>
 
       <div className="p-4 space-y-6">
-        {/* Profile Picture Section */}
         <div className="flex flex-col items-center space-y-4">
           <div className="relative">
             <div className="h-24 w-24 rounded-full bg-black flex items-center justify-center border-4 border-blue-500">
@@ -212,7 +272,6 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
           <p className="text-gray-500 text-sm">Tap to change profile picture</p>
         </div>
 
-        {/* Menu Items */}
         <div className="space-y-3">
           <button
             onClick={() => setCurrentView('profile-info')}
@@ -230,13 +289,27 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
 
           <Dialog open={isResetDialogOpen} onOpenChange={setIsResetDialogOpen}>
             <DialogTrigger asChild>
-              <button className="w-full bg-white rounded-xl p-4 flex items-center gap-4 shadow-sm">
-                <div className="h-10 w-10 bg-orange-100 rounded-full flex items-center justify-center">
-                  <RotateCcw size={20} className="text-orange-600" />
+              <button 
+                className={`w-full rounded-xl p-4 flex items-center gap-4 shadow-sm ${
+                  canAddBalance() ? 'bg-white' : 'bg-gray-100'
+                }`}
+                disabled={!canAddBalance()}
+              >
+                <div className={`h-10 w-10 rounded-full flex items-center justify-center ${
+                  canAddBalance() ? 'bg-orange-100' : 'bg-gray-200'
+                }`}>
+                  <RotateCcw size={20} className={canAddBalance() ? 'text-orange-600' : 'text-gray-400'} />
                 </div>
                 <div className="flex-1 text-left">
-                  <h3 className="font-semibold text-gray-900">Add Balance</h3>
-                  <p className="text-gray-500 text-sm">Add ₦200,000.00 to your current balance</p>
+                  <h3 className={`font-semibold ${canAddBalance() ? 'text-gray-900' : 'text-gray-500'}`}>
+                    Add Balance
+                  </h3>
+                  <p className={`text-sm ${canAddBalance() ? 'text-gray-500' : 'text-gray-400'}`}>
+                    {canAddBalance() 
+                      ? 'Add ₦200,000.00 to your current balance'
+                      : `Available in ${formatTimeRemaining(timeRemaining)}`
+                    }
+                  </p>
                 </div>
                 <ChevronRight size={20} className="text-gray-400" />
               </button>
@@ -249,12 +322,20 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
                 <p className="text-sm text-gray-600">
                   Enter your BPC code to add ₦200,000.00 to your current balance
                 </p>
+                {!canAddBalance() && (
+                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-3">
+                    <p className="text-sm text-orange-700">
+                      You can add balance again in: <span className="font-semibold">{formatTimeRemaining(timeRemaining)}</span>
+                    </p>
+                  </div>
+                )}
                 <Input
                   type="text"
                   placeholder="Enter BPC Code"
                   value={bpcCode}
                   onChange={(e) => setBpcCode(e.target.value)}
                   className="w-full"
+                  disabled={!canAddBalance()}
                 />
                 <div className="flex gap-2">
                   <Button
@@ -270,6 +351,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
                   <Button
                     onClick={handleResetBalance}
                     className="flex-1 bg-blue-600 hover:bg-blue-700"
+                    disabled={!canAddBalance()}
                   >
                     Add Balance
                   </Button>
@@ -321,7 +403,6 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack, userEmail, userName, 
           </button>
         </div>
 
-        {/* Logout Button */}
         <div className="pt-4">
           <button 
             onClick={handleLogout}
