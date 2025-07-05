@@ -16,6 +16,7 @@ import BpcPaymentPage from './BpcPaymentPage';
 import AirtimePage from './AirtimePage';
 import DataPage from './DataPage';
 import WatchPage from './WatchPage';
+import WithdrawalNotifications from './WithdrawalNotifications';
 import { useNavigation } from '@/App';
 
 interface DashboardProps {
@@ -250,6 +251,8 @@ const Dashboard: React.FC<DashboardProps> = ({ userEmail, userName, profileImage
 
   return (
     <div className="min-h-screen bg-white">
+      <WithdrawalNotifications />
+      
       <WelcomeModal 
         isOpen={showWelcomeModal}
         onClose={() => setShowWelcomeModal(false)}
