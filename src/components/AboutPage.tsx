@@ -93,7 +93,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack }) => {
               For inquiries, please contact us at
             </p>
             <div className="bg-gray-100 p-3 rounded-lg text-center">
-              <span className="text-gray-800 font-medium">bluepay-pro.vercel.app</span>
+              <span className="text-gray-800 font-medium">https://bluepayearn.netlify.app/</span>
             </div>
           </div>
         </div>
