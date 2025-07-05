@@ -31,7 +31,7 @@ const WithdrawalNotifications: React.FC = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % withdrawals.length);
         setIsVisible(true);
       }, 300);
-    }, 4000);
+    }, 40000);
 
     return () => clearInterval(interval);
   }, [withdrawals.length]);
@@ -41,18 +41,15 @@ const WithdrawalNotifications: React.FC = () => {
   return (
     <div className="fixed top-4 left-4 right-4 z-50">
       <div
-        className={`bg-blue-600 text-white px-4 py-3 rounded-lg shadow-lg transition-all duration-300 ${
+        className={`bg-white text-gray-800 px-4 py-3 rounded-lg shadow-lg border border-gray-200 transition-all duration-300 ${
           isVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform -translate-y-2'
         }`}
       >
         <div className="flex items-center gap-3">
-          <CheckCircle className="h-5 w-5 text-white flex-shrink-0" />
+          <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium truncate">
               {currentWithdrawal.name} just withdrew {currentWithdrawal.amount}
-            </p>
-            <p className="text-xs text-blue-100 truncate">
-              {currentWithdrawal.email}
             </p>
           </div>
         </div>
